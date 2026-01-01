@@ -55,6 +55,23 @@ public class PuzzleBoard : MonoBehaviour
 
     public void TrySwap(PuzzleBlock a, PuzzleBlock b)
     {
+        int dx = Mathf.Abs(a.x - b.x);
+        int dy = Mathf.Abs(a.y - b.y);
+
+        // 자기 자신 클릭 → 무시
+        if (dx == 0 && dy == 0)
+            return;
+
+        // 상 / 하 / 좌 / 우 / 대각선 까지 1칸만 허용
+        if (dx > 1 || dy > 1)
+        {
+            // 원래 자리로 되돌리기
+            a.transform.localPosition = GetPosition(a.x, a.y);
+            b.transform.localPosition = GetPosition(b.x, b.y);
+            return;
+        }
+
+        //스왑
         blocks[a.x, a.y] = b;
         blocks[b.x, b.y] = a;
 
