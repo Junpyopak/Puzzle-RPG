@@ -11,13 +11,16 @@ public class Turn_Timer : MonoBehaviour
     public float maxTime = 30f; // 슬라이더 최대값
     public float decreaseSpeed = 1f; // 초당 감소 속도
 
+    public Text EnemyTurnText;
+    private int TurnCount = 1;
+
     private bool isRunning = false;
 
     void Start()
     {
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
-
+        EnemyTurnText.text = "라운드 : " + (TurnCount);
         StartTurn();
     }
 
@@ -50,5 +53,11 @@ public class Turn_Timer : MonoBehaviour
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
         // 여기에 턴 종료 후 처리할 코드 추가
+        //적의턴으로 
+
+        //우선 예시로 나의턴과 적의턴 돌아간횟수 증가를 표시하기 위함.
+        //적의 턴이 끝나면 라운드 수 증가 
+        EnemyTurnText.text = "라운드 : " + (TurnCount);
+        TurnCount++;
     }
 }
