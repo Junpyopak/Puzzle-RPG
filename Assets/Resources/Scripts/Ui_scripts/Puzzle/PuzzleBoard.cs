@@ -13,9 +13,14 @@ public class PuzzleBoard : MonoBehaviour
 
     private void Awake()
     {
+        
         boardRect = GetComponent<RectTransform>();
         blocks = new PuzzleBlock[width, height];
         InitBoard();
+    }
+    private void Start()
+    {
+        OnRectTransformDimensionsChange();
     }
 
     void InitBoard()
