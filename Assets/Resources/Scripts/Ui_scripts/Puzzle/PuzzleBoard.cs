@@ -9,9 +9,11 @@ public class PuzzleBoard : MonoBehaviour
     public Vector2 spacing = new Vector2(3, 5);
 
     public PuzzleBlock[,] blocks;
+    private RectTransform boardRect;
 
     private void Awake()
     {
+        boardRect = GetComponent<RectTransform>();
         blocks = new PuzzleBlock[width, height];
         InitBoard();
     }
@@ -87,4 +89,29 @@ public class PuzzleBoard : MonoBehaviour
         a.transform.localPosition = GetPosition(a.x, a.y);
         b.transform.localPosition = GetPosition(b.x, b.y);
     }
+    void OnRectTransformDimensionsChange()
+    {
+        if (blocks == null) return;
+
+        CalculateCellSize();
+
+        foreach (var block in blocks)
+        {
+            if (block == null) continue;
+
+            RectTransform rect = block.GetComponent<RectTransform>();
+            rect.sizeDelta = cellSize;
+            rect.anchoredPosition = GetPosition(block.x, block.y);
+        }
+    }
+    void CalculateCellSize()
+    {
+        Vector2 boardSize = boardRect.rect.size;
+
+        float cellW = (boardSize.x - spacing.x * (width - 1)) / width;
+        float cellH = (boardSize.y - spacing.y * (height - 1)) / height;
+
+        cellSize = new Vector2(cellW, cellH);
+    }
 }
+
