@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class PlayerMagnet : MonoBehaviour
 {
-    public float Range = 5;
-    public float pullSpeed = 7;
+    //나중에 플레이어 능력에 의해 끌어당기는 걸이가 바뀌는것을 통제하기 위함
+    public float Range = 3;
+    public float pullSpeed = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,11 @@ public class PlayerMagnet : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("ItemBox")) return;
-
+        //float Dis = Vector2.Distance( transform.position, other.transform.position );
+        //if(Dis<=Range)
+        //{
+        //    other.transform.position = Vector3.MoveTowards(other.transform.position, transform.position, pullSpeed * Time.deltaTime);
+        //}
         Debug.Log("아이템 자동 획득");
         Destroy(other.gameObject);
     }

@@ -1905,6 +1905,7 @@ GameObject:
   - component: {fileID: 437311290}
   - component: {fileID: 437311291}
   - component: {fileID: 437311292}
+  - component: {fileID: 437311293}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2057,13 +2058,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437311286}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a19d9e70b0ef8144a9a4cb1b97bbad97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 5
+  Range: 3
   pullSpeed: 7
+--- !u!114 &437311293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437311286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f413412414aa92646b9faedb8936dc20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellSize: 1.17
+  moveTilePrefab: {fileID: 2945346555085905841, guid: 0fc211915518c0b48905ef4ea6a7477e, type: 3}
+  selectTilePrefab: {fileID: 1735084543892716050, guid: a97d85ca66beff048889dbd9e94dc3b1, type: 3}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &462948477
 GameObject:
   m_ObjectHideFlags: 0

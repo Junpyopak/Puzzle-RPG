@@ -26,4 +26,15 @@ public class ItemMagnet : MonoBehaviour
             
         }
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        //float Dis = Vector2.Distance( transform.position, other.transform.position );
+        //if(Dis<=Range)
+        //{
+        //    other.transform.position = Vector3.MoveTowards(other.transform.position, transform.position, pullSpeed * Time.deltaTime);
+        //}
+        Debug.Log("¾ÆÀÌÅÛ ÀÚµ¿ È¹µæ");
+        Destroy(gameObject);
+    }
 }
