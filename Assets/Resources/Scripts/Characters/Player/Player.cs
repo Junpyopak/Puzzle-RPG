@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
     Animator anim;
     public Camera cam;
     public float padding = 0.5f;
+
+    [Header("타겟 관련")]
+    public string enemyTag = "Enemy";   // 적 태그
+    public float detectionDis = 10f;    // 탐지 거리
+    public GameObject NearTarget;
+    public GameObject MissilePrefab;
+    public Transform AttackBox;
+    public float MissileSpeed = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-       
+
     }
     void LateUpdate()
     {
@@ -45,9 +55,71 @@ public class Player : MonoBehaviour
 
     void Attack()
     {
-        if(Input.GetKeyDown(KeyCode.V))
-        {
+        if (Input.GetKeyDown(KeyCode.V))
+        {        
+            AutoTarget();
             anim.SetTrigger("Attack");
         }
+    }
+
+    void AutoTarget()
+    {
+        //NearTarget = FindNearestEnemy();
+        ////Missile.transform.position = NearTarget.transform.position;
+        //if (NearTarget == null || !NearTarget.activeInHierarchy)
+        //{
+        //    Vector3 targetPos = NearTarget.transform.position;
+        //    // 미사일 생성
+        //    GameObject missile = Instantiate(MissilePrefab, AttackBox.position, Quaternion.identity);
+
+        //    Vector3 direction = (targetPos - AttackBox.position).normalized;
+        //    Vector2 dir = (targetPos - AttackBox.position).normalized;
+        //    // Sprite가 위를 바라보는 경우 회전 조정
+        //    // 위쪽 Sprite 기준 → Z축 각도 = atan2(y, x) - 90
+        //    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        //    missile.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //    // 미사일 이동 스크립트에 방향 전달
+        //    MissileMove mm = missile.GetComponent<MissileMove>();
+        //    if (mm != null)
+        //        mm.SetDirection(dir, MissileSpeed);
+
+        //}
+        GameObject target = FindNearestEnemy();
+        if (target == null || !target.activeInHierarchy) return;
+
+        // 미사일 생성
+        GameObject missile = Instantiate(MissilePrefab, AttackBox.position, Quaternion.identity);
+
+        // 타겟 방향 계산
+        Vector2 dir = (target.transform.position - AttackBox.position).normalized;
+
+        // Sprite가 위를 바라보는 경우 회전 조정
+        // 위쪽 Sprite 기준 → Z축 각도 = atan2(y, x) - 90
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        missile.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // 미사일 이동 스크립트에 방향 전달
+        MissileMove mm = missile.GetComponent<MissileMove>();
+        if (mm != null)
+            mm.SetDirection(dir, MissileSpeed);
+    }
+    private GameObject FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        GameObject nearest = null;
+        float minDist = detectionDis;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float dist = Vector2.Distance(transform.position, enemy.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = enemy;
+            }
+        }
+
+        return nearest;
     }
 }
