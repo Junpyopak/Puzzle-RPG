@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -56,7 +57,6 @@ public class PlayerMove : MonoBehaviour
             ClearAllTiles();
         }
     }
-
     // 선택 이동
     void HandleSelectInput()
     {
@@ -67,8 +67,11 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A)) dir.x -= 1;
         if (Input.GetKeyDown(KeyCode.D)) dir.x += 1;
 
-        if (dir == Vector2Int.zero) return;
 
+        Debug.Log("dir.y = " + dir.y);
+        Debug.Log("dir.x = " + dir.x);
+
+        if (dir == Vector2Int.zero) return;
         Vector2Int nextGrid = selectedGridPos + dir;
 
         //이동 가능 칸 안에 있을 때만 이동
@@ -78,7 +81,6 @@ public class PlayerMove : MonoBehaviour
             UpdateSelectTile();
         }
     }
-
     // 이동 확정
     void ConfirmMove()
     {
