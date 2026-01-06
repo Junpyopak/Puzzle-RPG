@@ -58,29 +58,97 @@ public class PlayerMove : MonoBehaviour
         }
     }
     // 선택 이동
+    //void HandleSelectInput()
+    //{
+    //    Vector2Int dir = Vector2Int.zero;
+
+    //    if (Input.GetKeyDown(KeyCode.W)) dir.y += 1;
+    //    if (Input.GetKeyDown(KeyCode.S)) dir.y -= 1;
+    //    if (Input.GetKeyDown(KeyCode.A)) dir.x -= 1;
+    //    if (Input.GetKeyDown(KeyCode.D)) dir.x += 1;
+
+
+    //    Debug.Log("dir.y = " + dir.y);
+    //    Debug.Log("dir.x = " + dir.x);
+
+    //    if (dir == Vector2Int.zero) return;
+    //    Vector2Int nextGrid = selectedGridPos + dir;
+
+    //    //이동 가능 칸 안에 있을 때만 이동
+    //    if (moveableGrids.Contains(nextGrid))
+    //    {
+    //        selectedGridPos = nextGrid;
+    //        UpdateSelectTile();
+    //    }
+    //}
     void HandleSelectInput()
     {
+        bool w = Input.GetKey(KeyCode.W);
+        bool a = Input.GetKey(KeyCode.A);
+        bool s = Input.GetKey(KeyCode.S);
+        bool d = Input.GetKey(KeyCode.D);
+
+        bool inputTriggered =
+            Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKeyDown(KeyCode.A) ||
+            Input.GetKeyDown(KeyCode.S) ||
+            Input.GetKeyDown(KeyCode.D);
+
+        if (!inputTriggered) return;
+
+        // 기존 이동 계산 (절대 막지 않음)
         Vector2Int dir = Vector2Int.zero;
 
-        if (Input.GetKeyDown(KeyCode.W)) dir.y += 1;
-        if (Input.GetKeyDown(KeyCode.S)) dir.y -= 1;
-        if (Input.GetKeyDown(KeyCode.A)) dir.x -= 1;
-        if (Input.GetKeyDown(KeyCode.D)) dir.x += 1;
-
-
-        Debug.Log("dir.y = " + dir.y);
-        Debug.Log("dir.x = " + dir.x);
+        if (w) dir.y += 1;
+        if (s) dir.y -= 1;
+        if (a) dir.x -= 1;
+        if (d) dir.x += 1;
 
         if (dir == Vector2Int.zero) return;
+
+        dir.x = Mathf.Clamp(dir.x, -1, 1);
+        dir.y = Mathf.Clamp(dir.y, -1, 1);
+
         Vector2Int nextGrid = selectedGridPos + dir;
 
-        //이동 가능 칸 안에 있을 때만 이동
+        // 현재 선택 위치가 대각선인가?
+        Vector2Int relative = selectedGridPos - currentGridPos;
+        bool isDiagonal =
+            Mathf.Abs(relative.x) == 1 &&
+            Mathf.Abs(relative.y) == 1;
+
+        //// WA / WD + 대각선이면 결과만 보정
+        //if (isDiagonal && w && (a || d))
+        //{
+        //    // "항상 자신의 반대 대각선"
+        //    nextGrid = currentGridPos - relative;
+        //}
+        //아래칸에서 W → 맨 위칸
+        if (relative == Vector2Int.down && w)
+        {
+            nextGrid = currentGridPos + Vector2Int.up;
+        }
+        if (relative == Vector2Int.up && s)
+        {
+            nextGrid = currentGridPos + Vector2Int.down;
+        }
+        if (relative == Vector2Int.left && d)
+        {
+            nextGrid = currentGridPos + Vector2Int.right;
+        }
+        if (relative == Vector2Int.right && a)
+        {
+            nextGrid = currentGridPos + Vector2Int.left;
+        }
+        // 최종 적용
         if (moveableGrids.Contains(nextGrid))
         {
             selectedGridPos = nextGrid;
             UpdateSelectTile();
         }
     }
+
+
     // 이동 확정
     void ConfirmMove()
     {
