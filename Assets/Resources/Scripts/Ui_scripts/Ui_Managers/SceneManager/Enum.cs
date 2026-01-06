@@ -6,6 +6,7 @@ public enum eSCENE
 {
     TITLE,
     LOBBY,
-    BATTLE,
+    SlotSelectScene,
+    GameScene,
     END,
 }

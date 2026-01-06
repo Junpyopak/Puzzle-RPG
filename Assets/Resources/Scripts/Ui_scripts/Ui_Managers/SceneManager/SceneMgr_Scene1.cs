@@ -50,8 +50,11 @@ public class Scenemgr : MonoBehaviour
                 SceneManager.LoadScene("LOBBY");
                 break;
 
-            case eSCENE.BATTLE:
-                SceneManager.LoadScene("BATTLE");
+            case eSCENE.GameScene:
+                SceneManager.LoadScene("GameScene");
+                break;
+            case eSCENE.SlotSelectScene:
+                SceneManager.LoadScene("SlotSelectScene");
                 break;
 
             default:

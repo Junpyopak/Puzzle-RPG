@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
@@ -16,6 +17,9 @@ public class Player : MonoBehaviour
     public GameObject MissilePrefab;
     public Transform AttackBox;
     public float MissileSpeed = 5f;
+
+    public int Hp = 10;
+    public int Exp = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -121,5 +125,30 @@ public class Player : MonoBehaviour
         }
 
         return nearest;
+    }
+
+    public void ApplySaveData(SaveData data)
+    {
+        transform.position = data.playerPosition;
+        Hp = data.playerHp;
+    }
+
+    public void SaveGame()
+    {
+        int slot = SaveContext.Instance.currentSlot;
+        if (slot < 0) return;
+
+        SaveData data = new SaveData();
+        data.playerPosition = transform.position;
+        data.playerHp = Hp;
+        data.playerExp = Exp;
+        data.currentScene = SceneManager.GetActiveScene().name;
+
+        SaveManager.Save(slot, data);
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGame();
     }
 }
