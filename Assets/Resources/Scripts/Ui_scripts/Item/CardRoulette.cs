@@ -17,6 +17,7 @@ public class CardRoulette : MonoBehaviour
     [Header("Spacing")]
     public float cardGap = 20f;
 
+    public GameObject OpenItem;
     void Awake()
     {
         //자식 자동 수집
@@ -27,6 +28,14 @@ public class CardRoulette : MonoBehaviour
         {
             cards[i] = transform.GetChild(i).GetComponent<RectTransform>();
         }
+        if (OpenItem == null)
+        {
+            OpenItem = GameObject.Find("OpenItem");
+            if (OpenItem == null)
+                Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
+        }
+
+        OpenItem.SetActive(false);
     }
 
     void Update()

@@ -7,10 +7,20 @@ public class ItemMagnet : MonoBehaviour
     public float pullSpeed = 3;
     public float pickupDistance= 3f;
     Transform player;
+    public GameObject OpenItem;
     // Start is called before the first frame update
     void Start()
     {
+        
         player = GameObject.FindWithTag("Player").transform;
+        if (OpenItem == null)
+        {
+            OpenItem = GameObject.Find("OpenItem"); // 또는 싱글톤 사용
+            if (OpenItem == null)
+                Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
+        }
+
+        OpenItem.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,5 +46,6 @@ public class ItemMagnet : MonoBehaviour
         //}
         Debug.Log("아이템 자동 획득");
         Destroy(gameObject);
+        OpenItem.SetActive(true);
     }
 }

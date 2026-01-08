@@ -6,10 +6,12 @@ public class PanelClose : MonoBehaviour
 {
     public GameObject panel;
     public Player player;
+    public GameObject OpenItemBox;
     // Start is called before the first frame update
     void Start()
     {
         panel.SetActive(false);
+        OpenItemBox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,6 +67,10 @@ public class PanelClose : MonoBehaviour
         }
 
         panel.SetActive(false);
+    }
+    public void OpenItem()
+    {
+        OpenItemBox.SetActive(true);
     }
 }
     
