@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleBoard : MonoBehaviour
@@ -10,6 +11,7 @@ public class PuzzleBoard : MonoBehaviour
 
     public PuzzleBlock[,] blocks;
     private RectTransform boardRect;
+
 
     private void Awake()
     {
@@ -93,6 +95,8 @@ public class PuzzleBoard : MonoBehaviour
 
         a.transform.localPosition = GetPosition(a.x, a.y);
         b.transform.localPosition = GetPosition(b.x, b.y);
+
+        DisableMatchedBlocks();
     }
     void OnRectTransformDimensionsChange()
     {
@@ -117,6 +121,75 @@ public class PuzzleBoard : MonoBehaviour
         float cellH = (boardSize.y - spacing.y * (height - 1)) / height;
 
         cellSize = new Vector2(cellW, cellH);
+    }
+
+    void DisableMatchedBlocks()
+    {
+        HashSet<PuzzleBlock> matched = new HashSet<PuzzleBlock>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                PuzzleBlock center = blocks[x, y];
+                if (center == null) continue;
+
+                // 가로
+                List<PuzzleBlock> h = GetLineBlocks(center, 1, 0);
+                if (h.Count >= 3)
+                    matched.UnionWith(h);
+
+                // 세로
+                List<PuzzleBlock> v = GetLineBlocks(center, 0, 1);
+                if (v.Count >= 3)
+                    matched.UnionWith(v);
+            }
+        }
+
+        // 같은 퍼즐 3개 이상 포함된 블럭들만 false
+        foreach (PuzzleBlock block in matched)
+        {
+            blocks[block.x, block.y] = null;
+            block.gameObject.SetActive(false);
+        }
+    }
+
+    List<PuzzleBlock> GetLineBlocks(PuzzleBlock center, int dx, int dy)
+    {
+        List<PuzzleBlock> result = new List<PuzzleBlock>();
+        result.Add(center);
+
+        int x = center.x + dx;
+        int y = center.y + dy;
+        while (IsSame(center, x, y))
+        {
+            result.Add(blocks[x, y]);
+            x += dx;
+            y += dy;
+        }
+
+        x = center.x - dx;
+        y = center.y - dy;
+        while (IsSame(center, x, y))
+        {
+            result.Add(blocks[x, y]);
+            x -= dx;
+            y -= dy;
+        }
+
+        return result;
+    }
+
+    bool IsSame(PuzzleBlock center, int x, int y)
+    {
+        if (x < 0 || x >= width || y < 0 || y >= height)
+            return false;
+
+        PuzzleBlock target = blocks[x, y];
+        if (target == null)
+            return false;
+
+        return target.puzzleId == center.puzzleId;
     }
 }
 

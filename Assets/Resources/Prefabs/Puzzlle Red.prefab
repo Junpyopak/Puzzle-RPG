@@ -92,6 +92,7 @@ MonoBehaviour:
   board: {fileID: 0}
   x: 0
   y: 0
+  puzzleId: 5
 --- !u!225 &8570927560193463269
 CanvasGroup:
   m_ObjectHideFlags: 0

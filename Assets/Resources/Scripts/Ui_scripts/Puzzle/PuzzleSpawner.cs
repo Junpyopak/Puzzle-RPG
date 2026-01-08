@@ -57,31 +57,31 @@ public class PuzzleSpawner : MonoBehaviour
     {
         List<PuzzleBlock> candidates = new List<PuzzleBlock>(blockPrefabs);
 
-        // 가로: 같은 게 이미 2개 연속이면 그 색은 제외
+        // 가로 검사 (왼쪽 2칸)
         if (x >= 2)
         {
             PuzzleBlock a = board.blocks[x - 1, y];
             PuzzleBlock b = board.blocks[x - 2, y];
 
-            if (a != null && b != null && a.name == b.name)
+            if (a != null && b != null && a.puzzleId == b.puzzleId)
             {
-                candidates.RemoveAll(p => p.name == a.name);
+                candidates.RemoveAll(p => p.puzzleId == a.puzzleId);
             }
         }
 
-        // 세로: 같은 게 이미 2개 연속이면 그 색은 제외
+        // 세로 검사 (아래 2칸)
         if (y >= 2)
         {
             PuzzleBlock a = board.blocks[x, y - 1];
             PuzzleBlock b = board.blocks[x, y - 2];
 
-            if (a != null && b != null && a.name == b.name)
+            if (a != null && b != null && a.puzzleId == b.puzzleId)
             {
-                candidates.RemoveAll(p => p.name == a.name);
+                candidates.RemoveAll(p => p.puzzleId == a.puzzleId);
             }
         }
 
-        // 안전장치 (거의 발생 안 함)
+        // 안전장치
         if (candidates.Count == 0)
             candidates.AddRange(blockPrefabs);
 

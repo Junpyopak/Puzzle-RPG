@@ -12,6 +12,10 @@ public class PuzzleBlock : MonoBehaviour,
     private Vector3 startPos;
     private CanvasGroup canvasGroup;
 
+
+    [Header("Puzzle Info")]
+    public int puzzleId;
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
