@@ -4,72 +4,99 @@ using UnityEngine;
 
 public class PuzzleSpawner : MonoBehaviour
 {
-    [Header("패널")]
-    public Transform parentPanel;
+    [Header("Board")]
+    public PuzzleBoard board;
 
-    [Header("스폰할 프리펩들")]
-    public List<GameObject> prefabs;
+    [Header("Block Prefabs (Color별)")]
+    public PuzzleBlock[] blockPrefabs; // 빨강, 파랑, 노랑 등
 
-    public int width = 6;
-    public int height = 5;
-    public Vector2 cellSize = new Vector2(60, 55);
-    public Vector2 spacing = new Vector2(3, 5);
-
-    [Header("몇 개 스폰할지")]
-    public int spawnCount = 30;
-
-    void Start()
+    private void Start()
     {
-        SpawnBlocks();
+        SpawnAll();
     }
 
-    void SpawnBlocks()
+    public void SpawnAll()
     {
+        int w = board.width;
+        int h = board.height;
 
+        board.blocks = new PuzzleBlock[w, h];
 
-        if (prefabs == null || prefabs.Count == 0)
+        for (int y = 0; y < h; y++)
         {
-            Debug.LogError("프리팹 리스트 비어있음");
-            return;
+            for (int x = 0; x < w; x++)
+            {
+                //SpawnBlock(x, y);
+                SpawnBlock_MaxTwo(x, y);
+            }
+        }
+    }
+
+    //void SpawnBlock(int x, int y)
+    //{
+    //    // 랜덤 프리팹 선택
+    //    PuzzleBlock prefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
+
+    //    PuzzleBlock block = Instantiate(prefab, board.transform);
+
+    //    // 보드 정보 세팅
+    //    block.board = board;
+    //    block.x = x;
+    //    block.y = y;
+
+    //    // 보드 배열에 등록
+    //    board.blocks[x, y] = block;
+
+    //    // 위치 & 사이즈
+    //    RectTransform rect = block.GetComponent<RectTransform>();
+    //    rect.sizeDelta = board.cellSize;
+    //    rect.anchoredPosition = board.GetPosition(x, y);
+    //}
+    /// 좌/하 방향만 검사해서 3매치가 생기지 않는 프리팹만 선택
+    void SpawnBlock_MaxTwo(int x, int y)
+    {
+        List<PuzzleBlock> candidates = new List<PuzzleBlock>(blockPrefabs);
+
+        // 가로: 같은 게 이미 2개 연속이면 그 색은 제외
+        if (x >= 2)
+        {
+            PuzzleBlock a = board.blocks[x - 1, y];
+            PuzzleBlock b = board.blocks[x - 2, y];
+
+            if (a != null && b != null && a.name == b.name)
+            {
+                candidates.RemoveAll(p => p.name == a.name);
+            }
         }
 
-        RectTransform panel = parentPanel.GetComponent<RectTransform>();
-        if (panel == null)
+        // 세로: 같은 게 이미 2개 연속이면 그 색은 제외
+        if (y >= 2)
         {
-            Debug.LogError("parentPanel 은 RectTransform 이어야 함 (UI Panel)");
-            return;
+            PuzzleBlock a = board.blocks[x, y - 1];
+            PuzzleBlock b = board.blocks[x, y - 2];
+
+            if (a != null && b != null && a.name == b.name)
+            {
+                candidates.RemoveAll(p => p.name == a.name);
+            }
         }
 
-        float panelWidth = panel.rect.width;
-        float panelHeight = panel.rect.height;
+        // 안전장치 (거의 발생 안 함)
+        if (candidates.Count == 0)
+            candidates.AddRange(blockPrefabs);
 
-        float cellW = panelWidth / width;
-        float cellH = panelHeight / height;
+        PuzzleBlock prefab = candidates[Random.Range(0, candidates.Count)];
+        PuzzleBlock block = Instantiate(prefab, board.transform);
 
-        for (int i = 0; i < width * height; i++)
-        {
-            // 랜덤으로 선택
-            GameObject prefab = prefabs[Random.Range(0, prefabs.Count)];
-            GameObject obj = Instantiate(prefab, parentPanel);
+        block.board = board;
+        block.x = x;
+        block.y = y;
 
-            RectTransform rt = obj.GetComponent<RectTransform>();
+        board.blocks[x, y] = block;
 
-            int x = i % width;
-            int y = i / width;
-
-            // 셀 중앙 좌표
-            float posX = (-panelWidth / 2f) + (cellW * x) + (cellW / 2f);
-            float posY = (panelHeight / 2f) - (cellH * y) - (cellH / 2f);
-
-            rt.anchoredPosition = new Vector2(posX, posY);
-
-            // spacing 적용
-            float spacingX = spacing.x;
-            float spacingY = spacing.y;
-
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cellW - spacingX);
-            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cellH - spacingY);
-        }
+        RectTransform rect = block.GetComponent<RectTransform>();
+        rect.sizeDelta = board.cellSize;
+        rect.anchoredPosition = board.GetPosition(x, y);
     }
 }
 

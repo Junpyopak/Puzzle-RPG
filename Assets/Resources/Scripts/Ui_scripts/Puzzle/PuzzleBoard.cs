@@ -48,7 +48,7 @@ public class PuzzleBoard : MonoBehaviour
         }
     }
 
-    Vector3 GetPosition(int x, int y)
+   public Vector3 GetPosition(int x, int y)
     {
         float startX = -(width - 1) * (cellSize.x + spacing.x) / 2f;
         float startY = -(height - 1) * (cellSize.y + spacing.y) / 2f;
