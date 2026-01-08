@@ -15,7 +15,7 @@ public class ItemMagnet : MonoBehaviour
         player = GameObject.FindWithTag("Player").transform;
         if (OpenItem == null)
         {
-            OpenItem = GameObject.Find("OpenItem"); // 또는 싱글톤 사용
+            OpenItem = GameObject.Find("OpenItem");
             if (OpenItem == null)
                 Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
         }
