@@ -113,6 +113,18 @@ public class PlayerMove : MonoBehaviour
 
         // 현재 선택 위치가 대각선인가?
         Vector2Int relative = selectedGridPos - currentGridPos;
+
+        if (relative == Vector2Int.zero)
+        {
+            if (w && d)
+                nextGrid = currentGridPos + new Vector2Int(1, 1);
+            else if (w && a)
+                nextGrid = currentGridPos + new Vector2Int(-1, 1);
+            else if (s && d)
+                nextGrid = currentGridPos + new Vector2Int(1, -1);
+            else if (s && a)
+                nextGrid = currentGridPos + new Vector2Int(-1, -1);
+        }
         bool isDiagonal =
             Mathf.Abs(relative.x) == 1 &&
             Mathf.Abs(relative.y) == 1;

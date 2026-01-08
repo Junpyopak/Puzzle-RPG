@@ -56,6 +56,12 @@ public class Scenemgr : MonoBehaviour
             case eSCENE.SlotSelectScene:
                 SceneManager.LoadScene("SlotSelectScene");
                 break;
+            case eSCENE.NewGameScene:
+                SceneManager.LoadScene("NewGameScene");
+                break;
+            case eSCENE.Tutorial:
+                SceneManager.LoadScene("Tutorial");
+                break;
 
             default:
                 Debug.LogWarning("정의되지 않은 씬: " + _e);
