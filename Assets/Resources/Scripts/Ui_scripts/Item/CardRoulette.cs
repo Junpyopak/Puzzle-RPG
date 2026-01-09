@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardRoulette : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CardRoulette : MonoBehaviour
     public bool isRolling = false;
     public bool isdecrease = false;
     public float decreasespeed = 2.0f;
+    public Text Rolltext;
 
     [Header("Spacing")]
     public float cardGap = 20f;
@@ -93,15 +95,23 @@ public class CardRoulette : MonoBehaviour
     }
     public void StartRoll()
     {
-        if (isRolling)
+        StartCoroutine(StopRolling());
         {
-            isdecrease = true;
-            return;
+            if (isRolling)
+            {
+                isdecrease = true;
+                return;
+            }
+
+            // ∏ÿ√Á¿÷¿∏∏È °Ê ¥ŸΩ√ Ω√¿€
+            isRolling = true;
+            isdecrease = false;
         }
 
-        // ∏ÿ√Á¿÷¿∏∏È °Ê ¥ŸΩ√ Ω√¿€
-        isRolling = true;
-        isdecrease = false;
+        IEnumerator StopRolling()
+        {
+            Rolltext.text = ("∏ÿ√ﬂ±‚");
+            yield return new WaitForSeconds(3f); ;
+        }
     }
-
 }

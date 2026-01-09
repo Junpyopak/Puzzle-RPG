@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleBoard : MonoBehaviour
 {
@@ -9,13 +11,16 @@ public class PuzzleBoard : MonoBehaviour
     public Vector2 cellSize = new Vector2(60, 55);
     public Vector2 spacing = new Vector2(3, 5);
 
+    public Text ComboText;
+    private int ComboCount = 0;
     public PuzzleBlock[,] blocks;
     private RectTransform boardRect;
 
+    List<PuzzleBlock> disabledBlocks = new List<PuzzleBlock>();
 
     private void Awake()
     {
-        
+        ComboText.enabled = false;
         boardRect = GetComponent<RectTransform>();
         blocks = new PuzzleBlock[width, height];
         InitBoard();
@@ -50,7 +55,7 @@ public class PuzzleBoard : MonoBehaviour
         }
     }
 
-   public Vector3 GetPosition(int x, int y)
+    public Vector3 GetPosition(int x, int y)
     {
         float startX = -(width - 1) * (cellSize.x + spacing.x) / 2f;
         float startY = -(height - 1) * (cellSize.y + spacing.y) / 2f;
@@ -146,11 +151,25 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
 
+
+        if (matched.Count > 0)
+        {
+            ComboText.enabled = true;
+            ComboCount++;
+            ComboText.text = "Combo " + ComboCount;
+            StartCoroutine(offComboTEXT());
+        }
         // 같은 퍼즐 3개 이상 포함된 블럭들만 false
         foreach (PuzzleBlock block in matched)
         {
             blocks[block.x, block.y] = null;
-            block.gameObject.SetActive(false);
+            //block.gameObject.SetActive(false);
+            Image img = block.GetComponent<Image>();//매칭된 블록 흐림처리
+            Color c = img.color;
+            img.color = new Color(c.r, c.g, c.b, 0.4f);
+            block.isDisabled = true;
+
+            disabledBlocks.Add(block);
         }
     }
 
@@ -190,6 +209,25 @@ public class PuzzleBoard : MonoBehaviour
             return false;
 
         return target.puzzleId == center.puzzleId;
+    }
+
+    IEnumerator offComboTEXT()
+    {
+
+        yield return new WaitForSeconds(3F);
+
+        ComboText.enabled = false;
+    }
+
+    public void BoomPuzzle()
+    {
+        foreach (PuzzleBlock block in disabledBlocks)
+        {
+            if (block != null)
+                block.gameObject.SetActive(false);
+        }
+
+        disabledBlocks.Clear();
     }
 }
 

@@ -54,16 +54,20 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        //Attack();
     }
 
-    void Attack()
+    public void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-        {        
-            AutoTarget();
-            anim.SetTrigger("Attack");
-        }
+        //v 누르면 공격 나가기
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{        
+        //    AutoTarget();
+        //    anim.SetTrigger("Attack");
+        //}
+        //턴종료 버튼 누르면 나가기
+        AutoTarget();
+        anim.SetTrigger("Attack");
     }
 
     void AutoTarget()
