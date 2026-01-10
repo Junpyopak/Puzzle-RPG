@@ -143,6 +143,11 @@ public class Player : MonoBehaviour
         if (slot < 0) return;
 
         SaveData data = new SaveData();
+        PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
+        if (board != null)
+        {
+            data.puzzleData = board.GetSaveData();
+        }
         data.playerPosition = transform.position;
         data.playerHp = Hp;
         data.playerExp = Exp;

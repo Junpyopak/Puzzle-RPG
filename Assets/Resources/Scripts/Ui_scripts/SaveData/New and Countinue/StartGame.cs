@@ -14,7 +14,7 @@ public class StartGame : MonoBehaviour
     public void OnClickNewGame()
     {
         SlotSelectContext.Instance.mode = SlotSelectMode.NewGame;
-        Scenemgr.Instance.ChangeScene(eSCENE.NewGameScene);
+        Scenemgr.Instance.ChangeScene(eSCENE.SlotSelectScene);
     }
 
     public void OnClickContinue()

@@ -229,5 +229,49 @@ public class PuzzleBoard : MonoBehaviour
 
         disabledBlocks.Clear();
     }
+    public PuzzleSaveData GetSaveData()
+    {
+        PuzzleSaveData data = new PuzzleSaveData();
+        data.width = width;
+        data.height = height;
+
+        data.puzzleIds = new int[width * height];
+        data.disabled = new bool[width * height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int index = y * width + x;
+                PuzzleBlock block = blocks[x, y];
+                if (block != null)
+                {
+                    data.puzzleIds[index] = block.puzzleId;
+                    data.disabled[index] = block.isDisabled;
+                }
+            }
+        }
+
+        return data;
+    }
+    public void LoadFromData(PuzzleSaveData data)
+    {
+        int w = Mathf.Min(width, data.width);
+        int h = Mathf.Min(height, data.height);
+
+        for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
+            {
+                int index = y * data.width + x;
+
+                PuzzleBlock block = blocks[x, y];
+                if (block == null) continue;
+
+                block.puzzleId = data.puzzleIds[index];
+                block.isDisabled = data.disabled[index];
+            }
+        }
+    }
 }
 

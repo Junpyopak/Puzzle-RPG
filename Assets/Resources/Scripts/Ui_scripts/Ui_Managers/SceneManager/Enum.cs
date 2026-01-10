@@ -8,7 +8,7 @@ public enum eSCENE
     LOBBY,
     SlotSelectScene,
     GameScene,
-    Tutorial,
-    NewGameScene,
+   // NewGameScene,
+    MainMenu,
     END,
 }

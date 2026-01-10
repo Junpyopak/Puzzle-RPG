@@ -6,7 +6,8 @@ public class SaveContext : MonoBehaviour
 {
     public static SaveContext Instance;
     public int currentSlot = -1;
-
+    public bool isLoading = false;
+    public SaveData currentSaveData;
     void Awake()
     {
         if (Instance != null)

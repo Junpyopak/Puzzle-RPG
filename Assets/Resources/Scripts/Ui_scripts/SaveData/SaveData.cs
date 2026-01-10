@@ -14,5 +14,8 @@ public class SaveData
 
     public string currentScene;
     public string saveTime;
+    public float gameTime;//이게 불러올 타이머 시간
+
+    public PuzzleSaveData puzzleData;//퍼즐상태 저장
 }
 

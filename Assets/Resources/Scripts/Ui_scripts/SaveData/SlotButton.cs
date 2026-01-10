@@ -45,6 +45,6 @@ public class SlotButton : MonoBehaviour
         }
 
         // 씬 이동은 Scenemgr가 전담
-        Scenemgr.Instance.ChangeScene(eSCENE.GameScene);
+        Scenemgr.Instance.ChangeScene(eSCENE.MainMenu);
     }
 }

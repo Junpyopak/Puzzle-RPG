@@ -56,11 +56,11 @@ public class Scenemgr : MonoBehaviour
             case eSCENE.SlotSelectScene:
                 SceneManager.LoadScene("SlotSelectScene");
                 break;
-            case eSCENE.NewGameScene:
+           // case eSCENE.NewGameScene:
                 SceneManager.LoadScene("NewGameScene");
                 break;
-            case eSCENE.Tutorial:
-                SceneManager.LoadScene("Tutorial");
+            case eSCENE.MainMenu:
+                SceneManager.LoadScene("MainMenu");
                 break;
 
             default:

@@ -7,9 +7,13 @@ using UnityEngine.UI;
 public class UI_GameTimer : MonoBehaviour
 {
     private Text Timer_Time;
-    private float GameTime = 0f;
+    public float GameTime = 0f;
     public bool isRunning = true;
 
+    private void Awake()
+    {
+        Timer_Time = GetComponent<Text>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -20,16 +24,27 @@ public class UI_GameTimer : MonoBehaviour
     {
         if (!isRunning) return;
 
-        // 시간 증가
         GameTime += Time.deltaTime;
+        UpdateTimerUI();
 
-        // 시, 분, 초 계산
-        int hours = Mathf.FloorToInt(GameTime / 3600);
-        int minutes = Mathf.FloorToInt((GameTime % 3600) / 60);
-        int seconds = Mathf.FloorToInt(GameTime % 60);
+    }
+    public void LoadFromSave(float savedTime)
+    {
+        GameTime = savedTime;
+        UpdateTimerUI();
+    }
+    private void UpdateTimerUI()
+    {
+        int h = Mathf.FloorToInt(GameTime / 3600);
+        int m = Mathf.FloorToInt((GameTime % 3600) / 60);
+        int s = Mathf.FloorToInt(GameTime % 60);
 
-        // UI 업데이트
         if (Timer_Time != null)
-            Timer_Time.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+            Timer_Time.text = string.Format("{0:00}:{1:00}:{2:00}", h, m, s);
+    }
+    public void SetTime(float time)
+    {
+        GameTime = time;
+        UpdateTimerUI(); // UI 쓰면 필수
     }
 }

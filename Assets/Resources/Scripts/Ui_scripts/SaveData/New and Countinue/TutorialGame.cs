@@ -20,11 +20,11 @@ public class TutorialGame : MonoBehaviour
     {
         NewGameNotice.SetActive(true);
     }
-    public void OnClickTutorial()
-    {
-        SlotSelectContext.Instance.mode = SlotSelectMode.Continue;
-        Scenemgr.Instance.ChangeScene(eSCENE.Tutorial);
-    }
+    //public void OnClickTutorial()
+    //{
+    //    SlotSelectContext.Instance.mode = SlotSelectMode.Continue;
+    //    Scenemgr.Instance.ChangeScene(eSCENE.Tutorial);
+    //}
     public void OnClickNewGame()
     {
         SlotSelectContext.Instance.mode = SlotSelectMode.NewGame;

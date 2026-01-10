@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleSpawner : MonoBehaviour
 {
@@ -12,7 +13,81 @@ public class PuzzleSpawner : MonoBehaviour
 
     private void Start()
     {
+        //if (SaveContext.Instance.isLoading && SaveContext.Instance.currentSaveData != null)
+        //{
+        //    PuzzleSaveData data = SaveContext.Instance.currentSaveData.puzzleData;
+        //    if (data != null)
+        //    {
+        //        // 기존 블록이 있는지 없는지 체크 없이 데이터 기반 생성
+        //        SpawnFromSaveData(data);
+        //        return;
+        //    }
+        //}
+
+        //// 새 게임
+        //SpawnAll();
+        //if (board.blocks == null || board.blocks.Length == 0)
+        //{
+        //    board.blocks = new PuzzleBlock[board.width, board.height];
+        //}
+
+        //// 이어하기이면 기존 블록 그대로 보여주고 스폰하지 않음
+        //if (SaveContext.Instance.isLoading)
+        //{
+        //    Debug.Log("이어하기 모드: 기존 블록 그대로 사용");
+        //    return;
+        //}
+
+        ////새 게임이면 블록 스폰
+        //// SpawnAll();
+        ///
+        if (board.blocks == null || board.blocks.Length == 0)
+            board.blocks = new PuzzleBlock[board.width, board.height];
+
+        // 슬롯 선택 모드에 따라 분기
+        if (SlotSelectContext.Instance.mode == SlotSelectMode.Continue)
+        {
+            // 이어하기 → 기존 블록만 표시
+            Debug.Log("이어하기 모드: 기존 블록만 보여줌");
+            ShowExistingBlocks();
+            return;
+        }
+
+        // 새 게임 → SpawnAll
+        Debug.Log("새 게임 모드: 블록 생성");
         SpawnAll();
+
+
+    }
+
+    private void ShowExistingBlocks()
+    {
+        for (int y = 0; y < board.height; y++)
+        {
+            for (int x = 0; x < board.width; x++)
+            {
+                PuzzleBlock block = board.blocks[x, y];
+                if (block != null)
+                {
+                    // 블록 활성화
+                    block.gameObject.SetActive(true);
+
+                    // 위치 & 크기 세팅
+                    RectTransform rect = block.GetComponent<RectTransform>();
+                    rect.sizeDelta = board.cellSize;
+                    rect.anchoredPosition = board.GetPosition(x, y);
+
+                    // 비활성화(alpha) 복원
+                    Image img = block.GetComponent<Image>();
+                    if (img != null)
+                    {
+                        img.color = block.isDisabled
+                            ? new Color(1f, 1f, 1f, 0.4f)  // disabled일 때 반투명
+                            : new Color(1f, 1f, 1f, 1f);   // 활성화 시 완전 불투명
+                    }
+                }
+            }
+        }
     }
 
     public void SpawnAll()
@@ -98,6 +173,152 @@ public class PuzzleSpawner : MonoBehaviour
         rect.sizeDelta = board.cellSize;
         rect.anchoredPosition = board.GetPosition(x, y);
     }
+    //public void SpawnFromSaveData(PuzzleSaveData data)
+    //{
+    //    int w = data.width;
+    //    int h = data.height;
+
+    //    board.blocks = new PuzzleBlock[w, h];
+
+    //    for (int y = 0; y < h; y++)
+    //    {
+    //        for (int x = 0; x < w; x++)
+    //        {
+    //            int index = y * w + x;
+
+    //            int puzzleId = data.puzzleIds[index];
+    //            if (puzzleId < 0)
+    //                continue;
+
+    //            PuzzleBlock prefab = System.Array.Find(
+    //                blockPrefabs, p => p.puzzleId == puzzleId);
+
+    //            if (prefab == null)
+    //            {
+    //                Debug.LogError($"퍼즐 프리팹 없음: {puzzleId}");
+    //                continue;
+    //            }
+
+    //            PuzzleBlock block = Instantiate(prefab, board.transform);
+
+    //            block.board = board;
+    //            block.x = x;
+    //            block.y = y;
+    //            block.puzzleId = puzzleId;
+    //            block.isDisabled = data.disabled[index];
+
+    //            board.blocks[x, y] = block;
+
+    //            RectTransform rect = block.GetComponent<RectTransform>();
+    //            rect.sizeDelta = board.cellSize;
+    //            rect.anchoredPosition = board.GetPosition(x, y);
+
+    //            // 비활성화 복구
+    //            Image img = block.GetComponent<Image>();
+    //            Color c = img.color;
+
+    //            if (block.isDisabled)
+    //                img.color = new Color(c.r, c.g, c.b, 0.4f);
+    //            else
+    //                img.color = new Color(c.r, c.g, c.b, 1f);
+    //        }
+    //    }
+    //}
+    //public void SpawnFromSaveData(PuzzleSaveData data)
+    //{
+    //    board.blocks = new PuzzleBlock[data.width, data.height];
+
+    //    for (int y = 0; y < data.height; y++)
+    //    {
+    //        for (int x = 0; x < data.width; x++)
+    //        {
+    //            int index = y * data.width + x;
+
+    //            int puzzleId = data.puzzleIds[index];
+    //            bool disabled = data.disabled[index];
+
+    //            PuzzleBlock prefab =
+    //                System.Array.Find(blockPrefabs, p => p.puzzleId == puzzleId);
+
+    //            PuzzleBlock block = Instantiate(prefab, board.transform);
+
+    //            block.board = board;
+    //            block.x = x;
+    //            block.y = y;
+    //            block.isDisabled = disabled;
+
+    //            board.blocks[x, y] = block;
+
+    //            RectTransform rect = block.GetComponent<RectTransform>();
+    //            rect.sizeDelta = board.cellSize;
+    //            rect.anchoredPosition = board.GetPosition(x, y);
+
+    //            if (disabled)
+    //            {
+    //                Image img = block.GetComponent<Image>();
+    //                Color c = img.color;
+    //                img.color = new Color(c.r, c.g, c.b, 0.4f);
+    //            }
+    //        }
+    //    }
+    //}
+    public void SpawnFromSaveData(PuzzleSaveData data)
+    {
+        int w = data.width;
+        int h = data.height;
+
+        // 배열 초기화 제거 → 기존 블록 그대로 활용
+        // board.blocks = new PuzzleBlock[w, h];
+
+        for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
+            {
+                int index = y * w + x;
+                int puzzleId = data.puzzleIds[index];
+                bool disabled = data.disabled[index];
+
+                PuzzleBlock existing = board.blocks[x, y];
+
+                if (existing != null)
+                {
+                    // 기존 블록이 있으면 데이터만 덮어쓰기
+                    existing.puzzleId = puzzleId;
+                    existing.isDisabled = disabled;
+
+                    Image img = existing.GetComponent<Image>();
+                    Color c = img.color;
+                    img.color = disabled ? new Color(c.r, c.g, c.b, 0.4f) : new Color(c.r, c.g, c.b, 1f);
+                }
+                else
+                {
+                    // 기존 블록이 없으면 새로 생성
+                    PuzzleBlock prefab = System.Array.Find(blockPrefabs, p => p.puzzleId == puzzleId);
+                    PuzzleBlock block = Instantiate(prefab, board.transform);
+
+                    block.board = board;
+                    block.x = x;
+                    block.y = y;
+                    block.isDisabled = disabled;
+
+                    RectTransform rect = block.GetComponent<RectTransform>();
+                    rect.sizeDelta = board.cellSize;
+                    rect.anchoredPosition = board.GetPosition(x, y);
+
+                    if (disabled)
+                    {
+                        Image img = block.GetComponent<Image>();
+                        Color c = img.color;
+                        img.color = new Color(c.r, c.g, c.b, 0.4f);
+                    }
+
+                    board.blocks[x, y] = block;
+                }
+            }
+        }
+    }
+
+
 }
 
 

@@ -1332,6 +1332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979e78a7811f25d4ca26c58b5c2c8100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameTime: 0
   isRunning: 1
 --- !u!1 &294973845
 GameObject:
@@ -4298,7 +4299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1059557226
 Transform:
   m_ObjectHideFlags: 0
@@ -5089,6 +5090,7 @@ MonoBehaviour:
   panel: {fileID: 930173248}
   player: {fileID: 437311290}
   OpenItemBox: {fileID: 1880129094}
+  timer: {fileID: 287611540}
 --- !u!1 &1212440245
 GameObject:
   m_ObjectHideFlags: 0
@@ -6501,11 +6503,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 319465497}
   blockPrefabs:
-  - {fileID: 7529825809198037279, guid: a8d3d01822cec6f43a3e3e1ff6214eb4, type: 3}
-  - {fileID: 5982144814303855257, guid: 7cc7a4c7939979349be2a7614e81b184, type: 3}
-  - {fileID: 4406619960459102289, guid: 6cdbd93819fca5a49a64a228c09d09ba, type: 3}
   - {fileID: 8759409912523980241, guid: a690bbff4e8420741b4f78110909959b, type: 3}
+  - {fileID: 4406619960459102289, guid: 6cdbd93819fca5a49a64a228c09d09ba, type: 3}
   - {fileID: 4875944222438837105, guid: 1d9df26e1cd7e584bb1b9bbae028c1aa, type: 3}
+  - {fileID: 5982144814303855257, guid: 7cc7a4c7939979349be2a7614e81b184, type: 3}
+  - {fileID: 7529825809198037279, guid: a8d3d01822cec6f43a3e3e1ff6214eb4, type: 3}
 --- !u!1 &1864629630
 GameObject:
   m_ObjectHideFlags: 0

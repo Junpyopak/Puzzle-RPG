@@ -7,6 +7,7 @@ public class PanelClose : MonoBehaviour
     public GameObject panel;
     public Player player;
     public GameObject OpenItemBox;
+    public UI_GameTimer timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +40,7 @@ public class PanelClose : MonoBehaviour
     public void Exit()
     {
         int slot = SaveContext.Instance.currentSlot;
-
+        PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
         // 슬롯이 선택된 상태라면 저장
         if (slot >= 0)
         {
@@ -49,7 +50,9 @@ public class PanelClose : MonoBehaviour
                 playerExp = player.Exp,
                 playerHp = player.Hp,
                 playerPosition = player.transform.position,
-                saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm")
+                saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                gameTime = timer.GameTime,
+                puzzleData = board.GetSaveData()
             };
 
             SaveManager.Save(slot, data);
