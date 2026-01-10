@@ -69,21 +69,17 @@ public class PuzzleSpawner : MonoBehaviour
                 PuzzleBlock block = board.blocks[x, y];
                 if (block != null)
                 {
-                    // 블록 활성화
                     block.gameObject.SetActive(true);
 
-                    // 위치 & 크기 세팅
                     RectTransform rect = block.GetComponent<RectTransform>();
                     rect.sizeDelta = board.cellSize;
                     rect.anchoredPosition = board.GetPosition(x, y);
 
-                    // 비활성화(alpha) 복원
                     Image img = block.GetComponent<Image>();
                     if (img != null)
                     {
-                        img.color = block.isDisabled
-                            ? new Color(1f, 1f, 1f, 0.4f)  // disabled일 때 반투명
-                            : new Color(1f, 1f, 1f, 1f);   // 활성화 시 완전 불투명
+                        Color c = img.color; // 기존 색상 그대로 유지
+                        img.color = new Color(c.r, c.g, c.b, block.isDisabled ? 0.4f : 1f);
                     }
                 }
             }
