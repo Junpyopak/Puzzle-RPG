@@ -20,8 +20,19 @@ public class PuzzleBoard : MonoBehaviour
 
     private void Awake()
     {
+        //ComboText.enabled = false;
+        //boardRect = GetComponent<RectTransform>();
+        //blocks = new PuzzleBlock[width, height];
+        //InitBoard();
         ComboText.enabled = false;
         boardRect = GetComponent<RectTransform>();
+
+        if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
+        {
+            //이어하기면 건드리지 마라
+            return;
+        }
+
         blocks = new PuzzleBlock[width, height];
         InitBoard();
     }
@@ -162,7 +173,8 @@ public class PuzzleBoard : MonoBehaviour
         // 같은 퍼즐 3개 이상 포함된 블럭들만 false
         foreach (PuzzleBlock block in matched)
         {
-            blocks[block.x, block.y] = null;
+            if (block.isDisabled) continue;
+            //blocks[block.x, block.y] = null;
             //block.gameObject.SetActive(false);
             Image img = block.GetComponent<Image>();//매칭된 블록 흐림처리
             Color c = img.color;
@@ -219,15 +231,61 @@ public class PuzzleBoard : MonoBehaviour
         ComboText.enabled = false;
     }
 
+    //public void BoomPuzzle()
+    //{
+    //    foreach (PuzzleBlock block in disabledBlocks)
+    //    {
+    //        if (block != null)
+    //            block.gameObject.SetActive(false);
+    //        blocks[block.x, block.y] = null;
+    //    }
+
+    //    disabledBlocks.Clear();
+    //}
     public void BoomPuzzle()
     {
-        foreach (PuzzleBlock block in disabledBlocks)
+        if (disabledBlocks.Count == 0)
         {
-            if (block != null)
-                block.gameObject.SetActive(false);
+            Debug.Log("BoomPuzzle: 터질 블록 없음");
+            return;
         }
 
+        //foreach (PuzzleBlock block in disabledBlocks)
+        //{
+        //    if (block == null) continue;
+
+        //    int x = block.x;
+        //    int y = block.y;
+
+        //    // 보드 데이터에서 제거
+        //    if (x >= 0 && x < width && y >= 0 && y < height)
+        //        blocks[x, y] = null;
+
+        //    //진짜 삭제
+        //    Destroy(block.gameObject);
+        //}
+
+        //disabledBlocks.Clear();
+        StartCoroutine(BoomRoutine());
+    }
+    //Load 이후에 disabledBlocks를 다시 채우기 위함
+    public void RebuildDisabledList()
+    {
         disabledBlocks.Clear();
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                PuzzleBlock block = blocks[x, y];
+                if (block == null) continue;
+
+                if (block.isDisabled)
+                    disabledBlocks.Add(block);
+            }
+        }
+
+        Debug.Log($"RebuildDisabledList: {disabledBlocks.Count}개 복구됨");
     }
     public PuzzleSaveData GetSaveData()
     {
@@ -273,5 +331,79 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
     }
+    //퍼즐블록 위에서 아래로 떨어트리기
+    public IEnumerator ApplyGravity_BlockByBlock(float delay = 0.05f)
+    {
+        while (true)
+        {
+            bool movedOne = false;
+
+            for (int y = 1; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (blocks[x, y] != null && blocks[x, y - 1] == null)
+                    {
+                        PuzzleBlock block = blocks[x, y];
+
+                        blocks[x, y] = null;
+                        blocks[x, y - 1] = block;
+
+                        block.y = y - 1;
+
+                        yield return StartCoroutine(
+                            MoveBlockOneStep(block, GetPosition(x, y - 1))
+                        );
+
+                        movedOne = true;
+                        yield return new WaitForSeconds(delay);
+                        goto NEXT_STEP;
+                    }
+                }
+            }
+
+        NEXT_STEP:
+            if (!movedOne)
+                break;
+        }
+    }
+    IEnumerator MoveBlockOneStep(PuzzleBlock block, Vector3 target)
+    {
+        Vector3 start = block.transform.localPosition;
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 12f;
+            block.transform.localPosition = Vector3.Lerp(start, target, t);
+            yield return null;
+        }
+
+        block.transform.localPosition = target;
+    }
+
+    IEnumerator BoomRoutine()
+    {
+        foreach (PuzzleBlock block in disabledBlocks)
+        {
+            if (block == null) continue;
+
+            blocks[block.x, block.y] = null;
+            Destroy(block.gameObject);
+        }
+
+        disabledBlocks.Clear();
+
+        yield return new WaitForSeconds(0.1f);
+
+        // 블록 하나씩 중력
+        yield return StartCoroutine(ApplyGravity_BlockByBlock(0.03f));
+
+        // 새 블록 채우기
+        PuzzleSpawner spawner = FindObjectOfType<PuzzleSpawner>();
+        yield return new WaitForSeconds(0.05f);
+        spawner.FillEmptyBlocks();
+    }
+
 }
 

@@ -48,6 +48,8 @@ public class GameLoader : MonoBehaviour
             board.height = data.puzzleData.height;
 
             spawner.SpawnFromSaveData(data.puzzleData);
+            board.RebuildDisabledList();
         }
+
     }
 }
