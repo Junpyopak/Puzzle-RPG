@@ -968,6 +968,52 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &965430047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965430048}
+  - component: {fileID: 965430049}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965430048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965430047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 144.55742, y: 17.292961, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &965430049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965430047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ea9320c938eb045973a359744f203f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardBaseCSV: {fileID: 0}
+  cardList: []
 --- !u!1 &985982612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,6 +1148,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSlot: -1
+  isLoading: 0
+  currentSaveData:
+    slotIndex: 0
+    playerPosition: {x: 0, y: 0, z: 0}
+    playerHp: 0
+    playerExp: 0
+    currentScene: 
+    saveTime: 
+    gameTime: 0
+    puzzleData:
+      width: 0
+      height: 0
+      puzzleIds: 
+      disabled: 
 --- !u!1 &1338551212
 GameObject:
   m_ObjectHideFlags: 0
@@ -4903,3 +4963,4 @@ SceneRoots:
   - {fileID: 1491698072}
   - {fileID: 1181847004}
   - {fileID: 1338551213}
+  - {fileID: 965430048}

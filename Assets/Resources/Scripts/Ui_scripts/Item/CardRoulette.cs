@@ -53,11 +53,16 @@ public class CardRoulette : MonoBehaviour
                 speed = 0f;
                 isRolling = false;
                 isdecrease = false;
+
+                RectTransform pickedCard = GetCenterCard();
+                SnapToCenter(pickedCard);
+
                 return;
             }
         }
 
         MoveCards();
+        UpdateCardScale();
     }
     void MoveCards()
     {
@@ -112,6 +117,95 @@ public class CardRoulette : MonoBehaviour
         {
             Rolltext.text = ("멈추기");
             yield return new WaitForSeconds(3f); ;
+        }
+    }
+
+    void OnEnable()
+    {
+        RandomCard5();
+    }
+
+    private void RandomCard5()
+    {
+        if (CardDatabase.Instance == null)
+        {
+            Debug.LogError("CardDatabase.Instance 없음");
+            return;
+        }
+
+        List<CardBaseData> pool = CardDatabase.Instance.cardList;
+
+        if (pool == null || pool.Count < 5)
+        {
+            Debug.LogError("카드 수 부족");
+            return;
+        }
+
+        // 원본 보호용 복사 리스트
+        List<CardBaseData> temp = new List<CardBaseData>(pool);
+
+        Debug.Log("=== 카드 룰렛 결과 ===");
+
+        for (int i = 0; i < 5; i++)
+        {
+            int rand = Random.Range(0, temp.Count);
+            CardBaseData picked = temp[rand];
+
+            Debug.Log($"{i + 1}. {picked.CardName} | Type:{picked.CardType} | Grade:{picked.Grade}");
+
+            temp.RemoveAt(rand); // 중복 방지
+        }
+    }
+
+    void UpdateCardScale()
+    {
+        float centerX = 0f; // 부모 기준 중앙
+        float maxScale = 1.2f;
+        float minScale = 0.9f;
+        float effectRange = cardWidth; // 중앙 영향 범위
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            float dist = Mathf.Abs(cards[i].anchoredPosition.x - centerX);
+
+            float t = Mathf.Clamp01(dist / effectRange);
+            float targetScale = Mathf.Lerp(maxScale, minScale, t);
+
+            // 부드럽게 스케일 변화
+            cards[i].localScale =
+                Vector3.Lerp(cards[i].localScale,
+                             Vector3.one * targetScale,
+                             Time.deltaTime * 8f);
+        }
+    }
+
+    //가운데 카드 찾기
+    RectTransform GetCenterCard()
+    {
+        RectTransform centerCard = cards[0];
+        float minDist = Mathf.Abs(cards[0].anchoredPosition.x);
+
+        for (int i = 1; i < cards.Length; i++)
+        {
+            float dist = Mathf.Abs(cards[i].anchoredPosition.x);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                centerCard = cards[i];
+            }
+        }
+
+        return centerCard;
+    }
+
+    //멈췄을 때 중앙으로
+    void SnapToCenter(RectTransform target)
+    {
+        float offset = target.anchoredPosition.x;
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].anchoredPosition -= new Vector2(offset, 0f);
         }
     }
 }
