@@ -978,6 +978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 965430048}
   - component: {fileID: 965430049}
+  - component: {fileID: 965430050}
   m_Layer: 0
   m_Name: CardManager
   m_TagString: Untagged
@@ -1012,8 +1013,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ea9320c938eb045973a359744f203f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardBaseCSV: {fileID: 0}
   cardList: []
+--- !u!114 &965430050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965430047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caad891a8a12a2a46a27ac458c04961a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardSprite: []
 --- !u!1 &985982612
 GameObject:
   m_ObjectHideFlags: 0

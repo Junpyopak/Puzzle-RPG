@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ public class CardRoulette : MonoBehaviour
     public float cardGap = 20f;
 
     public GameObject OpenItem;
+
     void Awake()
     {
         //자식 자동 수집
@@ -125,6 +127,38 @@ public class CardRoulette : MonoBehaviour
         RandomCard5();
     }
 
+    //private void RandomCard5()
+    //{
+    //    if (CardDatabase.Instance == null)
+    //    {
+    //        Debug.LogError("CardDatabase.Instance 없음");
+    //        return;
+    //    }
+
+    //    List<CardBaseData> pool = CardDatabase.Instance.cardList;
+
+    //    if (pool == null || pool.Count < 5)
+    //    {
+    //        Debug.LogError("카드 수 부족");
+    //        return;
+    //    }
+
+    //    // 원본 보호용 복사 리스트
+    //    List<CardBaseData> temp = new List<CardBaseData>(pool);
+
+    //    Debug.Log("=== 카드 룰렛 결과 ===");
+
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        int rand = Random.Range(0, temp.Count);
+    //        CardBaseData picked = temp[rand];
+    //        //CardSprite visual = CardSpriteManager.instance.GetVisual(picked.CardID);
+    //        Debug.Log($"{i + 1}. {picked.CardName} | Type:{picked.CardType} | Grade:{picked.Grade} | Description : {picked.Description}");
+
+    //        temp.RemoveAt(rand); // 중복 방지
+    //    }
+
+    //}
     private void RandomCard5()
     {
         if (CardDatabase.Instance == null)
@@ -151,11 +185,31 @@ public class CardRoulette : MonoBehaviour
             int rand = Random.Range(0, temp.Count);
             CardBaseData picked = temp[rand];
 
-            Debug.Log($"{i + 1}. {picked.CardName} | Type:{picked.CardType} | Grade:{picked.Grade}");
+            // CardSprite 가져오기
+            CardSprite visual = CardSpriteManager.instance.GetVisual(picked.CardID);
+
+            // UI 카드 슬롯에 이미지 적용
+            if (i < cards.Length)
+            {
+                Image img = cards[i].GetComponent<Image>();
+                if (img != null && visual != null)
+                {
+                    img.sprite = visual.Sprite;  // CardSprite SO 안에 Sprite 필드
+                    img.SetNativeSize();            // 필요 시 크기 맞춤
+                }
+                else
+                {
+                    Debug.LogWarning($"cards[{i}] Image 컴포넌트 또는 visual null");
+                }
+            }
+
+            // 로그 출력
+            Debug.Log($"{i + 1}. {picked.CardName} | Type:{picked.CardType} | Grade:{picked.Grade} | Description : {picked.Description} | Image: {visual.name}");
 
             temp.RemoveAt(rand); // 중복 방지
         }
     }
+
 
     void UpdateCardScale()
     {
