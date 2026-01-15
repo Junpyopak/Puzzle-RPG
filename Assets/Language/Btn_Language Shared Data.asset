@@ -31,6 +31,46 @@ MonoBehaviour:
     m_Key: Exit
     m_Metadata:
       m_Items: []
+  - m_Id: 32588324581376
+    m_Key: Sound Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32761645805568
+    m_Key: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32909696348160
+    m_Key: BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33264681267200
+    m_Key: sound effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34236807688192
+    m_Key: Language Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34746004582400
+    m_Key: Save Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35025118736384
+    m_Key: Display Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35173500628992
+    m_Key: Screen Ratio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38182464958464
+    m_Key: Slot Number
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38186088837120
+    m_Key: Empty slot
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

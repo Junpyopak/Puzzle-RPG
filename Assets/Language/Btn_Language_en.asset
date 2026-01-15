@@ -34,6 +34,46 @@ MonoBehaviour:
     m_Localized: ResumeGame
     m_Metadata:
       m_Items: []
+  - m_Id: 32588324581376
+    m_Localized: Sound Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32761645805568
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33264681267200
+    m_Localized: sound effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 32909696348160
+    m_Localized: BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34236807688192
+    m_Localized: Language Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34746004582400
+    m_Localized: Save Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35025118736384
+    m_Localized: Display Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35173500628992
+    m_Localized: Screen Ratio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38182464958464
+    m_Localized: Slot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38186088837120
+    m_Localized: Empty
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

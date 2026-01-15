@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
     void ToggleSelectMode()
     {
         selectMode = !selectMode;
-
+        Debug.Log("ToggleSelectMode »£√‚, selectMode=" + selectMode);
         if (selectMode)
         {
             selectedGridPos = currentGridPos;
