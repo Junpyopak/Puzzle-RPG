@@ -15,19 +15,19 @@ MonoBehaviour:
   m_TableCollectionName: LanguageTable
   m_TableCollectionNameGuidString: 4fdd90c1bf817dd40b05b4b0670fb929
   m_Entries:
-  - m_Id: 5464461062144
+  - m_Id: 1
     m_Key: MENU_NEW_GAME
     m_Metadata:
       m_Items: []
-  - m_Id: 19940971294720
+  - m_Id: 2
     m_Key: MENU_Re_GAME
     m_Metadata:
       m_Items: []
-  - m_Id: 19941038403584
+  - m_Id: 3
     m_Key: MENU_Option
     m_Metadata:
       m_Items: []
-  - m_Id: 19941038403585
+  - m_Id: 4
     m_Key: MENU_Exit
     m_Metadata:
       m_Items: []

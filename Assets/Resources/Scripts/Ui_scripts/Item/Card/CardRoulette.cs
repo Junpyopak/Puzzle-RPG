@@ -23,6 +23,8 @@ public class CardRoulette : MonoBehaviour
     public float cardGap = 20f;
 
     public GameObject OpenItem;
+    public GameObject RollButton;
+    public GameObject RolletPanel;
 
     void Awake()
     {
@@ -41,7 +43,7 @@ public class CardRoulette : MonoBehaviour
                 Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
         }
 
-        OpenItem.SetActive(false);
+       OpenItem.SetActive(false);
     }
 
     void Update()
@@ -112,6 +114,7 @@ public class CardRoulette : MonoBehaviour
                 return;
             }
 
+            
             // 멈춰있으면 → 다시 시작
             isRolling = true;
             isdecrease = false;
@@ -136,6 +139,8 @@ public class CardRoulette : MonoBehaviour
 
     void OnEnable()
     {
+        OpenItem.SetActive(false);
+        ResetRouletteState();
         RandomCard5();
     }
 
@@ -171,7 +176,7 @@ public class CardRoulette : MonoBehaviour
     //    }
 
     //}
-    private void RandomCard5()
+    public void RandomCard5()
     {
         if (CardDatabase.Instance == null)
         {
@@ -273,5 +278,37 @@ public class CardRoulette : MonoBehaviour
         {
             cards[i].anchoredPosition -= new Vector2(offset, 0f);
         }
+        StartCoroutine(EndDrawCard());
+    }
+
+    IEnumerator EndDrawCard()
+    { 
+        yield return new WaitForSeconds(1.5f);
+        //gameObject.SetActive(false);
+        //RollButton.SetActive(false);
+        RolletPanel.SetActive(false);
+        Turn_Timer.Instance.isPaused =false;
+        UI_GameTimer.Instance.isPaused = false;
+
+    }
+
+   public void ResetRouletteState()
+    {
+        isRolling = false;
+        isdecrease = false;
+        speed = 1200f;
+
+        // 카드 위치 리셋 (초기 위치 저장했다가 복구 권장)
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].anchoredPosition = new Vector2(
+                i * (cardWidth + cardGap),
+                cards[i].anchoredPosition.y
+            );
+            cards[i].localScale = Vector3.one;
+        }
+
+        // 버튼 & 텍스트
+        RollButton.SetActive(true);
     }
 }

@@ -6,12 +6,21 @@ using UnityEngine.UI;
 
 public class UI_GameTimer : MonoBehaviour
 {
+    public static UI_GameTimer Instance;
     private Text Timer_Time;
     public float GameTime = 0f;
     public bool isRunning = true;
-
+    public bool isPaused = false;
     private void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         Timer_Time = GetComponent<Text>();
     }
     // Start is called before the first frame update
@@ -22,8 +31,9 @@ public class UI_GameTimer : MonoBehaviour
 
     void Update()
     {
+        if (isPaused) return;
         if (!isRunning) return;
-
+        
         GameTime += Time.deltaTime;
         UpdateTimerUI();
 

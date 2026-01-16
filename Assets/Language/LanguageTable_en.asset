@@ -18,20 +18,20 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 5464461062144
-    m_Localized: 
+  - m_Id: 1
+    m_Localized: New Game
     m_Metadata:
       m_Items: []
-  - m_Id: 19940971294720
-    m_Localized: 
+  - m_Id: 2
+    m_Localized: Continue
     m_Metadata:
       m_Items: []
-  - m_Id: 19941038403584
-    m_Localized: 
+  - m_Id: 3
+    m_Localized: Option
     m_Metadata:
       m_Items: []
-  - m_Id: 19941038403585
-    m_Localized: 
+  - m_Id: 4
+    m_Localized: Turn off
     m_Metadata:
       m_Items: []
   references:

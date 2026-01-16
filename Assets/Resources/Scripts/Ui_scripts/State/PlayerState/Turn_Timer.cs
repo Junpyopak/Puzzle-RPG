@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class Turn_Timer : MonoBehaviour
 {
-
+    public static Turn_Timer Instance;
     [Header("슬라이더 설정")]
     public Slider turnSlider;   // UI 슬라이더
     public float maxTime = 30f; // 슬라이더 최대값
@@ -15,18 +16,33 @@ public class Turn_Timer : MonoBehaviour
     private int TurnCount = 1;
 
     private bool isRunning = false;
-
+    public bool isPaused = false;
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
-        EnemyTurnText.text = "라운드 : " + (TurnCount);
+        string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
+        //EnemyTurnText.text = "라운드 : " + (TurnCount);
+        EnemyTurnText.text = roundWord + " : " + TurnCount;
         StartTurn();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isPaused) return;
+
         if (isRunning)
         {
             // 슬라이더 감소
@@ -57,7 +73,10 @@ public class Turn_Timer : MonoBehaviour
 
         //우선 예시로 나의턴과 적의턴 돌아간횟수 증가를 표시하기 위함.
         //적의 턴이 끝나면 라운드 수 증가 
-        EnemyTurnText.text = "라운드 : " + (TurnCount);
+        //EnemyTurnText.text = "라운드 : " + (TurnCount);
+        // 로컬라이즈된 라운드 텍스트
+        string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
+        EnemyTurnText.text = roundWord + " : " + TurnCount;
         TurnCount++;
     }
 }

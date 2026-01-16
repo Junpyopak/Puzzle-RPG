@@ -75,5 +75,6 @@ public class PanelClose : MonoBehaviour
     {
         OpenItemBox.SetActive(true);
     }
+
 }
-    
+
