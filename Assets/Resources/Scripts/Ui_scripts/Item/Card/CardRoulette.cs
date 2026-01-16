@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Sprites;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 using UnityEngine.UI;
 
 public class CardRoulette : MonoBehaviour
@@ -117,7 +119,17 @@ public class CardRoulette : MonoBehaviour
 
         IEnumerator StopRolling()
         {
-            Rolltext.text = ("∏ÿ√ﬂ±‚");
+            //var locale = LocalizationSettings.SelectedLocale;
+            //var table = LocalizationSettings.StringDatabase.GetTable("Btn_Language");
+
+            //var StopEntry = table.GetEntry(LabelKey);
+            //string Rolltext = StopEntry?.GetLocalizedString(new object[] { slotIndex + 1 }) ?? $"ΩΩ∑‘ {slotIndex + 1}";
+            var tableOp = LocalizationSettings.StringDatabase.GetTableAsync("Btn_Language");
+            yield return tableOp;
+
+            StringTable table = tableOp.Result;
+            Rolltext.text = table.GetEntry("Stop").GetLocalizedString();
+            //Rolltext.text = ("∏ÿ√ﬂ±‚");
             yield return new WaitForSeconds(3f); ;
         }
     }
