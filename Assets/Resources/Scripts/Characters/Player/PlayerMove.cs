@@ -23,10 +23,12 @@ public class PlayerMove : MonoBehaviour
     private Vector2Int selectedGridPos;
 
     private bool selectMode = false;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         UpdateGridPos();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -165,6 +167,12 @@ public class PlayerMove : MonoBehaviour
     void ConfirmMove()
     {
         if (!moveableGrids.Contains(selectedGridPos)) return;
+        // 이동 방향에 따라 flip 처리
+        Vector2Int moveDir = selectedGridPos - currentGridPos;
+        if (moveDir.x < 0)
+            spriteRenderer.flipX = true; // 왼쪽
+        else if (moveDir.x > 0)
+            spriteRenderer.flipX = false; // 오른쪽
 
         transform.position = GridToWorld(selectedGridPos);
         currentGridPos = selectedGridPos;
