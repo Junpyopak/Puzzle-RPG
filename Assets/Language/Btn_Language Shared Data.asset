@@ -103,6 +103,22 @@ MonoBehaviour:
     m_Key: Round
     m_Metadata:
       m_Items: []
+  - m_Id: 305199155499008
+    m_Key: ' end the battle'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305442337050624
+    m_Key: Exit Battle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305982118809600
+    m_Key: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 306001098035200
+    m_Key: Stay
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -25,3 +25,7 @@ Key,Id,English(en),Japanese(ja),Korean(ko)
 "Spinning",277079727788032,"Spinning","回す","돌리기"
 "Stop",277513469153280,"Stop","停止","멈추기"
 "Round",283428809330688,"Round ","ラウンド","라운드"
+" end the battle",305199155499008,"Do you want to end the battle?","戦闘を終了しますか？","전투를 종료 하시겠습니까 ?"
+"Exit Battle",305442337050624,"Out of the Battle","戦闘終了","전투 종료"
+"Yes",305982118809600,"Yes","例","예"
+"Stay",306001098035200,"Stay","留まる","아니오"
