@@ -74,6 +74,34 @@ MonoBehaviour:
     m_Localized: Empty
     m_Metadata:
       m_Items: []
+  - m_Id: 275237186818048
+    m_Localized: Game Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 275535808679936
+    m_Localized: Card Collector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276596107759616
+    m_Localized: Treasure box
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276690538319872
+    m_Localized: OPEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276854346862592
+    m_Localized: Turn End
+    m_Metadata:
+      m_Items: []
+  - m_Id: 277079727788032
+    m_Localized: Spinning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 277513469153280
+    m_Localized: Stop
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

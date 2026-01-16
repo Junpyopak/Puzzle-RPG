@@ -71,6 +71,34 @@ MonoBehaviour:
     m_Key: Empty slot
     m_Metadata:
       m_Items: []
+  - m_Id: 275237186818048
+    m_Key: Game Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 275535808679936
+    m_Key: Card Collector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276596107759616
+    m_Key: Treasure box
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276690538319872
+    m_Key: OPEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 276854346862592
+    m_Key: Turn End
+    m_Metadata:
+      m_Items: []
+  - m_Id: 277079727788032
+    m_Key: Spinning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 277513469153280
+    m_Key: Stop
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
