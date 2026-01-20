@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
     path: Assets/Scenes/TITLE.unity
     guid: 521ff58e624f8774a86a2ac0d65f8693
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 3a897d98c3a8a194ea0e8035b2a845cb
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/SlotSelectScene.unity
     guid: 95ee2874c32880f4cafa67887f37639e
@@ -20,9 +23,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: 5c85895da87f0544d8f409ed4466b0a8
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 3a897d98c3a8a194ea0e8035b2a845cb
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 61c290ac9cdcc404a852e7dbae1ca9b2, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: dbfeab4fa5893114dbc276fe2450487f, type: 2}

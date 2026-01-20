@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     public GameObject ExitGameNotice;
+    public GameObject CardCollection;
 
     private void Start()
     {
@@ -27,4 +28,13 @@ public class MainMenu : MonoBehaviour
         Scenemgr.Instance.ChangeScene(eSCENE.GameScene);
 
     }
+    public void OnClickOpenCollect()
+    {
+        CardCollection.SetActive(true);
+    }
+    public void OnClickCloseCollect()
+    {
+        CardCollection.SetActive(false);
+    }
+
 }

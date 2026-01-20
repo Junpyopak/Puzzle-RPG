@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1a827fd1ecf30ed4195968ac48040a19
   m_currentHash:
     serializedVersion: 2
-    Hash: 40db3e5c3f6573c48a7254e65d11ef3e
+    Hash: 1390042ada1bfaa07e7341fc7c6e4c66
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
     - Locale-en
     - Locale-ja
     - Locale-ko
+    - CardSprite
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 8bec488db73f7eb479ba2854ffe1a989, type: 2}
