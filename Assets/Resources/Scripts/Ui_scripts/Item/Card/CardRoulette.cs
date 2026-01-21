@@ -58,7 +58,6 @@ public class CardRoulette : MonoBehaviour
                 speed = 0f;
                 isRolling = false;
                 isdecrease = false;
-
                 RectTransform pickedCard = GetCenterCard();
                 SnapToCenter(pickedCard);
 

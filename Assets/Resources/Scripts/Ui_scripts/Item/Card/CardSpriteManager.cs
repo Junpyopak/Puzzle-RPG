@@ -10,7 +10,7 @@ public class CardSpriteManager : MonoBehaviour
 {
     public static CardSpriteManager instance;
     [SerializeField]
-    private List<CardSprite> cardSprite;
+    public List<CardSprite> cardSprite;
     private Dictionary<int , CardSprite> spritesDic;
     // Start is called before the first frame update
 
