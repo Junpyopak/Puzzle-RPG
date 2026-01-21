@@ -20,6 +20,8 @@ public class CardCollector : MonoBehaviour
 
     [Header("Card Data")]
     public List<CardSprite> cardSpriteList = new List<CardSprite>();
+    public CardGainData cardGainData;
+
     private void Awake()
     {
         //if (Instance == null)
@@ -39,6 +41,9 @@ public class CardCollector : MonoBehaviour
         {
             // CSV가 이미 로드된 상태라면 바로 참조
             cardSpriteList = CardSpriteManager.instance.cardSprite;
+
+            // 획득 카드 데이터
+            cardGainData = CardGainDataHolder.Instance.Data;
         }
         else
         {
@@ -46,6 +51,7 @@ public class CardCollector : MonoBehaviour
         }
         CreateSlots();
         DebugGainedCardIDs();
+        ShowGainedCards();
         isInitialized = true;
     }
 
@@ -131,6 +137,46 @@ public class CardCollector : MonoBehaviour
         foreach (int id in list)
         {
             Debug.Log($"CardID: {id}");
+        }
+    }
+
+    void ShowGainedCards()
+    {
+        if (CardGainDataHolder.Instance == null ||
+            CardGainDataHolder.Instance.Data == null)
+        {
+            Debug.LogWarning("CardGainDataHolder 또는 Data 없음");
+            return;
+        }
+
+        var list = CardGainDataHolder.Instance.Data.gainedCardIDs;
+
+        if (list.Count == 0)
+        {
+            Debug.Log("표시할 카드 없음");
+            return;
+        }
+
+        int slotIndex = 0;
+
+        foreach (int id in list)
+        {
+            CardSprite visual = CardSpriteManager.instance.GetVisual(id);
+
+            if (visual == null)
+            {
+                Debug.LogWarning($"CardID {id} 스프라이트 없음");
+                continue;
+            }
+
+            if (slotIndex >= slots.Count)
+            {
+                Debug.LogWarning("카드 도감 슬롯 부족");
+                break;
+            }
+
+            slots[slotIndex].SetCard(visual.Sprite);
+            slotIndex++;
         }
     }
 }

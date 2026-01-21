@@ -1312,6 +1312,7 @@ MonoBehaviour:
   SlotCount: 0
   slots: []
   cardSpriteList: []
+  cardGainData: {fileID: 11400000, guid: 7c50b27e0e768714692d95aec8a8c50b, type: 2}
 --- !u!1 &1484571138
 GameObject:
   m_ObjectHideFlags: 0
