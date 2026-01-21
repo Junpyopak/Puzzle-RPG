@@ -1,12 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu instance;
     public GameObject ExitGameNotice;
     public GameObject CardCollection;
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // ÇÊ¿ä ½Ã
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         ExitGameNotice.SetActive(false);

@@ -20,10 +20,14 @@ public class CardCollector : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // ÇÊ¿ä ½Ã
+        }
         else
+        {
             Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
+        }
     }
     private void OnEnable()
     {
