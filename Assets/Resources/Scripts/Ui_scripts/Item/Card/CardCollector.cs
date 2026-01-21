@@ -19,7 +19,7 @@ public class CardCollector : MonoBehaviour
     public List<CardSlot> slots = new List<CardSlot>();
 
     [Header("Card Data")]
-    public List<CardBaseData> cardDataList = new List<CardBaseData>();
+    public List<CardSprite> cardSpriteList = new List<CardSprite>();
     private void Awake()
     {
         if (Instance == null)
@@ -35,11 +35,10 @@ public class CardCollector : MonoBehaviour
     private void OnEnable()
     {
         if (isInitialized) return;
-        if (CardDatabase.Instance != null)
+        if (CardSpriteManager.instance != null)
         {
             // CSV가 이미 로드된 상태라면 바로 참조
-            cardDataList = CardDatabase.Instance.cardList;
-            Debug.Log($"Collector 카드 리스트: {cardDataList.Count}장");
+            cardSpriteList = CardSpriteManager.instance.cardSprite;
         }
         else
         {
@@ -101,13 +100,13 @@ public class CardCollector : MonoBehaviour
 
         Debug.Log("카드 도감 슬롯이 가득 찼습니다!");
     }
-    public void LoadCardsFromDatabase(CardDatabase database)
-    {
-        if (database == null) return;
+    //public void LoadCardsFromDatabase(CardDatabase database)
+    //{
+    //    if (database == null) return;
 
-        // cardDataList를 database.cardList 참조로 연결
-        cardDataList = database.cardList;
+    //    // cardDataList를 database.cardList 참조로 연결
+    //    cardDataList = database.cardList;
 
-        Debug.Log($"카드 데이터 {cardDataList.Count}개 로드 완료");
-    }
+    //    Debug.Log($"카드 데이터 {cardDataList.Count}개 로드 완료");
+    //}
 }
