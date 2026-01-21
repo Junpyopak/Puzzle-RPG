@@ -95,6 +95,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - CardSprite
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c50b27e0e768714692d95aec8a8c50b
+    m_Address: Assets/Addressables/Data/CardGainData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CardData
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ca596663964d2d40b0e52c84a10c424
     m_Address: "Assets/Addressables/Data/ImageObject/\uACE0\uAE30\uBC29\uD328.asset"
     m_ReadOnly: 0

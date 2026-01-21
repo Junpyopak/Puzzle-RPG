@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PanelClose : MonoBehaviour
@@ -13,6 +14,7 @@ public class PanelClose : MonoBehaviour
     {
         panel.SetActive(false);
         OpenItemBox.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -52,7 +54,9 @@ public class PanelClose : MonoBehaviour
                 playerPosition = player.transform.position,
                 saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
                 gameTime = timer.GameTime,
-                puzzleData = board.GetSaveData()
+                puzzleData = board.GetSaveData(),
+                gainedCardIDs = new List<int>(CardGainDataHolder.Instance.Data.gainedCardIDs)
+
             };
 
             SaveManager.Save(slot, data);

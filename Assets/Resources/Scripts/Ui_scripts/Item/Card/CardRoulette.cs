@@ -25,6 +25,10 @@ public class CardRoulette : MonoBehaviour
     public GameObject RollButton;
     public GameObject RolletPanel;
 
+    //뽑힌 카드 5장의 별도 리스트
+    private List<CardBaseData> currentRouletteCards = new List<CardBaseData>();
+    public CardGainData cardGainData;
+
     void Awake()
     {
         //자식 자동 수집
@@ -192,14 +196,14 @@ public class CardRoulette : MonoBehaviour
 
         // 원본 보호용 복사 리스트
         List<CardBaseData> temp = new List<CardBaseData>(pool);
-
+        currentRouletteCards.Clear();
         Debug.Log("=== 카드 룰렛 결과 ===");
 
         for (int i = 0; i < 5; i++)
         {
             int rand = Random.Range(0, temp.Count);
             CardBaseData picked = temp[rand];
-
+            currentRouletteCards.Add(picked); // 5장 리스트 저장
             // CardSprite 가져오기
             CardSprite visual = CardSpriteManager.instance.GetVisual(picked.CardID);
 
@@ -276,6 +280,24 @@ public class CardRoulette : MonoBehaviour
         {
             cards[i].anchoredPosition -= new Vector2(offset, 0f);
         }
+        // 가운데 카드 찾기
+        int cardIndex = System.Array.IndexOf(cards, target);
+        if (cardIndex >= 0 && cardIndex < currentRouletteCards.Count)
+        {
+            CardBaseData pickedCard = currentRouletteCards[cardIndex];
+            CardSprite visual = CardSpriteManager.instance.GetVisual(pickedCard.CardID);
+
+            Debug.Log($"가운데 카드 선택됨!\n" +
+                      $"CardID: {pickedCard.CardID}\n" +
+                      $"CardName: {pickedCard.CardName}\n" +
+                      $"Type: {pickedCard.CardType}\n" +
+                      $"Grade: {pickedCard.Grade}\n" +
+                      $"Description: {pickedCard.Description}\n" +
+                      $"Sprite: {visual?.Sprite.name}");
+            CardGainDataHolder.Instance.Data.AddCard(pickedCard.CardID);
+            //cardGainData.AddCard(pickedCard.CardID);
+        }
+
         StartCoroutine(EndDrawCard());
     }
 

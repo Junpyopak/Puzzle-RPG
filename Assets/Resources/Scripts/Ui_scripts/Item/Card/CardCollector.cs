@@ -22,15 +22,15 @@ public class CardCollector : MonoBehaviour
     public List<CardSprite> cardSpriteList = new List<CardSprite>();
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 필요 시
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    DontDestroyOnLoad(gameObject); // 필요 시
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
     }
     private void OnEnable()
     {
@@ -45,6 +45,7 @@ public class CardCollector : MonoBehaviour
             Debug.LogError("CardDatabase 인스턴스를 찾을 수 없음!");
         }
         CreateSlots();
+        DebugGainedCardIDs();
         isInitialized = true;
     }
 
@@ -109,4 +110,27 @@ public class CardCollector : MonoBehaviour
 
     //    Debug.Log($"카드 데이터 {cardDataList.Count}개 로드 완료");
     //}
+    void DebugGainedCardIDs()
+    {
+        if (CardGainDataHolder.Instance == null ||
+            CardGainDataHolder.Instance.Data == null)
+        {
+            Debug.LogWarning("CardGainDataHolder 또는 Data 없음");
+            return;
+        }
+
+        var list = CardGainDataHolder.Instance.Data.gainedCardIDs;
+
+        if (list.Count == 0)
+        {
+            Debug.Log("획득한 카드 없음");
+            return;
+        }
+
+        Debug.Log("=== 획득한 카드 ID 목록 ===");
+        foreach (int id in list)
+        {
+            Debug.Log($"CardID: {id}");
+        }
+    }
 }

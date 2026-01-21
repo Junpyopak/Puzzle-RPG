@@ -60,14 +60,28 @@ public class SlotButton : MonoBehaviour
     public void OnClick()
     {
         SaveContext.Instance.currentSlot = slotIndex;
-
+     
         // 새 게임이면 기존 세이브 삭제
         if (SlotSelectContext.Instance.mode == SlotSelectMode.NewGame)
         {
+            if (CardGainDataHolder.Instance != null &&
+            CardGainDataHolder.Instance.Data != null)
+            {
+                CardGainDataHolder.Instance.Data.Clear();
+                Debug.Log("새 게임 → 카드 획득 데이터 초기화");
+            }
             if (SaveManager.HasSave(slotIndex))
                 SaveManager.Delete(slotIndex);
         }
+        else // Continue
+        {
+            // 이어하기 → 세이브에서 카드 복원
+            SaveData data = SaveManager.Load(slotIndex);
 
+            CardGainDataHolder.Instance.Data.Clear();
+            CardGainDataHolder.Instance.Data.gainedCardIDs
+                .AddRange(data.gainedCardIDs);
+        }
         // 씬 이동은 Scenemgr가 전담
         Scenemgr.Instance.ChangeScene(eSCENE.MainMenu);
     }

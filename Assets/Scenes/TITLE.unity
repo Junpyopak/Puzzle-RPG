@@ -2693,6 +2693,7 @@ GameObject:
   - component: {fileID: 965430048}
   - component: {fileID: 965430049}
   - component: {fileID: 965430050}
+  - component: {fileID: 965430051}
   m_Layer: 0
   m_Name: CardManager
   m_TagString: Untagged
@@ -2741,6 +2742,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardSprite: []
+--- !u!114 &965430051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965430047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1a1a991426b8a4d945a8f5c2c79bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &985982612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,6 +3298,7 @@ MonoBehaviour:
       height: 0
       puzzleIds: 
       disabled: 
+    gainedCardIDs: 
 --- !u!1 &1191596869
 GameObject:
   m_ObjectHideFlags: 0

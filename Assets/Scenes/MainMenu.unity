@@ -1311,7 +1311,7 @@ MonoBehaviour:
   totalSlotCount: 30
   SlotCount: 0
   slots: []
-  cardDataList: []
+  cardSpriteList: []
 --- !u!1 &1484571138
 GameObject:
   m_ObjectHideFlags: 0
