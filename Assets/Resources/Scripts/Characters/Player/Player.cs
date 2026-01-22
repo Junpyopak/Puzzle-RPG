@@ -18,12 +18,25 @@ public class Player : MonoBehaviour
     public Transform AttackBox;
     public float MissileSpeed = 5f;
 
-    public int Hp = 10;
+    public int Hp = 5;
+    public int MaxHp = 5;
     public int Exp = 0;
+    public int PlayerLevel = 1;
+    public int PlayerATK = 1;
+    public int Defence = 0;
+
+    [Header("레벨 시스템")]
+    public int NeedExp = 5;
+
+    [Header("레벨업 증가량")]
+    public int HpPerLevel = 5;
+    public int AtkPerLevel = 1;
+    public int DefPerLevel = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        Hp = MaxHp;
         anim = GetComponent<Animator>();
 
     }
@@ -131,10 +144,32 @@ public class Player : MonoBehaviour
         return nearest;
     }
 
+    //public void ApplySaveData(SaveData data)
+    //{
+    //    transform.position = data.playerPosition;
+    //    Hp = data.playerHp;
+    //}
     public void ApplySaveData(SaveData data)
     {
         transform.position = data.playerPosition;
-        Hp = data.playerHp;
+
+        if (data.playerStats != null)
+        {
+            ApplyStats(data.playerStats);
+            Debug.Log($"[Load] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
+        }
+    }
+    public void ApplyStats(PlayerStatSaveData stats)
+    {
+        PlayerLevel = stats.level;
+        Exp = stats.exp;
+        NeedExp = stats.needExp;
+
+        MaxHp = stats.maxHp;
+        Hp = stats.currentHp;
+
+        PlayerATK = stats.attack;
+        Defence = stats.defense;
     }
 
     public void SaveGame()
@@ -149,15 +184,58 @@ public class Player : MonoBehaviour
             data.puzzleData = board.GetSaveData();
         }
         data.playerPosition = transform.position;
-        data.playerHp = Hp;
-        data.playerExp = Exp;
+        //data.playerHp = Hp;
+        //data.playerExp = Exp;
         data.currentScene = SceneManager.GetActiveScene().name;
-
+        data.playerStats = new PlayerStatSaveData
+        {
+            level = PlayerLevel,
+            exp = Exp,
+            needExp = NeedExp,
+            maxHp = MaxHp,
+            currentHp = Hp,
+            attack = PlayerATK,
+            defense = Defence
+        };
+        // Save 직전에 로그
+        Debug.Log($"[Save] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
         SaveManager.Save(slot, data);
     }
 
     void OnApplicationQuit()
     {
+        SaveGame();
+    }
+    public void AddExp(int amount)
+    {
+        Exp += amount;
+
+        while (Exp >= NeedExp)
+        {
+            Exp -= NeedExp;
+            LevelUp();
+        }
+    }
+
+    void LevelUp()
+    {
+        PlayerLevel++;
+
+        Hp += HpPerLevel;
+        PlayerATK += AtkPerLevel;
+
+        if(PlayerLevel<3)
+        {
+            // 다음 레벨 필요 경험치 증가
+            NeedExp *= 2;
+        }
+        else
+        {
+            NeedExp += 25;
+        }
+        Debug.Log($"레벨업! Lv.{PlayerLevel} / HP:{Hp} ATK:{PlayerATK} DEF:{Defence}");
+
+        // 레벨업 후 바로 저장
         SaveGame();
     }
 }

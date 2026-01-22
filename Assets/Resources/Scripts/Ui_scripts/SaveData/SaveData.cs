@@ -9,8 +9,8 @@ public class SaveData
     public int slotIndex;
 
     public Vector3 playerPosition;
-    public int playerHp;
-    public int playerExp;
+    //public int playerHp;
+    //public int playerExp;
 
     public string currentScene;
     public string saveTime;
@@ -20,5 +20,6 @@ public class SaveData
     
     // 새 필드: 이어하기용 카드 ID 리스트
     public List<int> gainedCardIDs = new List<int>();
+    public PlayerStatSaveData playerStats; // 플레이어 스탯 데이터
 }
 

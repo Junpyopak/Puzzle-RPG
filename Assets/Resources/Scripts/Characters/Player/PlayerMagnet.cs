@@ -5,30 +5,31 @@ using UnityEngine;
 
 public class PlayerMagnet : MonoBehaviour
 {
+    public Transform pullTarget;
     //나중에 플레이어 능력에 의해 끌어당기는 걸이가 바뀌는것을 통제하기 위함
     public float Range = 3;
     public float pullSpeed = 5;
     // Start is called before the first frame update
-    void Start()
+    void FixedUpdate()
     {
-        
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, Range);
+
+        foreach (var hit in hits)
+        {
+            if (!hit.CompareTag("ExpJem")) continue;
+
+            Rigidbody2D rb = hit.attachedRigidbody;
+            if (rb == null) continue;
+
+            Vector2 dir = ((Vector2)transform.position - rb.position).normalized;
+            rb.velocity = dir * pullSpeed;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // 범위 보이게
+    void OnDrawGizmos()
     {
-        
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.CompareTag("ItemBox")) return;
-        //float Dis = Vector2.Distance( transform.position, other.transform.position );
-        //if(Dis<=Range)
-        //{
-        //    other.transform.position = Vector3.MoveTowards(other.transform.position, transform.position, pullSpeed * Time.deltaTime);
-        //}
-        Debug.Log("아이템 자동 획득");
-        Destroy(other.gameObject);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, Range);
     }
 }

@@ -49,13 +49,23 @@ public class PanelClose : MonoBehaviour
             SaveData data = new SaveData
             {
                 //level = player.level,
-                playerExp = player.Exp,
-                playerHp = player.Hp,
+                //playerExp = player.Exp,
+                //playerHp = player.Hp,
                 playerPosition = player.transform.position,
                 saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
                 gameTime = timer.GameTime,
                 puzzleData = board.GetSaveData(),
-                gainedCardIDs = new List<int>(CardGainDataHolder.Instance.Data.gainedCardIDs)
+                gainedCardIDs = new List<int>(CardGainDataHolder.Instance.Data.gainedCardIDs),
+                playerStats = new PlayerStatSaveData
+                {
+                    level = player.PlayerLevel,
+                    exp = player.Exp,
+                    needExp = player.NeedExp,
+                    maxHp = player.MaxHp,
+                    currentHp = player.Hp,
+                    attack = player.PlayerATK,
+                    defense = player.Defence
+                }
 
             };
 
