@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 702280935664263198}
   - component: {fileID: -4099645464270632003}
   - component: {fileID: -7828639119585310305}
+  - component: {fileID: 2448329758349483457}
   m_Layer: 0
   m_Name: ExpJem2
   m_TagString: ExpJem
@@ -122,6 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expAmount: 5
+  pullSpeed: 3
+  pickupDistance: 3
 --- !u!50 &-4099645464270632003
 Rigidbody2D:
   serializedVersion: 4
@@ -194,3 +197,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.3}
   m_EdgeRadius: 0
+--- !u!114 &2448329758349483457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757748492420906641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6665e1cc2bc38c24e89c27d808de066e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: Exp5

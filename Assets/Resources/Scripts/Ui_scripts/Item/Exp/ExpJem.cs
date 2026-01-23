@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ExpJem : MonoBehaviour
 {
+
     [Header("È¹µæ °æÇèÄ¡")]
     public int expAmount = 1;
 

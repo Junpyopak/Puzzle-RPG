@@ -65,10 +65,20 @@ public class PanelClose : MonoBehaviour
                     currentHp = player.Hp,
                     attack = player.PlayerATK,
                     defense = player.Defence
-                }
+                },
+                fieldItems = new List<FieldItemSAVE>()
+
+                
 
             };
-
+            foreach (var item in FindObjectsOfType<ItemID>())
+            {
+                data.fieldItems.Add(new FieldItemSAVE
+                {
+                    ItemID = item.itemID,
+                    ItemPos = item.transform.position
+                });
+            }
             SaveManager.Save(slot, data);
             Debug.Log($"슬롯 {slot} 저장 완료");
         }

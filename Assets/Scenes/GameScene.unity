@@ -2011,6 +2011,7 @@ MonoBehaviour:
   AttackBox: {fileID: 2053662510}
   MissileSpeed: 5
   Hp: 5
+  MaxHp: 5
   Exp: 0
   PlayerLevel: 1
   PlayerATK: 1
@@ -7344,6 +7345,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 437311289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2107277662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107277663}
+  - component: {fileID: 2107277664}
+  m_Layer: 0
+  m_Name: ItemBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2107277663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107277662}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 478, y: 173.15103, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2107277664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107277662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381944107253250498a30f5c946881e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - itemID: CardBox
+    prefab: {fileID: 4850549674582904607, guid: 666703489f01d4e4ca670ed55c2d3d2e, type: 3}
+  - itemID: Exp1
+    prefab: {fileID: 6774364464743501313, guid: 8b4051b36792de448a38fcd782993c85, type: 3}
+  - itemID: Exp5
+    prefab: {fileID: 8757748492420906641, guid: 6c7ad20ed34e697438655f2bee932816, type: 3}
+  - itemID: Exp10
+    prefab: {fileID: 152458316263635634, guid: 7c0f51eb1a688b848bb56b8181156b70, type: 3}
 --- !u!1 &2111284513
 GameObject:
   m_ObjectHideFlags: 0
@@ -7677,3 +7731,4 @@ SceneRoots:
   - {fileID: 61964954}
   - {fileID: 1506590835}
   - {fileID: 1655280968}
+  - {fileID: 2107277663}

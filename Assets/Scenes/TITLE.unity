@@ -2754,6 +2754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1a1a991426b8a4d945a8f5c2c79bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 0}
 --- !u!1 &985982612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3288,8 +3289,6 @@ MonoBehaviour:
   currentSaveData:
     slotIndex: 0
     playerPosition: {x: 0, y: 0, z: 0}
-    playerHp: 0
-    playerExp: 0
     currentScene: 
     saveTime: 
     gameTime: 0
@@ -3299,6 +3298,15 @@ MonoBehaviour:
       puzzleIds: 
       disabled: 
     gainedCardIDs: 
+    playerStats:
+      level: 0
+      exp: 0
+      needExp: 0
+      maxHp: 0
+      currentHp: 0
+      attack: 0
+      defense: 0
+    fieldItems: []
 --- !u!1 &1191596869
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7181482416559733181}
   - component: {fileID: 5986380790880217718}
   - component: {fileID: 2244759090931217015}
+  - component: {fileID: -6721309476054100939}
   m_Layer: 0
   m_Name: Box
   m_TagString: ItemBox
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullSpeed: 3
   pickupDistance: 3
-  Rollet: {fileID: 0}
+  OpenItem: {fileID: 0}
 --- !u!61 &5986380790880217718
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -174,3 +175,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6721309476054100939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4850549674582904607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6665e1cc2bc38c24e89c27d808de066e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: CardBox
