@@ -51,35 +51,5 @@ public class GameLoader : MonoBehaviour
             board.RebuildDisabledList();
         }
 
-        if (SaveContext.Instance.isLoading)
-        {
-            // 기본 배치 아이템 제거
-            foreach (var item in FindObjectsOfType<ItemID>())
-            {
-                Destroy(item.gameObject);
-            }
-
-            // 저장된 아이템 재생성
-            if (data.fieldItems != null && ItemDatabase.Instance != null)
-            {
-                foreach (var savedItem in data.fieldItems)
-                {
-                    GameObject prefab =
-                        ItemDatabase.Instance.GetItemPrefab(savedItem.ItemID);
-
-                    if (prefab == null)
-                    {
-                        Debug.LogWarning($"프리팹 없음: {savedItem.ItemID}");
-                        continue;
-                    }
-
-                    Instantiate(
-                        prefab,
-                        savedItem.ItemPos,
-                        Quaternion.identity
-                    );
-                }
-            }
-        }
     }
 }
