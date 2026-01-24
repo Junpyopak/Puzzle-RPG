@@ -1893,6 +1893,7 @@ GameObject:
   - component: {fileID: 437311291}
   - component: {fileID: 437311292}
   - component: {fileID: 437311293}
+  - component: {fileID: 437311294}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1961,7 +1962,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2077,7 +2078,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437311286}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f413412414aa92646b9faedb8936dc20, type: 3}
   m_Name: 
@@ -2088,6 +2089,19 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &437311294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437311286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347956434abe8ca439bf992064acf3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Movecell: 1
 --- !u!1 &462948477
 GameObject:
   m_ObjectHideFlags: 0
@@ -2398,6 +2412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridCount: 25
   cellPrefab: {fileID: 1768771866727454353, guid: fdd5fb82e86f9cc49a0452b85a838208, type: 3}
+  cellWorldSize: {x: 0, y: 0}
 --- !u!1 &556387667
 GameObject:
   m_ObjectHideFlags: 0
@@ -7059,8 +7074,8 @@ Transform:
   m_GameObject: {fileID: 1864629630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1, z: 1}
+  m_LocalPosition: {x: -0.053, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 437311289}

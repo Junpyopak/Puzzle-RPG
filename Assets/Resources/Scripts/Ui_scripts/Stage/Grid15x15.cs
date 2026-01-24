@@ -4,10 +4,16 @@ using UnityEngine.UI;
 [RequireComponent(typeof(GridLayoutGroup))]
 public class Grid15x15 : MonoBehaviour
 {
-    public int gridCount = 15;
+    public int gridCount = 25;
     public GameObject cellPrefab;
+    public static Grid15x15 Instance;
 
+    public Vector2 cellWorldSize;
     bool spawned = false;
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -24,6 +30,8 @@ public class Grid15x15 : MonoBehaviour
         float cellWidth = rt.rect.width / gridCount;
         float cellHeight = rt.rect.height / gridCount;
         grid.cellSize = new Vector2(cellWidth, cellHeight);
+
+        cellWorldSize = new Vector2(cellWidth / 100f,  cellHeight / 100f);
     }
 
     void SpawnCells()
