@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemMagnet : MonoBehaviour
 {
+    ItemID itemID;
     public float pullSpeed = 3;
     public float pickupDistance= 3f;
     Transform player;
@@ -11,6 +13,8 @@ public class ItemMagnet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        itemID = GetComponent<ItemID>();
+        FieldItemManager.Instance.Register(itemID);
         
         player = GameObject.FindWithTag("Player").transform;
         if (OpenItem == null)
@@ -45,6 +49,7 @@ public class ItemMagnet : MonoBehaviour
         //    other.transform.position = Vector3.MoveTowards(other.transform.position, transform.position, pullSpeed * Time.deltaTime);
         //}
         Debug.Log("æ∆¿Ã≈€ ¿⁄µø »πµÊ");
+        FieldItemManager.Instance.Unregister(itemID);
         Destroy(gameObject);
         OpenItem.SetActive(true);
         Turn_Timer.Instance.isPaused = true;

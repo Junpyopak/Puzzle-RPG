@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExpJem : MonoBehaviour
 {
-
+    ItemID itemID;
     [Header("È¹µæ °æÇèÄ¡")]
     public int expAmount = 1;
 
@@ -16,6 +16,8 @@ public class ExpJem : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        itemID = GetComponent<ItemID>();
+        FieldItemManager.Instance.Register(itemID);
     }
 
     // Update is called once per frame
@@ -41,7 +43,7 @@ public class ExpJem : MonoBehaviour
             player.AddExp(expAmount);
             Debug.Log($"°æÇèÄ¡ {expAmount} È¹µæ");
         }
+        FieldItemManager.Instance.Unregister(itemID);
         Destroy(gameObject);
-
     }
 }

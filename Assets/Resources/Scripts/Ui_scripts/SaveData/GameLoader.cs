@@ -30,6 +30,21 @@ public class GameLoader : MonoBehaviour
         SaveData data = SaveManager.Load(slot);
         if (data == null) return;
 
+        // 씬에 원래 배치된 아이템 전부 제거
+        foreach (var item in FindObjectsOfType<ItemID>())
+        {
+            Destroy(item.gameObject);
+        }
+
+        //저장된 아이템만 다시 생성
+        foreach (var saved in data.fieldItems)
+        {
+            GameObject prefab = ItemDatabase.Instance.GetItemPrefab(saved.ItemID);
+            if (prefab == null) continue;
+
+            GameObject go = Instantiate(prefab, saved.ItemPos, Quaternion.identity);
+            FieldItemManager.Instance.Register(go.GetComponent<ItemID>());
+        }
         Player player = FindObjectOfType<Player>();
         player.ApplySaveData(data);
 
@@ -52,4 +67,5 @@ public class GameLoader : MonoBehaviour
         }
 
     }
+
 }

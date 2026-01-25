@@ -66,28 +66,11 @@ public class PanelClose : MonoBehaviour
                     attack = player.PlayerATK,
                     defense = player.Defence
                 },
-                fieldItems = new List<FieldItemSAVE>()
+                fieldItems = FieldItemManager.Instance.GetSaveData()
 
-                
 
             };
-            foreach (var item in FindObjectsOfType<ItemID>())
-            {
-                Debug.Log($"[Save] 발견 아이템 → ID: {item.itemID}, Pos: {item.transform.position}");
 
-                data.fieldItems.Add(new FieldItemSAVE
-                {
-                    ItemID = item.itemID,
-                    ItemPos = item.transform.position
-                });
-            }
-
-            Debug.Log($"[Save] data.fieldItems 저장 개수: {data.fieldItems.Count}");
-
-            for (int i = 0; i < data.fieldItems.Count; i++)
-            {
-                Debug.Log($"[Save] 저장됨 #{i} → ID: {data.fieldItems[i].ItemID}, Pos: {data.fieldItems[i].ItemPos}");
-            }
             SaveManager.Save(slot, data);
             Debug.Log($"슬롯 {slot} 저장 완료");
         }
