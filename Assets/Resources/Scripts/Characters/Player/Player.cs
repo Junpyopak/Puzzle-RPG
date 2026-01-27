@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
     public Transform AttackBox;
     public float MissileSpeed = 5f;
 
-    public int Hp = 5;
-    public int MaxHp = 5;
+    public int Hp = 10;
+    public int MaxHp = 10;
     public int Exp = 0;
     public int PlayerLevel = 1;
     public int PlayerATK = 1;
