@@ -15,7 +15,6 @@ public class PuzzleBoard : MonoBehaviour
     private int ComboCount = 0;
     public PuzzleBlock[,] blocks;
     private RectTransform boardRect;
-
     List<PuzzleBlock> disabledBlocks = new List<PuzzleBlock>();
 
     private void Awake()
@@ -219,7 +218,9 @@ public class PuzzleBoard : MonoBehaviour
         PuzzleBlock target = blocks[x, y];
         if (target == null)
             return false;
-
+        //이미 disable 된 블록은 매칭 불가
+        if (target.isDisabled || center.isDisabled)
+            return false;
         return target.puzzleId == center.puzzleId;
     }
 
@@ -393,7 +394,7 @@ public class PuzzleBoard : MonoBehaviour
         }
 
         disabledBlocks.Clear();
-
+        ComboCount = 0;
         yield return new WaitForSeconds(0.1f);
 
         // 블록 하나씩 중력

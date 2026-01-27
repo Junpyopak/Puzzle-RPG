@@ -5,6 +5,7 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     public int monsterID;
+    private MonsterData data;
     private SpriteRenderer sr;
     public float flashAlpha = 0.7f;      // 깜빡일 때 알파
     public float fadeSpeed = 5f;
@@ -14,10 +15,9 @@ public class Monster : MonoBehaviour
     private Color originalColor;
     void Start()
     {
-        MonsterData data =
-            MonsterDataTable.Instance.monsterDic[monsterID];
+        data =  MonsterDataTable.Instance.monsterDic[monsterID];
 
-        Debug.Log($"{data.Name} 생성 / 타입 : {data.MonsterType}");
+        Debug.Log($"{data.Name} 생성 / 타입 : {data.MonsterType} / 공격력 : {data.Atk}");
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
@@ -57,6 +57,11 @@ public class Monster : MonoBehaviour
 
         // 3. 원래 색으로 복원
         sr.color = originalColor;
+    }
+
+    public int GetAttack()
+    {
+        return data.Atk;
     }
 }
 

@@ -9,6 +9,15 @@ public class Player : MonoBehaviour
     Animator anim;
     public Camera cam;
     public float padding = 0.5f;
+    private SpriteRenderer sr;
+
+    [Header("데미지 관련")]
+    public float flashAlpha = 0.3f;      // 깜빡일 때 알파
+    public float fadeSpeed = 1f;
+    public float flashDuration = 0.25f;   // 반짝임 유지 시간
+    public Color flashColor = Color.red; // 깜빡일 색
+    private float originalAlpha;
+    private Color originalColor;
 
     [Header("타겟 관련")]
     public string enemyTag = "Enemy";   // 적 태그
@@ -38,6 +47,9 @@ public class Player : MonoBehaviour
     {
         Hp = MaxHp;
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        originalAlpha = sr.color.a;
+        originalColor = sr.color;
 
     }
     void LateUpdate()
@@ -222,6 +234,7 @@ public class Player : MonoBehaviour
         PlayerLevel++;
 
         Hp += HpPerLevel;
+        MaxHp = Hp;
         PlayerATK += AtkPerLevel;
 
         if(PlayerLevel<3)
@@ -237,5 +250,52 @@ public class Player : MonoBehaviour
 
         // 레벨업 후 바로 저장
         SaveGame();
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                Debug.Log("플레이어 가 데미지 받음");
+                StartCoroutine(FlashCoroutine(1f));
+                int damage = monster.GetAttack();
+                TakeDamage(damage);
+            }
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Hp -= damage;
+        Debug.Log($"플레이어 데미지 {damage} / 현재 HP : {Hp}");
+
+        if (Hp <= 0)
+        {
+            Hp = 0;
+            Debug.Log("플레이어 사망");
+        }
+    }
+    private IEnumerator FlashCoroutine(float totalTime)
+    {
+        float timer = 0f;
+
+        while (timer < totalTime)
+        {
+            // 빨강으로 변경
+            sr.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+
+            // 원래 색으로 복원
+            sr.color = originalColor;
+            yield return new WaitForSeconds(flashDuration);
+
+            // 경과 시간 증가
+            timer += flashDuration * 2f; // 빨강+원래색
+        }
+
+        // 마지막에 원래 색 확실히 복원
+        sr.color = originalColor;
     }
 }

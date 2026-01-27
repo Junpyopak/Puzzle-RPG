@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove1 : MonoBehaviour
 {
     public float Movecell = 1f;
-    bool hasMoved = false;
+    public bool hasMoved = false;
     SpriteRenderer spriteRenderer;
     Vector2Int gridPos;
     void Start()

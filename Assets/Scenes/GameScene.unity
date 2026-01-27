@@ -1630,28 +1630,6 @@ MonoBehaviour:
   cellSize: {x: 60, y: 55}
   spacing: {x: 3, y: 5}
   ComboText: {fileID: 657787562}
---- !u!1 &342799036 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7531069925604838678, guid: 30009c88911ca6f40ad2cab996285e6d, type: 3}
-  m_PrefabInstance: {fileID: 8558043463670598150}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &342799042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342799036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddae522f8146d26499a23d84d0cbd420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterID: 5
-  flashAlpha: 0.3
-  fadeSpeed: 1
-  flashDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &360244963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,6 +1983,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
   padding: 0.4
+  flashAlpha: 0.3
+  fadeSpeed: 1
+  flashDuration: 0.25
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
   enemyTag: Enemy
   detectionDis: 7
   NearTarget: {fileID: 0}
@@ -2102,6 +2084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movecell: 1
+  hasMoved: 0
 --- !u!1001 &454299045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2568,28 +2551,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &558579071 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6693659063269709373, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
-  m_PrefabInstance: {fileID: 7051367705608511300}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &558579077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558579071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddae522f8146d26499a23d84d0cbd420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterID: 4
-  flashAlpha: 0.3
-  fadeSpeed: 1
-  flashDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &563771244
 GameObject:
   m_ObjectHideFlags: 0
@@ -7738,10 +7699,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6693659063269709373, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 558579077}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
 --- !u!1001 &8558043463670598150
 PrefabInstance:
@@ -7822,10 +7780,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7531069925604838678, guid: 30009c88911ca6f40ad2cab996285e6d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 342799042}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30009c88911ca6f40ad2cab996285e6d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
