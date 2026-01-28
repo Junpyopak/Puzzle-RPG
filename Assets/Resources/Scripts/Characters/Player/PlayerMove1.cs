@@ -8,6 +8,7 @@ public class PlayerMove1 : MonoBehaviour
     public float Movecell = 1f;
     public bool hasMoved = false;
     SpriteRenderer spriteRenderer;
+    public Vector2Int GridPos => gridPos;
     Vector2Int gridPos;
     void Start()
     {

@@ -59,7 +59,8 @@ public class MonsterDataTable : MonoBehaviour
                     MonsterType = (MonsterType)System.Enum.Parse(
                         typeof(MonsterType), v[4]),
                     Hp = int.Parse(v[5]),
-                    Atk = int.Parse(v[6])
+                    Atk = int.Parse(v[6]),
+                    MoveRange = int.Parse(v[7]),
                 };
 
                 monsterDic.Add(data.ID, data);
