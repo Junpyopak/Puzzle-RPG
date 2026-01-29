@@ -12,5 +12,4 @@ public class MonsterData
     public MonsterType MonsterType;
     public int Hp;
     public int Atk;
-    public int MoveRange;
 }

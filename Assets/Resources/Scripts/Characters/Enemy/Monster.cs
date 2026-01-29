@@ -27,10 +27,10 @@ public class Monster : MonoBehaviour
     void Start()
     {
         TurnManager.Instance.monsters.Add(this);
-        data =  MonsterDataTable.Instance.monsterDic[monsterID];
+        data = MonsterDataTable.Instance.monsterDic[monsterID];
         playerTpos = FindObjectOfType<PlayerMove1>();
         player = FindObjectOfType<Player>();
-        Debug.Log($"{data.Name} 생성 / 타입 : {data.MonsterType} / 공격력 : {data.Atk} / 체력 :  {data.Hp} / 이동거리 {data.MoveRange}");
+        Debug.Log($"{data.Name} 생성 / 타입 : {data.MonsterType} / 공격력 : {data.Atk} / 체력 :  {data.Hp} / 턴수 {data.RemainTurn}");
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
@@ -40,7 +40,7 @@ public class Monster : MonoBehaviour
     //전투
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!collision.CompareTag("PlayerAttack")) return;
+        if (!collision.CompareTag("PlayerAttack")) return;
         Damage();
         Debug.Log("데미지 받음.");
     }
@@ -69,8 +69,8 @@ public class Monster : MonoBehaviour
     public void StartTurn()
     {
         if (!isInitialized) return;
-        moveRemain = data.MoveRange;
-        Debug.Log($"[몬스터 턴 시작] {data.Name} | 이동 가능:{moveRemain} | 현재위치:{gridPos}" );
+        moveRemain = data.RemainTurn;
+        Debug.Log($"[몬스터 턴 시작] {data.Name} | 이동 가능:{moveRemain} | 현재위치:{gridPos}");
     }
 
     //return true = 이 몬스터 턴 종료
@@ -79,10 +79,17 @@ public class Monster : MonoBehaviour
         if (!isInitialized) return true;
         if (moveRemain <= 0)
             return true;
+        //플레이어가 공격거리 내에 들어오면 공격후 턴 종료
+        if (PlayerAttackRange())
+        {
+            AttackPlayer();
+            moveRemain = 0;
+            return true; // 공격하면 이 몬스터 턴 종료
+        }
 
         MoveTowardPlayer();
         moveRemain--;
-        Debug.Log( $"[몬스터 이동] {data.Name} | 남은 이동:{moveRemain}" );
+        Debug.Log($"[몬스터 이동] {data.Name} | 남은 이동:{moveRemain}");
         return moveRemain <= 0;
     }
 
@@ -109,7 +116,7 @@ public class Monster : MonoBehaviour
         float x = (gridPos.x - half) * cellSize.x;
         float y = (gridPos.y - half) * cellSize.y;
 
-        transform.position = new Vector3(Mathf.Round(x * 100f) / 100f,Mathf.Round(y * 100f) / 100f,transform.position.z); // 부동소수점 오차 방지
+        transform.position = new Vector3(Mathf.Round(x * 100f) / 100f, Mathf.Round(y * 100f) / 100f, transform.position.z); // 부동소수점 오차 방지
     }
 
     //죽었을때 턴메니저 리스트에서 삭제
@@ -128,23 +135,7 @@ public class Monster : MonoBehaviour
         isInitialized = true;
         Debug.Log($"{data.Name} gridPos 초기화 완료 : {gridPos}");
     }
-    //void InitGridPosFromWorld()
-    //{
-    //    Vector2 cellSize = Grid15x15.Instance.cellWorldSize;
-    //    int gridCount = Grid15x15.Instance.gridCount;
-    //    float half = (gridCount - 1) / 2f;
 
-    //    float worldX = transform.position.x;
-    //    float worldY = transform.position.y;
-
-    //    int x = Mathf.RoundToInt(worldX / cellSize.x + half);
-    //    int y = Mathf.RoundToInt(worldY / cellSize.y + half);
-
-    //    x = Mathf.Clamp(x, 0, gridCount - 1);
-    //    y = Mathf.Clamp(y, 0, gridCount - 1);
-
-    //    gridPos = new Vector2Int(x, y);
-    //}
     void InitGridPosFromWorld()
     {
         Vector2 cellSize = Grid15x15.Instance.cellWorldSize;
@@ -162,6 +153,29 @@ public class Monster : MonoBehaviour
 
         gridPos = new Vector2Int(gx, gy);
     }
+
+    ///몬스터 공격 기능
+    bool PlayerAttackRange()
+    {
+        Vector2Int playerPos = playerTpos.GridPos;
+        Vector2Int diff = playerPos - gridPos;
+
+        int distX = Mathf.Abs(diff.x);
+        int distY = Mathf.Abs(diff.y);
+
+        // 체스 King 이동 기준 (대각 포함)
+        int chebyshevDist = Mathf.Max(distX, distY);
+
+        return chebyshevDist <= data.AttackRange;
+    }
+
+    void AttackPlayer()
+    {
+        Debug.Log($"[몬스터 공격] {data.Name} → 플레이어 공격!");
+
+        player.TakeDamage(data.Atk);
+    }
+
 
 }
 
