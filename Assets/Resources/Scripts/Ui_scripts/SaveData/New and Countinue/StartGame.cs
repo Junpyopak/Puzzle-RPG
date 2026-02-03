@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartGame : MonoBehaviour
 {
     public GameObject OptionInfo;
+    public GameObject DarkWindow;
 
     private void Start()
     {
@@ -26,11 +28,13 @@ public class StartGame : MonoBehaviour
     public void OpenOption()
     {
         OptionInfo.SetActive(true);
+        DarkWindow.SetActive(true);
     }
 
     public void CloseOption()
     {
         OptionInfo.SetActive(false);
+        DarkWindow.SetActive(false);
     }
 
     public void OptionSave()
