@@ -4,6 +4,6 @@ using UnityEngine;
 
 public enum MonsterType
 {
-    근거리,
-    원거리
+    근거리 = 0,
+    원거리 = 1
 }

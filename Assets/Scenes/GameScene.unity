@@ -3847,6 +3847,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Small devil
       objectReference: {fileID: 0}
+    - target: {fileID: 7726759808012743916, guid: 7360276eee23ed24da76b5ab44511149, type: 3}
+      propertyPath: EnemyMissilePre
+      value: 
+      objectReference: {fileID: 2518108920101046322, guid: 8bddc68636271734fa0745fdb026aa8b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

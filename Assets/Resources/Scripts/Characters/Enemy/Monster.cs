@@ -24,6 +24,10 @@ public class Monster : MonoBehaviour
     Player player;
     bool isInitialized = false;
 
+    [Header("MissileAttack")]
+    public GameObject EnemyMissilePre;
+    public float EnemyMissileSpeed = 3f;
+    public Transform firePoint;
     void Start()
     {
         TurnManager.Instance.monsters.Add(this);
@@ -171,11 +175,37 @@ public class Monster : MonoBehaviour
 
     void AttackPlayer()
     {
+        Debug.Log($"MonsterType 실제 값 : {data.MonsterType} ({(int)data.MonsterType})");
         Debug.Log($"[몬스터 공격] {data.Name} → 플레이어 공격!");
 
-        player.TakeDamage(data.Atk);
+        if (data.MonsterType == MonsterType.원거리)
+        {
+            Debug.Log($"[몬스터 공격] {data.Name} → 플레이어 공격 투척!");
+            ShootMissile();
+        }
+        else//근거리일때
+        {
+            player.TakeDamage(data.Atk);
+        }
+           
     }
 
+    public void ShootMissile()
+    {
+        // 미사일 생성
+        GameObject missile = Instantiate(EnemyMissilePre, firePoint.position, Quaternion.identity);
 
+        Vector2 dir = (player.transform.position - firePoint.position).normalized;
+
+        // Sprite가 위를 바라보는 경우 회전 조정
+        // 위쪽 Sprite 기준 → Z축 각도 = atan2(y, x) - 90
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        missile.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // 미사일 이동 스크립트에 방향 전달
+        EnemyMissile mm = missile.GetComponent<EnemyMissile>();
+        if (mm != null)
+            mm.SetDirection(dir, EnemyMissileSpeed,data.Atk);
+    }
 }
 
