@@ -15,7 +15,9 @@ public class BackgroundFitToCamera : MonoBehaviour
     {
         Rect camRect = targetCamera.pixelRect;
 
-        rt.anchoredPosition = new Vector2(camRect.x, camRect.y);
+        // Y 축 이동 금지 (잘림 원인)
+        rt.anchoredPosition = new Vector2(0f,0f);
+        // Size만 카메라 크기에 맞춤
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, camRect.width);
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, camRect.height);
     }
