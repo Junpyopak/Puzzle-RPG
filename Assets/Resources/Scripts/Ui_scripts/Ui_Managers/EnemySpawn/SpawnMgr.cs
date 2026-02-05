@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SpawnMgr : MonoBehaviour
 {
+    public static SpawnMgr Instance;
     public PoolMgr poolMgr;            // PoolMgr 연결
     public Transform[] spawnPoints;    // 스폰 포인트 배열
-    public float spawnInterval = 3f;   // 스폰 간격
-    public int spawnCount = 3;         // 한 번에 스폰할 수
+    //public float spawnInterval = 3f;   // 스폰 간격
+    public int spawnCount = 1;         // 한 번에 스폰할 수
     public int maxMonsterCount = 10;   // 씬에 최대 몬스터 수
 
     private int nextSpawnIndex = 0;    // 다음 스폰 포인트 시작 인덱스
@@ -18,13 +19,17 @@ public class SpawnMgr : MonoBehaviour
     private int activeSpawnPointCount = 1;              // 현재 활성 포인트 수
     private float gameTimer = 0f;                       // 전체 게임 타이머
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
         if(timeThresholds.Length > 4)
             Debug.LogWarning("timeThresholds는 최대 4개까지만 사용하세요.");
 
-        StartCoroutine(SpawnRoutine());
+       // StartCoroutine(SpawnRoutine());
     }
     private void Update()
     {
@@ -43,13 +48,18 @@ public class SpawnMgr : MonoBehaviour
             }
         }
     }
-    private IEnumerator SpawnRoutine()
+    //private IEnumerator SpawnRoutine()
+    //{
+    //    while (true)
+    //    {
+    //        SpawnEnemies(spawnCount);
+    //        yield return new WaitForSeconds(spawnInterval);
+    //    }
+    //}
+
+    public void SpawnOnRoundStart()
     {
-        while (true)
-        {
-            SpawnEnemies(spawnCount);
-            yield return new WaitForSeconds(spawnInterval);
-        }
+        SpawnEnemies(spawnCount);
     }
 
     private void SpawnEnemies(int count)
@@ -63,7 +73,8 @@ public class SpawnMgr : MonoBehaviour
             if (activeMonsterCount >= maxMonsterCount)
                 break;
 
-            int typeIndex = Random.Range(0, poolMgr.EnemyPrefabs.Length);
+            //int typeIndex = Random.Range(0, poolMgr.EnemyPrefabs.Length);
+            int typeIndex = GetEnemyTypeIndexByRound();
             GameObject enemy = poolMgr.GetEnemy(typeIndex);
 
             if (enemy != null)
@@ -91,5 +102,94 @@ public class SpawnMgr : MonoBehaviour
             }
         }
         return count;
+    }
+    private int GetEnemyTypeIndexByRound()
+    {
+        int round = Turn_Timer.Instance.TurnCount -1;
+        //float rand =  Random.value;
+
+        //// 1 ~ 4라운드 : 스켈레톤만
+        //if (round <= 4)
+        //{
+        //    return 1; // 스켈레톤
+        //}
+        //// 5라운드 : 리자드만
+        //else if (round == 5)
+        //{
+        //    return 0; // 리자드
+        //}
+        //// 8라운드 :  소악마
+        //else if (round == 8)
+        //{
+        //    return 2; //소악마
+        //}
+        //// 6 ~ 9 라운드 : 섞어서 (선택)
+        //else if (round < 10)
+        //{
+        //    // 확률로 스켈레톤 / 리자드 스폰 확률 나누기
+        //    if (rand < 0.7f)
+        //    {
+        //        return 2; //소악마
+        //    }
+        //    else if (rand < 0.9f)
+        //    {
+        //        return 0; // 리자드 (20%)
+        //    }
+        //    else
+        //    {
+        //        return 1; //스켈레톤 (10%)
+        //    }
+        //}
+
+        //// 10 라운드 이상 : 리자드만
+        //else
+        //{
+        //    return 0; // 리자드
+        //}
+        int[] weights = GetWeightsByRound(round);
+
+        return GetWeightedRandomIndex(weights);
+    }
+    private int[] GetWeightsByRound(int round)
+    {
+        // [리자드, 스켈, 소악마, 중급, 최상급]
+        if (round <= 4)
+            return new int[] { 0, 100, 0, 0, 0 };
+
+        if (round == 5)
+            return new int[] { 100, 0, 0, 0, 0 };
+
+        if (round <= 7)
+            return new int[] { 70, 30, 0, 0, 0 };
+
+        if (round == 8)
+            return new int[] { 0, 0, 100, 0, 0 };
+
+        if (round <= 10)
+            return new int[] { 50, 20, 20, 10, 0 };
+
+        if (round <= 15)
+            return new int[] { 10, 20, 20, 50, 0 };
+
+        // 후반부
+        return new int[] { 0, 10, 20, 70, 0 };
+    }
+    private int GetWeightedRandomIndex(int[] weights)
+    {
+        int total = 0;
+        for (int i = 0; i < weights.Length; i++)
+            total += weights[i];
+
+        int rand = Random.Range(0, total);
+        int cumulative = 0;
+
+        for (int i = 0; i < weights.Length; i++)
+        {
+            cumulative += weights[i];
+            if (rand < cumulative)
+                return i;
+        }
+
+        return 0; // fallback
     }
 }

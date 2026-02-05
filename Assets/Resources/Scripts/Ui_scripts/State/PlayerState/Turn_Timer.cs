@@ -13,7 +13,7 @@ public class Turn_Timer : MonoBehaviour
     public float decreaseSpeed = 1f; // 초당 감소 속도
 
     public Text EnemyTurnText;
-    private int TurnCount = 1;
+    public int TurnCount = 1;
 
     private bool isRunning = false;
     public bool isPaused = false;
@@ -78,5 +78,7 @@ public class Turn_Timer : MonoBehaviour
         string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
         EnemyTurnText.text = roundWord + " : " + TurnCount;
         TurnCount++;
+
+        SpawnMgr.Instance.SpawnOnRoundStart();
     }
 }

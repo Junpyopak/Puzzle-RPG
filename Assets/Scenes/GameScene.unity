@@ -569,7 +569,6 @@ MonoBehaviour:
   - {fileID: 18197247}
   - {fileID: 107410078}
   - {fileID: 360244964}
-  spawnInterval: 20
   spawnCount: 1
   maxMonsterCount: 20
   timeThresholds:
@@ -6111,6 +6110,7 @@ MonoBehaviour:
   - {fileID: 6693659063269709373, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
   - {fileID: 6781866278593877259, guid: 7360276eee23ed24da76b5ab44511149, type: 3}
   - {fileID: 8297917526334286920, guid: 0f504742800d0e3418637bd66e2a5029, type: 3}
+  - {fileID: 6306930057479923586, guid: ab0614c8a48ba3e4284216e4f6701056, type: 3}
   poolSize: 20
 --- !u!1 &1249968156
 GameObject:
@@ -7646,6 +7646,7 @@ MonoBehaviour:
   maxTime: 30
   decreaseSpeed: 1
   EnemyTurnText: {fileID: 2111284515}
+  TurnCount: 1
   isPaused: 0
 --- !u!1 &1693440027
 GameObject:
