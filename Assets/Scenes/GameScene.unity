@@ -573,9 +573,9 @@ MonoBehaviour:
   maxMonsterCount: 20
   timeThresholds:
   - 0
-  - 60
-  - 120
-  - 180
+  - 10
+  - 15
+  - 20
 --- !u!1 &91560585
 GameObject:
   m_ObjectHideFlags: 0
