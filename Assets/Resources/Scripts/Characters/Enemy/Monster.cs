@@ -6,7 +6,7 @@ public class Monster : MonoBehaviour
 {
     public int monsterID;
     private MonsterData data;
-
+    PoolMgr poolMgr;
     [Header("Damage")]
     private SpriteRenderer sr;
     public float flashAlpha = 0.7f;      // 깜빡일 때 알파
@@ -28,9 +28,17 @@ public class Monster : MonoBehaviour
     public GameObject EnemyMissilePre;
     public float EnemyMissileSpeed = 3f;
     public Transform firePoint;
+
+    [Header("Exp Prefabs")]
+    public GameObject expNormalPrefab;
+    public GameObject expAlphaPrefab;
+    public GameObject expSuperPrefab;
+
     void Start()
     {
-        TurnManager.Instance.monsters.Add(this);
+        poolMgr = FindObjectOfType<PoolMgr>();
+
+        //TurnManager.Instance.monsters.Add(this);
         data = MonsterDataTable.Instance.monsterDic[monsterID];
         playerTpos = FindObjectOfType<PlayerMove1>();
         player = FindObjectOfType<Player>();
@@ -52,6 +60,26 @@ public class Monster : MonoBehaviour
     {
         Hp -= player.PlayerATK;
         StartCoroutine(FlashCoroutine());
+        if(Hp <=0)
+        {
+            Hp = 0;
+            Die();
+        }
+    }
+    void Die()
+    {
+        Debug.Log($"{data.Name} 사망!");
+        // 경험치 드랍
+        OnMonsterDead();
+
+        if (poolMgr != null)
+        {
+            poolMgr.ReturnEnemy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
     private IEnumerator FlashCoroutine()//데미지 입었을때 빨간색 버전 
     {
@@ -123,11 +151,31 @@ public class Monster : MonoBehaviour
         transform.position = new Vector3(Mathf.Round(x * 100f) / 100f, Mathf.Round(y * 100f) / 100f, transform.position.z); // 부동소수점 오차 방지
     }
 
-    //죽었을때 턴메니저 리스트에서 삭제
-    void OnDestroy()
+    ////죽었을때 턴메니저 리스트에서 삭제
+    //void OnDestroy()
+    //{
+    //    if (TurnManager.Instance != null)
+    //        TurnManager.Instance.monsters.Remove(this);
+    //}
+    //폴링을 사용하여 재사용할때 오브젝트가 꺼졌으면 턴메니저에서 제거.
+    void OnDisable()
     {
         if (TurnManager.Instance != null)
             TurnManager.Instance.monsters.Remove(this);
+    }
+
+    //몬스터가 폴링으로 재생성시 턴메니저에 추가하고 hp 값 초기화 하기 위해
+    void OnEnable()
+    {
+        if (TurnManager.Instance != null)
+            TurnManager.Instance.monsters.Add(this);
+
+        if (data != null)
+        {
+            Hp = data.Hp;
+            isInitialized = false;
+            StartCoroutine(InitAfterGridReady());
+        }
     }
     IEnumerator InitAfterGridReady()
     {
@@ -206,6 +254,52 @@ public class Monster : MonoBehaviour
         EnemyMissile mm = missile.GetComponent<EnemyMissile>();
         if (mm != null)
             mm.SetDirection(dir, EnemyMissileSpeed,data.Atk);
+    }
+    void OnMonsterDead()
+    {
+        ExpType expType = GetRandomExpType();
+
+        GameObject prefab = GetExpPrefab(expType);
+        if (prefab == null)
+        {
+            Debug.LogWarning($"Exp prefab missing for {expType}");
+            return;
+        }
+
+        Instantiate(prefab, transform.position, Quaternion.identity);
+    }
+
+    // 몬스터 경험치 드랍 타입 결정
+    public ExpType GetRandomExpType()
+    {
+        float total = data.ExpNormal + data.ExpAlpha + data.ExpSuper;
+
+        float roll = Random.Range(0f, total);
+
+        if (roll < data.ExpNormal)
+            return ExpType.Normal;
+
+        roll -= data.ExpNormal;
+
+        if (roll < data.ExpAlpha)
+            return ExpType.Alpha;
+
+        return ExpType.Super;
+    }
+
+    GameObject GetExpPrefab(ExpType type)
+    {
+        switch (type)
+        {
+            case ExpType.Normal: 
+                return expNormalPrefab;
+            case ExpType.Alpha:
+                return expAlphaPrefab;
+            case ExpType.Super:
+                return expSuperPrefab;
+            default: 
+                return null;
+        }
     }
 }
 

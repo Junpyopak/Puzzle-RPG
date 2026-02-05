@@ -12,4 +12,9 @@ public class MonsterData
     public MonsterType MonsterType;
     public int Hp;
     public int Atk;
+
+    //경험치 확률
+    public float ExpNormal;
+    public float ExpAlpha;
+    public float ExpSuper;
 }

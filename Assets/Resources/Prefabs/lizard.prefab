@@ -273,4 +273,11 @@ MonoBehaviour:
   fadeSpeed: 1
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
+  Hp: 0
   gridPos: {x: 0, y: 0}
+  EnemyMissilePre: {fileID: 0}
+  EnemyMissileSpeed: 3
+  firePoint: {fileID: 0}
+  expNormalPrefab: {fileID: 6774364464743501313, guid: 8b4051b36792de448a38fcd782993c85, type: 3}
+  expAlphaPrefab: {fileID: 8757748492420906641, guid: 6c7ad20ed34e697438655f2bee932816, type: 3}
+  expSuperPrefab: {fileID: 152458316263635634, guid: 7c0f51eb1a688b848bb56b8181156b70, type: 3}

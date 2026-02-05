@@ -60,6 +60,9 @@ public class MonsterDataTable : MonoBehaviour
                         typeof(MonsterType), v[4]),
                     Hp = int.Parse(v[5]),
                     Atk = int.Parse(v[6]),
+                    ExpNormal = float.Parse(v[7]),
+                    ExpAlpha = float.Parse(v[8]),
+                    ExpSuper = float.Parse(v[9]),
                 };
 
                 monsterDic.Add(data.ID, data);
