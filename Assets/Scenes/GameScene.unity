@@ -2199,6 +2199,10 @@ MonoBehaviour:
   HpPerLevel: 5
   AtkPerLevel: 1
   DefPerLevel: 0
+  HealAlpha: 0.3
+  HealfadeSpeed: 1
+  HealflashDuration: 0.25
+  HealflashColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -6059,6 +6063,79 @@ MonoBehaviour:
   - {fileID: 8297917526334286920, guid: 0f504742800d0e3418637bd66e2a5029, type: 3}
   - {fileID: 6306930057479923586, guid: ab0614c8a48ba3e4284216e4f6701056, type: 3}
   poolSize: 20
+--- !u!1001 &1244961417
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359517374450078208, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3708479083320968510, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_Name
+      value: HealFood
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869283231574998819, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_Size.x
+      value: 0.6608908
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869283231574998819, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_Size.y
+      value: 0.58089066
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869283231574998819, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0028487444
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869283231574998819, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0009498596
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
 --- !u!1 &1249968156
 GameObject:
   m_ObjectHideFlags: 0
@@ -8062,7 +8139,7 @@ GameObject:
   - component: {fileID: 1864629632}
   m_Layer: 0
   m_Name: Shadow
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8342,7 +8419,7 @@ GameObject:
   - component: {fileID: 2053662510}
   m_Layer: 0
   m_Name: AttackBox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8506,6 +8583,8 @@ MonoBehaviour:
     prefab: {fileID: 8757748492420906641, guid: 6c7ad20ed34e697438655f2bee932816, type: 3}
   - itemID: Exp10
     prefab: {fileID: 152458316263635634, guid: 7c0f51eb1a688b848bb56b8181156b70, type: 3}
+  - itemID: Buger
+    prefab: {fileID: 3708479083320968510, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
 --- !u!1 &2111284513
 GameObject:
   m_ObjectHideFlags: 0
@@ -8704,7 +8783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6693659063269709373, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6967938361150071888, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
       propertyPath: m_SortingOrder
@@ -8842,3 +8921,4 @@ SceneRoots:
   - {fileID: 1230390981}
   - {fileID: 1219756359}
   - {fileID: 1260113692}
+  - {fileID: 1244961417}

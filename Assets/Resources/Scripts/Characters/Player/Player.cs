@@ -42,6 +42,13 @@ public class Player : MonoBehaviour
     public int AtkPerLevel = 1;
     public int DefPerLevel = 0;
 
+    [Header("회복 관련")]
+    public float HealAlpha = 0.3f;      // 깜빡일 때 알파
+    public float HealfadeSpeed = 1f;
+    public float HealflashDuration = 0.25f;   // 반짝임 유지 시간
+    public Color HealflashColor = Color.green; // 깜빡일 색
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -191,6 +198,7 @@ public class Player : MonoBehaviour
 
         SaveData data = new SaveData();
         PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
+        Turn_Timer turn = FindObjectOfType<Turn_Timer>();
         if (board != null)
         {
             data.puzzleData = board.GetSaveData();
@@ -209,6 +217,12 @@ public class Player : MonoBehaviour
             attack = PlayerATK,
             defense = Defence
         };
+        int currentTurn = 1;
+        if(turn!=null)
+        {
+            currentTurn = turn.TurnCount;
+        }
+        data.TurnCount = currentTurn;
         // Save 직전에 로그
         Debug.Log($"[Save] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
         SaveManager.Save(slot, data);
@@ -226,6 +240,16 @@ public class Player : MonoBehaviour
         {
             Exp -= NeedExp;
             LevelUp();
+        }
+    }
+
+    public void HealHp(int amount)
+    {
+        Hp += amount;
+        StartCoroutine(HealFlashCoroutine(1f));
+        if (Hp > MaxHp)
+        {
+            Hp = MaxHp;
         }
     }
 
@@ -293,6 +317,27 @@ public class Player : MonoBehaviour
 
             // 경과 시간 증가
             timer += flashDuration * 2f; // 빨강+원래색
+        }
+
+        // 마지막에 원래 색 확실히 복원
+        sr.color = originalColor;
+    }
+
+    private IEnumerator HealFlashCoroutine(float totalTime)
+    {
+        float timer = 0f;
+
+        while (timer < totalTime)
+        {
+            sr.color = HealflashColor;
+            yield return new WaitForSeconds(HealflashDuration);
+
+            // 원래 색으로 복원
+            sr.color = originalColor;
+            yield return new WaitForSeconds(HealflashDuration);
+
+            // 경과 시간 증가
+            timer += HealflashDuration * 2f; // 빨강+원래색
         }
 
         // 마지막에 원래 색 확실히 복원

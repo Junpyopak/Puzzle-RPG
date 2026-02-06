@@ -43,6 +43,13 @@ public class PanelClose : MonoBehaviour
     {
         int slot = SaveContext.Instance.currentSlot;
         PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
+        Turn_Timer turn_Timer = FindObjectOfType<Turn_Timer>();
+
+        int currentTurn = 1;
+        if (turn_Timer != null)
+        {
+            currentTurn = turn_Timer.TurnCount;
+        }
         // 슬롯이 선택된 상태라면 저장
         if (slot >= 0)
         {
@@ -66,13 +73,15 @@ public class PanelClose : MonoBehaviour
                     attack = player.PlayerATK,
                     defense = player.Defence
                 },
-                fieldItems = FieldItemManager.Instance.GetSaveData()
-
+                fieldItems = FieldItemManager.Instance.GetSaveData(),
+                TurnCount= currentTurn
 
             };
 
             SaveManager.Save(slot, data);
             Debug.Log($"슬롯 {slot} 저장 완료");
+            Debug.Log($"[Exit] Player position before save: {player.transform.position}");
+
         }
         else
         {

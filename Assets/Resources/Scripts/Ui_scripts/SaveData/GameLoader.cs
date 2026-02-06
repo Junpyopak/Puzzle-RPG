@@ -47,12 +47,23 @@ public class GameLoader : MonoBehaviour
         }
         Player player = FindObjectOfType<Player>();
         player.ApplySaveData(data);
+        Debug.Log($"[Load] Player position after Apply: {player.transform.position}");
 
         // 타이머 복구 (이게 핵심)
         UI_GameTimer timer = FindObjectOfType<UI_GameTimer>();
         if (timer != null)
         {
             timer.SetTime(data.gameTime);
+        }
+        Turn_Timer turn = FindObjectOfType<Turn_Timer>();
+        if (turn != null && data != null)
+        {
+            // 저장된 라운드로 복구
+            turn.TurnCount = data.TurnCount;
+
+            // UI 텍스트 갱신
+            string roundWord = UnityEngine.Localization.Settings.LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
+            turn.EnemyTurnText.text = $"{roundWord} : {turn.TurnCount}";
         }
         PuzzleSpawner spawner = FindObjectOfType<PuzzleSpawner>();
         PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
