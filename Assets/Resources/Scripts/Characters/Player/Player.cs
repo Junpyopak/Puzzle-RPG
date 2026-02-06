@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
     public float HealflashDuration = 0.25f;   // 반짝임 유지 시간
     public Color HealflashColor = Color.green; // 깜빡일 색
 
+    [Header("이어하기 위치 조장")]
+    private bool isClamp = false;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
     }
     void LateUpdate()
     {
+        if (!isClamp) return;
         //플레이어가 화면 밖으로 못나가도록
         float z = Mathf.Abs(cam.transform.position.z - transform.position.z);
 
@@ -170,13 +173,14 @@ public class Player : MonoBehaviour
     //}
     public void ApplySaveData(SaveData data)
     {
-        transform.position = data.playerPosition;
+        //transform.position = data.playerPosition;
 
-        if (data.playerStats != null)
-        {
-            ApplyStats(data.playerStats);
-            Debug.Log($"[Load] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
-        }
+        //if (data.playerStats != null)
+        //{
+        //    ApplyStats(data.playerStats);
+        //    Debug.Log($"[Load] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
+        //}
+        StartCoroutine(SetPositonFrame(data));
     }
     public void ApplyStats(PlayerStatSaveData stats)
     {
@@ -190,7 +194,18 @@ public class Player : MonoBehaviour
         PlayerATK = stats.attack;
         Defence = stats.defense;
     }
-
+    private IEnumerator SetPositonFrame(SaveData data)
+    {
+        isClamp = true;
+        yield return null;
+        transform.position = data.playerPosition;
+        isClamp = false;
+        if (data.playerStats != null)
+        {
+            ApplyStats(data.playerStats);
+            Debug.Log($"[Load] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
+        }
+    }
     public void SaveGame()
     {
         int slot = SaveContext.Instance.currentSlot;
