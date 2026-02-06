@@ -9,6 +9,9 @@ public class PanelClose : MonoBehaviour
     public Player player;
     public GameObject OpenItemBox;
     public UI_GameTimer timer;
+    public GameObject DarkImage;
+    public GameObject DarkImage1;
+    public GameObject DarkImage2;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +27,17 @@ public class PanelClose : MonoBehaviour
         {
             // 현재 상태 반전
             panel.SetActive(!panel.activeSelf);
+            DarkImage.SetActive(panel.activeSelf);
+            DarkImage1.SetActive(panel.activeSelf);
+            DarkImage2.SetActive(panel.activeSelf);
         }
     }
     public void Close()
     {
         panel.SetActive(!panel.activeSelf);
+        DarkImage.SetActive(panel.activeSelf);
+        DarkImage1.SetActive(panel.activeSelf);
+        DarkImage2.SetActive(panel.activeSelf);
     }
     //public void Exit()
     //{
@@ -95,6 +104,9 @@ public class PanelClose : MonoBehaviour
         }
 
         panel.SetActive(false);
+        DarkImage.SetActive(false);
+        DarkImage1.SetActive(false);
+        DarkImage2.SetActive(false);
     }
     public void OpenItem()
     {
