@@ -34,6 +34,8 @@ public class Monster : MonoBehaviour
     public GameObject expAlphaPrefab;
     public GameObject expSuperPrefab;
 
+    [Header("food Prefabs")]
+    public GameObject foodPrefab;
     void Start()
     {
         poolMgr = FindObjectOfType<PoolMgr>();
@@ -60,7 +62,7 @@ public class Monster : MonoBehaviour
     {
         Hp -= player.PlayerATK;
         StartCoroutine(FlashCoroutine());
-        if(Hp <=0)
+        if (Hp <= 0)
         {
             Hp = 0;
             Die();
@@ -235,7 +237,7 @@ public class Monster : MonoBehaviour
         {
             player.TakeDamage(data.Atk);
         }
-           
+
     }
 
     public void ShootMissile()
@@ -253,7 +255,7 @@ public class Monster : MonoBehaviour
         // 미사일 이동 스크립트에 방향 전달
         EnemyMissile mm = missile.GetComponent<EnemyMissile>();
         if (mm != null)
-            mm.SetDirection(dir, EnemyMissileSpeed,data.Atk);
+            mm.SetDirection(dir, EnemyMissileSpeed, data.Atk);
     }
     void OnMonsterDead()
     {
@@ -267,6 +269,12 @@ public class Monster : MonoBehaviour
         }
 
         Instantiate(prefab, transform.position, Quaternion.identity);
+
+        GameObject food = GetRandomFood();
+        if (food != null)
+        {
+            Instantiate(food, transform.position, Quaternion.identity);
+        }
     }
 
     // 몬스터 경험치 드랍 타입 결정
@@ -291,15 +299,32 @@ public class Monster : MonoBehaviour
     {
         switch (type)
         {
-            case ExpType.Normal: 
+            case ExpType.Normal:
                 return expNormalPrefab;
             case ExpType.Alpha:
                 return expAlphaPrefab;
             case ExpType.Super:
                 return expSuperPrefab;
-            default: 
+            default:
                 return null;
         }
+    }
+
+    // 몬스터 음식 드랍 결정
+    public GameObject GetRandomFood()
+    {
+
+        float roll = Random.Range(0f, 100f);
+
+        if (roll < data.FoodDrop)
+        {
+            Debug.Log("회복 음식 드랍.");
+            return foodPrefab;
+        }
+     
+        // 음식이 드롭되지 않으면 null 반환
+        Debug.Log("음식 드랍 안됌.");
+        return null;
     }
 }
 

@@ -17,4 +17,7 @@ public class MonsterData
     public float ExpNormal;
     public float ExpAlpha;
     public float ExpSuper;
+
+    //회복음식 확률
+    public float FoodDrop;
 }
