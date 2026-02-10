@@ -152,27 +152,30 @@ public class SpawnMgr : MonoBehaviour
     }
     private int[] GetWeightsByRound(int round)
     {
-        // [리자드, 스켈, 소악마, 중급, 최상급]
+        // [슬라임,스켈,리자드,소악마, 중급, 최상급]
         if (round <= 4)
-            return new int[] { 0, 100, 0, 0, 0 };
+            return new int[] { 100, 0, 0, 0, 0, 0 };
 
         if (round == 5)
-            return new int[] { 100, 0, 0, 0, 0 };
+            return new int[] { 0,100, 0, 0, 0,0 };
 
         if (round <= 7)
-            return new int[] { 70, 30, 0, 0, 0 };
+            return new int[] { 30, 70, 0, 0, 0, 0 };
 
         if (round == 8)
-            return new int[] { 0, 0, 100, 0, 0 };
+            return new int[] { 0, 0, 0 , 100, 0, 0 };
 
         if (round <= 10)
-            return new int[] { 50, 20, 20, 10, 0 };
+            return new int[] { 50, 20, 20, 10, 0 , 0};
 
-        if (round <= 15)
-            return new int[] { 10, 20, 20, 50, 0 };
+        if (round == 15)
+            return new int[] { 0, 0, 100, 0, 0, 0 };
+
+        if (round <= 16)
+            return new int[] { 10, 20, 20, 50, 0 , 0 };
 
         // 후반부
-        return new int[] { 0, 10, 20, 70, 0 };
+        return new int[] { 0, 10, 20, 70, 0 , 0 };
     }
     private int GetWeightedRandomIndex(int[] weights)
     {
