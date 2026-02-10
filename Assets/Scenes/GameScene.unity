@@ -5980,6 +5980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 930173248}
   player: {fileID: 437311290}
+  playerMove: {fileID: 437311294}
   OpenItemBox: {fileID: 1880129094}
   timer: {fileID: 287611540}
   DarkImage: {fileID: 194079089}
@@ -9014,7 +9015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6693659063269709373, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6967938361150071888, guid: 12d6e0bf17075234a845e7622f74b81a, type: 3}
       propertyPath: m_SortingOrder

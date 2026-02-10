@@ -80,4 +80,10 @@ public class PlayerMove1 : MonoBehaviour
     {
         hasMoved = false;
     }
+
+    public void LoadGridPosition(Vector2Int savedGridPos)
+    {
+        gridPos = savedGridPos;
+        SnapToCell();
+    }
 }

@@ -7,6 +7,7 @@ public class PanelClose : MonoBehaviour
 {
     public GameObject panel;
     public Player player;
+    public PlayerMove1 playerMove;
     public GameObject OpenItemBox;
     public UI_GameTimer timer;
     public GameObject DarkImage;
@@ -68,6 +69,8 @@ public class PanelClose : MonoBehaviour
                 //playerExp = player.Exp,
                 //playerHp = player.Hp,
                 playerPosition = player.transform.position,
+                playerGridX = playerMove.GridPos.x,
+                playerGridY = playerMove.GridPos.y,
                 saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
                 gameTime = timer.GameTime,
                 puzzleData = board.GetSaveData(),

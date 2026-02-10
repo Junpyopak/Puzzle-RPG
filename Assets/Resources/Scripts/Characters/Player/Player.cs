@@ -199,12 +199,19 @@ public class Player : MonoBehaviour
         isClamp = true;
         yield return null;
         transform.position = data.playerPosition;
-        isClamp = false;
+        // gridPos º¹±¸
+        PlayerMove1 move = GetComponent<PlayerMove1>();
+        if (move != null)
+        {
+            move.LoadGridPosition(new Vector2Int(data.playerGridX, data.playerGridY));
+        }
+        
         if (data.playerStats != null)
         {
             ApplyStats(data.playerStats);
             Debug.Log($"[Load] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
         }
+        isClamp = false;
     }
     public void SaveGame()
     {
@@ -218,7 +225,11 @@ public class Player : MonoBehaviour
         {
             data.puzzleData = board.GetSaveData();
         }
+        PlayerMove1 playerMove = GetComponent<PlayerMove1>();
         data.playerPosition = transform.position;
+        data.playerGridX = playerMove.GridPos.x;
+        data.playerGridY = playerMove.GridPos.y;
+
         //data.playerHp = Hp;
         //data.playerExp = Exp;
         data.currentScene = SceneManager.GetActiveScene().name;

@@ -11,6 +11,8 @@ public class SaveData
     public Vector3 playerPosition;
     //public int playerHp;
     //public int playerExp;
+    public int playerGridX;
+    public int playerGridY;
 
     public string currentScene;
     public string saveTime;

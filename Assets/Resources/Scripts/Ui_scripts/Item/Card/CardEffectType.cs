@@ -6,9 +6,9 @@ public enum CardEffectType
 {
     None,
 
-    AttackUp,
-    DefenseUp,
-    HpUp,
+    AttackPercent,
+    DefensePercent,
+    HpPercent,
     MaxHpUp,
 
     ProjectileCount,
