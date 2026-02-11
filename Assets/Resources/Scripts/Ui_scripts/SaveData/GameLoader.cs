@@ -76,7 +76,41 @@ public class GameLoader : MonoBehaviour
             spawner.SpawnFromSaveData(data.puzzleData);
             board.RebuildDisabledList();
         }
+        // 기존 몬스터 전부 비활성화 + 리스트 정리
+        TurnManager tm = FindObjectOfType<TurnManager>();
+        PoolMgr pool = FindObjectOfType<PoolMgr>();
 
+        if (tm != null)
+        {
+            tm.monsters.Clear();
+        }
+
+        if (pool != null)
+        {
+            foreach (var poolList in pool.Pools)
+            {
+                foreach (var obj in poolList)
+                {
+                    if (obj != null)
+                        obj.SetActive(false);
+                }
+            }
+        }
+        // 몬스터 불러오기
+        // ===============================
+        if (data.monsters != null)
+        {
+            SpawnMgr spawnMgr = FindObjectOfType<SpawnMgr>();
+
+            foreach (var m in data.monsters)
+            {
+                // 풀에서 몬스터 가져오기
+                GameObject enemy = spawnMgr.poolMgr.GetEnemy(m.enemyTypeIndex);
+                Monster monster = enemy.GetComponent<Monster>();
+
+                monster.LoadFromSaveData(m);
+            }
+        }
     }
 
     

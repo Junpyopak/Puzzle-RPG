@@ -89,7 +89,14 @@ public class PanelClose : MonoBehaviour
                 TurnCount= currentTurn
 
             };
+            // ===== 몬스터 저장 추가 =====
+            data.monsters.Clear();
 
+            foreach (Monster m in TurnManager.Instance.monsters)
+            {
+                data.monsters.Add(m.GetSaveData());
+            }
+            // ===========================
             SaveManager.Save(slot, data);
             Debug.Log($"슬롯 {slot} 저장 완료");
             Debug.Log($"[Exit] Player position before save: {player.transform.position}");

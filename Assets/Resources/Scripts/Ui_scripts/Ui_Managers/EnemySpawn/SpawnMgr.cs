@@ -28,8 +28,15 @@ public class SpawnMgr : MonoBehaviour
     {
         if(timeThresholds.Length > 4)
             Debug.LogWarning("timeThresholds는 최대 4개까지만 사용하세요.");
-
-       // StartCoroutine(SpawnRoutine());
+        if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
+        {
+            RestoreMonstersFromSave();
+        }
+        else
+        {
+            SpawnNewGameMonsters();
+        }
+        // StartCoroutine(SpawnRoutine());
     }
     private void Update()
     {
@@ -56,6 +63,28 @@ public class SpawnMgr : MonoBehaviour
     //        yield return new WaitForSeconds(spawnInterval);
     //    }
     //}
+    void RestoreMonstersFromSave()
+    {
+        SaveData save = SaveContext.Instance.currentSaveData;
+
+        foreach (var m in save.monsters)
+        {
+            GameObject obj = poolMgr.GetEnemy(m.enemyTypeIndex);
+            Monster monster = obj.GetComponent<Monster>();
+
+            monster.LoadFromSaveData(m);
+        }
+
+        Debug.Log($"[이어하기] 몬스터 {save.monsters.Count}마리 복원 완료");
+    }
+
+    // ================= 새게임 =================
+    void SpawnNewGameMonsters()
+    {
+        Debug.Log("[새게임] 라운드 기본 스폰");
+        SpawnOnRoundStart();
+    }
+
 
     public void SpawnOnRoundStart()
     {

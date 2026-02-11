@@ -5,7 +5,9 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     public int monsterID;
+    public int enemyTypeIndex;//Pool 타입 인덱스
     private MonsterData data;
+    bool loadedFromSave = false;
     PoolMgr poolMgr;
     [Header("Damage")]
     private SpriteRenderer sr;
@@ -48,9 +50,21 @@ public class Monster : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
-        Hp = data.Hp;
+        //Hp = data.Hp;
+        //if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
+        //    return;
+        //if (SaveContext.Instance == null || !SaveContext.Instance.isLoading)
+        //{
+        //    Hp = data.Hp;   // 새 게임일 때만 풀피
+        //}
+        if (!loadedFromSave)
+        {
+            Hp = data.Hp;
+        }
         StartCoroutine(InitAfterGridReady());
     }
+
+
     //전투
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -169,10 +183,32 @@ public class Monster : MonoBehaviour
     //몬스터가 폴링으로 재생성시 턴메니저에 추가하고 hp 값 초기화 하기 위해
     void OnEnable()
     {
+        //if (TurnManager.Instance != null)
+        //    TurnManager.Instance.monsters.Add(this);
+
+        //if (data != null)
+        //{
+        //    Hp = data.Hp;
+        //    isInitialized = false;
+        //    StartCoroutine(InitAfterGridReady());
+        //}
         if (TurnManager.Instance != null)
             TurnManager.Instance.monsters.Add(this);
 
-        if (data != null)
+        if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
+            return;
+
+        //if (data != null)
+        //{
+        //    //Hp = data.Hp;
+        //    if (SaveContext.Instance == null || !SaveContext.Instance.isLoading)
+        //    {
+        //        Hp = data.Hp;   //새 게임일 때만 풀피
+        //    }
+        //    isInitialized = false;
+        //    StartCoroutine(InitAfterGridReady());
+        //}
+        if (data != null && !loadedFromSave)
         {
             Hp = data.Hp;
             isInitialized = false;
@@ -325,6 +361,42 @@ public class Monster : MonoBehaviour
         // 음식이 드롭되지 않으면 null 반환
         Debug.Log("음식 드랍 안됌.");
         return null;
+    }
+
+    public MonsterSaveData GetSaveData()
+    {
+        MonsterSaveData data = new MonsterSaveData();
+        data.monsterID = monsterID;
+        data.enemyTypeIndex = enemyTypeIndex;
+        data.hp = Hp;
+        data.gridX = gridPos.x;
+        data.gridY = gridPos.y;
+        return data;
+    }
+
+    // ================= 복원용 =================
+    public void LoadFromSaveData(MonsterSaveData data)
+    {
+        StopAllCoroutines();
+
+        loadedFromSave = true;
+
+        monsterID = data.monsterID;
+        enemyTypeIndex = data.enemyTypeIndex;
+        Hp = data.hp;
+
+        gridPos = new Vector2Int(data.gridX, data.gridY);
+
+        StartCoroutine(ApplyLoadedPosition());
+    }
+
+    IEnumerator ApplyLoadedPosition()
+    {
+        // Grid 생성 대기
+        yield return new WaitForEndOfFrame();
+
+        SnapToCell();
+        isInitialized = true;
     }
 }
 
