@@ -288,10 +288,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3122407132275929496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f83f16482dcfae43855e5c5e90ea500, type: 3}
+  m_Script: {fileID: 11500000, guid: d90831656eef41a4d8368f0e09949a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rarity: 0
+  cardName: 
 --- !u!33 &538999594501534913
 MeshFilter:
   m_ObjectHideFlags: 0
