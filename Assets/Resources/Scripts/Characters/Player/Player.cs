@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
@@ -51,6 +52,9 @@ public class Player : MonoBehaviour
     [Header("이어하기 위치 조장")]
     private bool isClamp = false;
 
+    [Header("부메랑 설정")]
+    public GameObject boomerangPrefab;
+    public int boomerangLevel = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,8 +63,9 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
+        GameManager.Instance.CardMgr.CardRarityOpen();
 
-    }
+}
     void LateUpdate()
     {
         if (!isClamp) return;
@@ -90,6 +95,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         //Attack();
+        // 1. 발사 전에 현재 카드 인벤토리 상황을 내 변수에 동기화
+        UpdateBoomerangLevel();
+
+        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
+        {
+            ShootBoomerangs();
+        }
     }
 
     public void Attack()
@@ -370,5 +382,46 @@ public class Player : MonoBehaviour
 
         // 마지막에 원래 색 확실히 복원
         sr.color = originalColor;
+    }
+
+    private Vector2[] shotDirections = new Vector2[]
+    {
+        Vector2.up,                          // 1: 상
+        Vector2.left,                        // 2: 좌
+        Vector2.right,                       // 3: 우
+        new Vector2(-1, -1).normalized,      // 4: 좌하
+        new Vector2(1, -1).normalized        // 5: 우하
+    };
+
+
+
+    void UpdateBoomerangLevel()
+    {
+        if (GameManager.Instance.CardMgr == null) return;
+
+        // CardManager의 리스트에서 내 부메랑 카드 개수를 세서 변수에 저장
+        // 이렇게 하면 인스펙터에서도 숫자가 올라가는 게 보입니다.
+        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "BoomerangCard");
+    }
+
+    void ShootBoomerangs()
+    {
+        if (boomerangPrefab == null) return;
+
+        // 2. 이제 헷갈릴 것 없이 무조건 내 변수(boomerangLevel)만 봅니다.
+        if (boomerangLevel <= 0) return;
+
+        int count = Mathf.Min(boomerangLevel, shotDirections.Length);
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject go = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);
+            Boomerang bScript = go.GetComponent<Boomerang>();
+
+            if (bScript != null)
+            {
+                bScript.Shot(shotDirections[i], this.transform);
+            }
+        }
     }
 }

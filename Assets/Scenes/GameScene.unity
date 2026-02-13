@@ -2838,6 +2838,8 @@ MonoBehaviour:
   HealfadeSpeed: 1
   HealflashDuration: 0.25
   HealflashColor: {r: 0, g: 1, b: 0, a: 1}
+  boomerangPrefab: {fileID: 5835082331336300644, guid: 236ed32a670c2f04d88f6153b6bd97cc, type: 3}
+  boomerangLevel: 0
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
