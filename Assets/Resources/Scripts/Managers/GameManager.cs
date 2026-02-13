@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     // 묶어줄 매니저들
     //public TurnManager TurnMgr;
     public CardManager CardMgr;
+    public UIManager UIMgr;
+    public SoundManager SoundMgr;
 
     private void Awake()
     {
