@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c048bc59feebdb54596e34639423aaf1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66eb32c73d649cd4f9fbd5f3e032498f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -92,7 +92,6 @@ MonoBehaviour:
   board: {fileID: 0}
   x: 0
   y: 0
-  isDisabled: 0
   puzzleId: 5
 --- !u!225 &8570927560193463269
 CanvasGroup:

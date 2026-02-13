@@ -279,9 +279,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    void LevelUp()
+    void LevelUp() //플레이어 레벨업
     {
-        PlayerLevel++;
+        PlayerLevel++; //현재 플레이어 레벨 증가
 
         Hp += HpPerLevel;
         MaxHp = Hp;
@@ -296,7 +296,9 @@ public class Player : MonoBehaviour
         {
             NeedExp += 25;
         }
+        GameManager.Instance.CardMgr.CardRarityOpen();
         Debug.Log($"레벨업! Lv.{PlayerLevel} / HP:{Hp} ATK:{PlayerATK} DEF:{Defence}");
+        // 아래다가 레벨업시 나오는 카드 함수
 
         // 레벨업 후 바로 저장
         SaveGame();
