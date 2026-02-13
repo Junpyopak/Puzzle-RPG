@@ -10,7 +10,6 @@ public class CardRoulette : MonoBehaviour
     [Header("Cards")]
     public RectTransform[] cards;   // 카드들 (왼쪽 → 오른쪽 순서)
     public float cardWidth = 200f;  // 카드 하나의 폭
-    private bool hasPicked = false;
 
     [Header("Move")]
     public float speed = 1200f;      // 이동 속도
@@ -109,28 +108,19 @@ public class CardRoulette : MonoBehaviour
     }
     public void StartRoll()
     {
-        //StartCoroutine(StopRolling());
-        //{
-        //    if (isRolling)
-        //    {
-        //        isdecrease = true;
-        //        return;
-        //    }
-
-
-        //    // 멈춰있으면 → 다시 시작
-        //    isRolling = true;
-        //    isdecrease = false;
-        //}
-        if (isRolling)
-        {
-            isdecrease = true;
-            return;
-        }
-
-        isRolling = true;
-        isdecrease = false;
         StartCoroutine(StopRolling());
+        {
+            if (isRolling)
+            {
+                isdecrease = true;
+                return;
+            }
+
+            
+            // 멈춰있으면 → 다시 시작
+            isRolling = true;
+            isdecrease = false;
+        }
 
         IEnumerator StopRolling()
         {
@@ -151,7 +141,6 @@ public class CardRoulette : MonoBehaviour
 
     void OnEnable()
     {
-        hasPicked = false;
         OpenItem.SetActive(false);
         ResetRouletteState();
         RandomCard5();
@@ -306,12 +295,6 @@ public class CardRoulette : MonoBehaviour
                       $"Description: {pickedCard.Description}\n" +
                       $"Sprite: {visual?.Sprite.name}");
             CardGainDataHolder.Instance.Data.AddCard(pickedCard.CardID);
-
-            PlayerCardManager pcm = FindObjectOfType<PlayerCardManager>();
-            if (pcm != null)
-            {
-                pcm.GainCard(pickedCard);
-            }
             //cardGainData.AddCard(pickedCard.CardID);
         }
 

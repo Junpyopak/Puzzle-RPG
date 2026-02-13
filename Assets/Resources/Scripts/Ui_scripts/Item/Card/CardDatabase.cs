@@ -46,11 +46,7 @@ public class CardDatabase : MonoBehaviour
                 CardType = cols[2],
                 Description = cols[3],
                 Grade = cols[4],
-                MaxLevel = int.Parse(cols[5]),
-                effectType = (CardEffectType)System.Enum.Parse(typeof(CardEffectType), cols[6]),
-                isPercent = bool.Parse(cols[7]),
-                baseValue = float.Parse(cols[8]),
-                valuePerLevel = float.Parse(cols[9])
+                MaxLevel = int.Parse(cols[5])
             };
 
             cardList.Add(data);
