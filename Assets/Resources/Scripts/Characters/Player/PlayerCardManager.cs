@@ -5,11 +5,14 @@ public class PlayerCardManager : MonoBehaviour
 {
     public Player player; // ±âÁ¸ Player.cs
     public List<PlayerCard> ownedCards = new List<PlayerCard>();
-
+    void Awake()
+    {
+        Debug.Log("PlayerCardManager »ý¼ºµÊ: " + gameObject.name);
+    }
     public void GainCard(CardBaseData cardData)
     {
         PlayerCard card = ownedCards.Find(c => c.data.CardID == cardData.CardID);
-
+        Debug.Log("GainCard È£ÃâµÊ: " );
         if (card == null)
         {
             // »õ Ä«µå È¹µæ
