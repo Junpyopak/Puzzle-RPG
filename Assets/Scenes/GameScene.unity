@@ -2640,6 +2640,7 @@ GameObject:
   - component: {fileID: 437311292}
   - component: {fileID: 437311293}
   - component: {fileID: 437311294}
+  - component: {fileID: 437311295}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2857,6 +2858,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movecell: 1
   hasMoved: 0
+--- !u!114 &437311295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437311286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd72e0df4d8f8249a49bfce3377ecf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 437311290}
+  ownedCards: []
 --- !u!1001 &454299045
 PrefabInstance:
   m_ObjectHideFlags: 0
