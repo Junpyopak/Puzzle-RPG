@@ -29,12 +29,14 @@ public class StartGame : MonoBehaviour
     {
         OptionInfo.SetActive(true);
         DarkWindow.SetActive(true);
+        GameManager.Instance.UIMgr.isOpenPauseMenu = true;
     }
 
     public void CloseOption()
     {
         OptionInfo.SetActive(false);
         DarkWindow.SetActive(false);
+        GameManager.Instance.UIMgr.isOpenPauseMenu = false;
     }
 
     public void OptionSave()
