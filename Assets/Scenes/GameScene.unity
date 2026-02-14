@@ -782,9 +782,9 @@ RectTransform:
   - {fileID: 1693440028}
   m_Father: {fileID: 215447723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &91960627
@@ -1210,7 +1210,7 @@ GameObject:
   - component: {fileID: 187428047}
   - component: {fileID: 187428046}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2522,7 +2522,7 @@ GameObject:
   - component: {fileID: 370535371}
   - component: {fileID: 370535370}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3056,7 +3056,7 @@ GameObject:
   - component: {fileID: 445465734}
   - component: {fileID: 445465733}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3986,7 +3986,7 @@ GameObject:
   - component: {fileID: 643529999}
   - component: {fileID: 643529998}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5157,7 +5157,7 @@ GameObject:
   - component: {fileID: 866363053}
   - component: {fileID: 866363052}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5592,7 +5592,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &930173249
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7262,9 +7262,9 @@ RectTransform:
   - {fileID: 1639717796}
   m_Father: {fileID: 215447723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1193664623
@@ -8429,7 +8429,7 @@ GameObject:
   - component: {fileID: 1417500250}
   - component: {fileID: 1417500249}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8599,7 +8599,7 @@ GameObject:
   - component: {fileID: 1433435705}
   - component: {fileID: 1433435704}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9560,7 +9560,7 @@ GameObject:
   - component: {fileID: 1697314792}
   - component: {fileID: 1697314791}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10336,7 +10336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1880129095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10570,7 +10570,7 @@ GameObject:
   - component: {fileID: 2036590411}
   - component: {fileID: 2036590410}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10883,7 +10883,7 @@ GameObject:
   - component: {fileID: 2074626378}
   - component: {fileID: 2074626377}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

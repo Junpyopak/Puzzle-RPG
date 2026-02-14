@@ -221,12 +221,23 @@ public class CardRoulette : MonoBehaviour
             // UI 카드 슬롯에 이미지 적용
             if (i < cards.Length)
             {
+                Transform card = cards[i];
                 Image img = cards[i].GetComponent<Image>();
                 if (img != null && visual != null)
                 {
                     img.sprite = visual.Sprite;  // CardSprite SO 안에 Sprite 필드
                     img.SetNativeSize();            // 필요 시 크기 맞춤
                 }
+
+                // NameText 설정
+                Text nameText = card.Find("NameText").GetComponent<Text>();
+                if (nameText != null)
+                    nameText.text = picked.CardName;
+
+                // DescriptionText 설정
+                Text descText = card.Find("DescriptionText").GetComponent<Text>();
+                if (descText != null)
+                    descText.text = picked.Description;
                 else
                 {
                     Debug.LogWarning($"cards[{i}] Image 컴포넌트 또는 visual null");
