@@ -405,6 +405,15 @@ public class PuzzleBoard : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         spawner.FillEmptyBlocks();
     }
+    public IEnumerator BoomAndThen(System.Action onComplete)
+    {
+        yield return StartCoroutine(BoomRoutine());
 
+        onComplete?.Invoke();
+    }
+    public bool HasMatchedBlocks()
+    {
+        return disabledBlocks.Count > 0;
+    }
 }
 

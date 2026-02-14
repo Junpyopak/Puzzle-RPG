@@ -65,17 +65,43 @@ public class Turn_Timer : MonoBehaviour
     public void EndTurn()
     {
         isRunning = false;
+        //Debug.Log("턴 종료!");
+        //turnSlider.maxValue = maxTime;
+        //turnSlider.value = maxTime;
+        //// 여기에 턴 종료 후 처리할 코드 추가
+        ////적의턴으로 
+        //TurnManager.Instance.StartMonsterTurn();
+        ////우선 예시로 나의턴과 적의턴 돌아간횟수 증가를 표시하기 위함.
+        ////적의 턴이 끝나면 라운드 수 증가 
+        ////EnemyTurnText.text = "라운드 : " + (TurnCount);
+        //// 로컬라이즈된 라운드 텍스트
+        //string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
+        //EnemyTurnText.text = roundWord + " : " + TurnCount;
+        //TurnCount++;
+        //SpawnMgr.Instance.SpawnOnRoundStart();
+        isRunning = false;
+        StartCoroutine(EndTurnRoutine());
+    }
+    IEnumerator EndTurnRoutine()
+    {
+        PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
+
+        if (board != null && board.HasMatchedBlocks())
+        {
+            // 매칭 있음 → 터뜨리고 끝나면 적 턴
+            yield return board.BoomAndThen(() => { });
+        }
+
         Debug.Log("턴 종료!");
+
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
-        // 여기에 턴 종료 후 처리할 코드 추가
-        //적의턴으로 
+
         TurnManager.Instance.StartMonsterTurn();
-        //우선 예시로 나의턴과 적의턴 돌아간횟수 증가를 표시하기 위함.
-        //적의 턴이 끝나면 라운드 수 증가 
-        //EnemyTurnText.text = "라운드 : " + (TurnCount);
-        // 로컬라이즈된 라운드 텍스트
-        string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
+
+        string roundWord = LocalizationSettings.StringDatabase
+            .GetLocalizedString("Btn_Language", "Round");
+
         EnemyTurnText.text = roundWord + " : " + TurnCount;
         TurnCount++;
 
