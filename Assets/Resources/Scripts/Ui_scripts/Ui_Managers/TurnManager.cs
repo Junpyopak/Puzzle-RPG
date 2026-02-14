@@ -25,8 +25,9 @@ public class TurnManager : MonoBehaviour
 
     IEnumerator MonsterTurnCoroutine()
     {
+        Debug.Log("MonsterTurnCoroutine 실행됨");
         monsterTurnRunning = true;
-
+        Turn_Timer.Instance.ShowMonsterUI();
         //몬스터 턴 동안 플레이어 이동 금지
         player.hasMoved = true;
 
@@ -44,6 +45,7 @@ public class TurnManager : MonoBehaviour
         //모든 몬스터 행동 종료
         player.hasMoved = false;
         monsterTurnRunning = false;
+        yield return new WaitForSeconds(1f);
 
         // 다음 라운드 시작
         Turn_Timer.Instance.StartTurn();

@@ -9585,6 +9585,8 @@ MonoBehaviour:
   EnemyTurnText: {fileID: 2111284515}
   TurnCount: 1
   isPaused: 0
+  playerTurnUI: {fileID: 1724624189}
+  monsterTurnUI: {fileID: 1319308732}
 --- !u!1 &1693440027
 GameObject:
   m_ObjectHideFlags: 0

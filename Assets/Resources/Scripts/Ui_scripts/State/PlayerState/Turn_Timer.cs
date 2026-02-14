@@ -17,6 +17,9 @@ public class Turn_Timer : MonoBehaviour
 
     private bool isRunning = false;
     public bool isPaused = false;
+
+    public GameObject playerTurnUI;
+    public GameObject monsterTurnUI;
     private void Awake()
     {
         if(Instance == null)
@@ -60,8 +63,27 @@ public class Turn_Timer : MonoBehaviour
     {
         isRunning = true;
         turnSlider.value = maxTime;
+        ShowPlayerUI();
     }
+    public void ShowPlayerUI()
+    {
+        StopCoroutine(nameof(HidePlayerUIRoutine)); // 중복 방지
+        playerTurnUI.SetActive(true);
+        monsterTurnUI.SetActive(false);
+        StartCoroutine(HidePlayerUIRoutine(1f)); // 경과 후 자동 OFF
+    }
+    IEnumerator HidePlayerUIRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
+        playerTurnUI.SetActive(false);
+    }
+    public void ShowMonsterUI()
+    {
+        Debug.Log("Monster UI ON");
+        playerTurnUI.SetActive(false);
+        monsterTurnUI.SetActive(true);
+    }
     public void EndTurn()
     {
         isRunning = false;
@@ -84,6 +106,7 @@ public class Turn_Timer : MonoBehaviour
     }
     IEnumerator EndTurnRoutine()
     {
+        Debug.Log("EndTurnRoutine 실행됨");
         PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
 
         if (board != null && board.HasMatchedBlocks())
