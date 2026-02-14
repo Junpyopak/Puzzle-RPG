@@ -226,7 +226,7 @@ public class CardRoulette : MonoBehaviour
                 if (img != null && visual != null)
                 {
                     img.sprite = visual.Sprite;  // CardSprite SO 안에 Sprite 필드
-                    img.SetNativeSize();            // 필요 시 크기 맞춤
+                    //img.SetNativeSize();            // 필요 시 크기 맞춤
                 }
 
                 // NameText 설정
