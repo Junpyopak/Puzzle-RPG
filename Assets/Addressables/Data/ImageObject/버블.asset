@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e4bbd6dd07ffb4c97379506bc7e6c4, type: 3}
   m_Name: "\uBC84\uBE14"
   m_EditorClassIdentifier: 
-  CardID: 11
+  CardID: 10
   Sprite: {fileID: 21300000, guid: 8b2e9f40667bdd3429be3d94327e486c, type: 3}

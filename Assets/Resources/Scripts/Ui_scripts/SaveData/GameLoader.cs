@@ -46,6 +46,8 @@ public class GameLoader : MonoBehaviour
             FieldItemManager.Instance.Register(go.GetComponent<ItemID>());
         }
         Player player = FindObjectOfType<Player>();
+        PlayerMove1 playerMove = FindObjectOfType<PlayerMove1>();
+        
         player.ApplySaveData(data);
         Debug.Log($"[Load] Player position after Apply: {player.transform.position}");
 
@@ -76,6 +78,16 @@ public class GameLoader : MonoBehaviour
             spawner.SpawnFromSaveData(data.puzzleData);
             board.RebuildDisabledList();
         }
+
+        PlayerCardManager cardManager = FindObjectOfType<PlayerCardManager>();
+
+        if (cardManager != null && data.gainedCards != null)
+        {
+            cardManager.LoadFromSaveData(data.gainedCards);
+        }
+        playerMove.moveCount = data.playerMoveCount;
+        playerMove.ResetMove();
+
         // 기존 몬스터 전부 비활성화 + 리스트 정리
         TurnManager tm = FindObjectOfType<TurnManager>();
         PoolMgr pool = FindObjectOfType<PoolMgr>();

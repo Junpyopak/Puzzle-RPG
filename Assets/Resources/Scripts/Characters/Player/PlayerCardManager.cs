@@ -5,6 +5,7 @@ public class PlayerCardManager : MonoBehaviour
 {
     public Player player; // 기존 Player.cs
     public List<PlayerCard> ownedCards = new List<PlayerCard>();
+    public PlayerMove1 move1;
     void Awake()
     {
         Debug.Log("PlayerCardManager 생성됨: " + gameObject.name);
@@ -65,7 +66,58 @@ public class PlayerCardManager : MonoBehaviour
                     player.MaxHp += Mathf.RoundToInt(value);
                     player.Hp += Mathf.RoundToInt(value);
                 }
-                break;
+                break; 
+            case CardEffectType.CountUp:
+                if (card.isPercent)
+                {
+                    move1.moveCount = Mathf.RoundToInt(move1.moveCount * (1f + value));
+                    move1.ResetMove();
+                }
+                break; 
+
         }
+    }
+    public List<CardSaveData> GetSaveData()
+    {
+        List<CardSaveData> list = new List<CardSaveData>();
+
+        foreach (var card in ownedCards)
+        {
+            CardSaveData save = new CardSaveData();
+            save.cardID = card.data.CardID;
+            save.level = card.level;
+
+            list.Add(save);
+        }
+
+        return list;
+    }
+    public void LoadFromSaveData(List<CardSaveData> saveList)
+    {
+        ownedCards.Clear();
+
+        foreach (var save in saveList)
+        {
+            CardBaseData data = CardDatabase.Instance.GetCardByID(save.cardID);
+
+            if (data == null)
+            {
+                Debug.LogError("카드 데이터 없음 ID: " + save.cardID);
+                continue;
+            }
+
+            PlayerCard card = new PlayerCard
+            {
+                data = data,
+                level = save.level
+            };
+
+            ownedCards.Add(card);
+
+            // 전체 효과 적용
+            ApplyCardToPlayer(data, card.GetValue());
+        }
+
+        Debug.Log("카드 불러오기 완료");
     }
 }

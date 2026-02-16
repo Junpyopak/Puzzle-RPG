@@ -58,4 +58,8 @@ public class CardDatabase : MonoBehaviour
 
         Debug.Log($"카드 로드 완료: {cardList.Count}장");
     }
+    public CardBaseData GetCardByID(int id)
+    {
+        return cardList.Find(c => c.CardID == id);
+    }
 }

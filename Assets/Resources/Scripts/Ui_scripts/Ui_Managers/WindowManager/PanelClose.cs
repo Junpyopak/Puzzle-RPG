@@ -54,6 +54,8 @@ public class PanelClose : MonoBehaviour
         int slot = SaveContext.Instance.currentSlot;
         PuzzleBoard board = FindObjectOfType<PuzzleBoard>();
         Turn_Timer turn_Timer = FindObjectOfType<Turn_Timer>();
+        PlayerCardManager cardManager = FindObjectOfType<PlayerCardManager>();
+        PlayerMove1 move = FindObjectOfType<PlayerMove1>();
 
         int currentTurn = 1;
         if (turn_Timer != null)
@@ -74,7 +76,9 @@ public class PanelClose : MonoBehaviour
                 saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
                 gameTime = timer.GameTime,
                 puzzleData = board.GetSaveData(),
+                gainedCards = cardManager.GetSaveData(),
                 gainedCardIDs = new List<int>(CardGainDataHolder.Instance.Data.gainedCardIDs),
+
                 playerStats = new PlayerStatSaveData
                 {
                     level = player.PlayerLevel,
@@ -83,7 +87,8 @@ public class PanelClose : MonoBehaviour
                     maxHp = player.MaxHp,
                     currentHp = player.Hp,
                     attack = player.PlayerATK,
-                    defense = player.Defence
+                    defense = player.Defence,
+                     moveCount = move.moveCount
                 },
                 fieldItems = FieldItemManager.Instance.GetSaveData(),
                 TurnCount= currentTurn

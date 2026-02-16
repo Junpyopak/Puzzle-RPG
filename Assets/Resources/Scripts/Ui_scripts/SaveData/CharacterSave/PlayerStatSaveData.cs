@@ -12,4 +12,5 @@ public class PlayerStatSaveData
 
     public int attack;
     public int defense;
+    public int moveCount;
 }

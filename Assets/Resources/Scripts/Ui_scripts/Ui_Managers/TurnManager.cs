@@ -29,7 +29,7 @@ public class TurnManager : MonoBehaviour
         monsterTurnRunning = true;
         Turn_Timer.Instance.ShowMonsterUI();
         //몬스터 턴 동안 플레이어 이동 금지
-        player.hasMoved = true;
+        player.isPlayerTurn = false;
 
         // 몬스터 전부 행동
         foreach (Monster m in monsters)
@@ -43,7 +43,8 @@ public class TurnManager : MonoBehaviour
         }
 
         //모든 몬스터 행동 종료
-        player.hasMoved = false;
+        player.isPlayerTurn = true;
+        player.ResetMove();
         monsterTurnRunning = false;
         yield return new WaitForSeconds(1f);
 

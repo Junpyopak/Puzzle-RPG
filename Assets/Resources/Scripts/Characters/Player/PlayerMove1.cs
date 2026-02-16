@@ -6,16 +6,21 @@ using UnityEngine;
 public class PlayerMove1 : MonoBehaviour
 {
     public float Movecell = 1f;
-    public bool hasMoved = false;
+    public bool isPlayerTurn = true;
     SpriteRenderer spriteRenderer;
     public Vector2Int GridPos => gridPos;
     Vector2Int gridPos;
+    public int moveCount = 2 ;
+    public int moveRemain;
     void Start()
     {
+        moveRemain = moveCount;
         int center = Grid15x15.Instance.gridCount / 2;
         gridPos = new Vector2Int(center, center);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+        // 이동 횟수 초기화
+        moveRemain = moveCount;
         StartCoroutine(InitPosition());
     }
     IEnumerator InitPosition()
@@ -30,7 +35,9 @@ public class PlayerMove1 : MonoBehaviour
     }
     void Update()
     {
-        if (hasMoved) return;
+        if (!isPlayerTurn) return;
+        // 이동 횟수 다 쓰면 이동 불가
+        if (moveRemain <= 0) return;
         HandleMove();
     }
 
@@ -61,7 +68,7 @@ public class PlayerMove1 : MonoBehaviour
         else if (x > 0) spriteRenderer.flipX = false;
 
         SnapToCell();
-        hasMoved = true;
+        moveRemain--;
     }
     void SnapToCell()
     {
@@ -78,9 +85,13 @@ public class PlayerMove1 : MonoBehaviour
     // 턴 끝날 때 호출
     public void ResetMove()
     {
-        hasMoved = false;
+        moveRemain = moveCount;
     }
-
+    public void AddMoveCount(int amount)
+    {
+        moveCount += amount;
+        moveRemain = moveCount;
+    }
     public void LoadGridPosition(Vector2Int savedGridPos)
     {
         gridPos = savedGridPos;

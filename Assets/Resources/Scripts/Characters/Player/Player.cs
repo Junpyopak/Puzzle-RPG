@@ -205,6 +205,12 @@ public class Player : MonoBehaviour
 
         PlayerATK = stats.attack;
         Defence = stats.defense;
+
+        PlayerMove1 move = GetComponent<PlayerMove1>();
+
+        move.moveCount = stats.moveCount;
+
+        move.ResetMove();
     }
     private IEnumerator SetPositonFrame(SaveData data)
     {
@@ -241,7 +247,7 @@ public class Player : MonoBehaviour
         data.playerPosition = transform.position;
         data.playerGridX = playerMove.GridPos.x;
         data.playerGridY = playerMove.GridPos.y;
-
+        data.playerMoveCount = playerMove.moveCount;
         //data.playerHp = Hp;
         //data.playerExp = Exp;
         data.currentScene = SceneManager.GetActiveScene().name;

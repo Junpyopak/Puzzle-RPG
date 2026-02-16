@@ -3029,7 +3029,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movecell: 1
-  hasMoved: 0
+  isPlayerTurn: 1
+  moveCount: 1
+  moveRemain: 0
 --- !u!114 &437311295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3044,6 +3046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 437311290}
   ownedCards: []
+  move1: {fileID: 0}
 --- !u!1 &445465731
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class SaveData
     //public int playerExp;
     public int playerGridX;
     public int playerGridY;
-
+    public int playerMoveCount;
     public string currentScene;
     public string saveTime;
     public float gameTime;//이게 불러올 타이머 시간
@@ -26,7 +26,7 @@ public class SaveData
     public List<int> gainedCardIDs = new List<int>();
     public PlayerStatSaveData playerStats; // 플레이어 스탯 데이터
     public List<FieldItemSAVE> fieldItems = new List<FieldItemSAVE>();
-
+    public List<CardSaveData> gainedCards = new List<CardSaveData>();
     //몬스터 저장
     public List<MonsterSaveData> monsters = new List<MonsterSaveData>();
 }
