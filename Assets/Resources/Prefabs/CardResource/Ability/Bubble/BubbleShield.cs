@@ -5,21 +5,31 @@ using UnityEngine;
 public class BubbleShield : MonoBehaviour
 {
     public Vector2Int offsetDir;
-    private PlayerMove1 player;
+    private PlayerMove1 playerMove;
     public float baseYOffset = 0.85f;
     private float damagePercent;
-    Player Player;
-    public void Init(PlayerMove1 player, Vector2Int dir , float percent)
+    Player playerStat;
+    //public void Init(PlayerMove1 player, Vector2Int dir , float percent)
+    //{
+    //    this.player = player;
+    //    this.offsetDir = dir;
+    //    damagePercent = percent;
+    //    UpdatePosition();
+    //}
+    public void Init(PlayerMove1 move, Vector2Int dir, float percent)
     {
-        this.player = player;
-        this.offsetDir = dir;
+        playerMove = move;
+        playerStat = move.GetComponent<Player>(); // ← Player 가져오기
+
+        offsetDir = dir;
         damagePercent = percent;
+
         UpdatePosition();
     }
 
     void Update()
     {
-        if (player == null)
+        if (playerMove == null)
         {
             Destroy(gameObject);
             return;
@@ -35,23 +45,28 @@ public class BubbleShield : MonoBehaviour
 
         float half = (gridCount - 1) / 2f;
 
-        Vector2Int pos = player.gridPos + offsetDir;
+        Vector2Int pos = playerMove.gridPos + offsetDir;
 
         float x = (pos.x - half) * cellSize.x;
 
         // 핵심: 기본 위치 + 위쪽 offset 추가
         float y = (pos.y - half) * cellSize.y + cellSize.y * baseYOffset;
 
-        transform.position = new Vector3(x, y, player.transform.position.z);
+        transform.position = new Vector3(x, y, playerMove.transform.position.z);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Monster monster = collision.GetComponent<Monster>();
-        if (monster != null)
+        if (other.CompareTag("Enemy"))
         {
-            int damage = Mathf.RoundToInt(Player.PlayerATK * damagePercent);
-            monster.TakeDamageFromBubble(damage);
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                //int damage = Mathf.RoundToInt(playerStat.PlayerATK * damagePercent);
+                int damage = Mathf.Max(1, Mathf.RoundToInt(playerStat.PlayerATK * damagePercent));
+                monster.TakeDamageFromBubble(damage);
+                Debug.Log("몬스터 버블 데미지 받음");
+            }
         }
     }
 }
