@@ -9,9 +9,15 @@ public class PlayerMove1 : MonoBehaviour
     public bool isPlayerTurn = true;
     SpriteRenderer spriteRenderer;
     public Vector2Int GridPos => gridPos;
-    Vector2Int gridPos;
-    public int moveCount = 2 ;
+    public Vector2Int gridPos;
+    public int moveCount = 1;
     public int moveRemain;
+
+    [Header("Bubble Shield")]
+    public GameObject bubbleShieldPrefab;
+
+    private List<GameObject> activeBubbles = new List<GameObject>();
+    public bool isBubbleShield = false;
     void Start()
     {
         moveRemain = moveCount;
@@ -35,6 +41,10 @@ public class PlayerMove1 : MonoBehaviour
     }
     void Update()
     {
+        if(Input.GetKey(KeyCode.B))
+        {
+            CreateBubbleShield();
+        }
         if (!isPlayerTurn) return;
         // 이동 횟수 다 쓰면 이동 불가
         if (moveRemain <= 0) return;
@@ -97,4 +107,31 @@ public class PlayerMove1 : MonoBehaviour
         gridPos = savedGridPos;
         SnapToCell();
     }
+
+    public void CreateBubbleShield()
+    {
+        // 이미 있으면 생성 안함
+        if (activeBubbles.Count > 0)
+            return;
+
+        Vector2Int[] dirs =
+        {
+        Vector2Int.up,
+        Vector2Int.down,
+        Vector2Int.left,
+        Vector2Int.right
+    };
+
+        foreach (var dir in dirs)
+        {
+            GameObject bubble = Instantiate(bubbleShieldPrefab);
+
+            BubbleShield shield = bubble.GetComponent<BubbleShield>();
+
+            shield.Init(this, dir);
+
+            activeBubbles.Add(bubble);
+        }
+    }
+
 }
