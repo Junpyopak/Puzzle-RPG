@@ -118,24 +118,17 @@ public class PlayerMove1 : MonoBehaviour
         // 이미 있으면 생성 안함
         if (activeBubbles.Count > 0)
             return;
+        Vector3 spawnPos = transform.position + new Vector3(0f, 1f, 0f); // y = 1만큼 위로
+        // 중앙에 1개만 생성
+        GameObject bubble = Instantiate(bubbleShieldPrefab, spawnPos, Quaternion.identity);
 
-        Vector2Int[] dirs =
-        {
-        Vector2Int.up,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.right
-    };
+        // 스케일 변경
+        bubble.transform.localScale = new Vector3(3f, 3f, 1f);
 
-        foreach (var dir in dirs)
-        {
-            GameObject bubble = Instantiate(bubbleShieldPrefab);
+        // 버블 초기화
+        BubbleShield shield = bubble.GetComponent<BubbleShield>();
+        shield.Init(this, Vector2Int.zero, damagePercen); // offsetDir = 0,0 (중앙)
 
-            BubbleShield shield = bubble.GetComponent<BubbleShield>();
-
-            shield.Init(this, dir,damagePercen);
-
-            activeBubbles.Add(bubble);
-        }
+        activeBubbles.Add(bubble);
     }
 }

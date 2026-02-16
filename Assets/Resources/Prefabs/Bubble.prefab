@@ -120,3 +120,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetDir: {x: 0, y: 0}
+  baseYOffset: 0.85

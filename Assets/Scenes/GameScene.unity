@@ -3035,6 +3035,7 @@ MonoBehaviour:
   moveRemain: 0
   bubbleShieldPrefab: {fileID: 4518669866273417106, guid: ffcdfc5e40eedb142856a12ce2d64607, type: 3}
   isBubbleShield: 0
+  BubblePower: 0
 --- !u!114 &437311295
 MonoBehaviour:
   m_ObjectHideFlags: 0
