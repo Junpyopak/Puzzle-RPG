@@ -73,7 +73,19 @@ public class PlayerCardManager : MonoBehaviour
                     move1.moveCount = Mathf.RoundToInt(move1.moveCount * (1f + value));
                     move1.ResetMove();
                 }
-                break; 
+                break;  
+            case CardEffectType.Bubble:
+                if (card.isPercent)
+                {
+                    // AttackPercent처럼 float value를 그대로 적용
+                    move1.CreateBubbleShield(value); // value = CSV 기반 float, 0.03 = 3%
+                }
+                else
+                {
+                    // 직접 수치 증가일 경우 (optional)
+                    move1.CreateBubbleShield(value / player.PlayerATK);
+                }
+                break;
 
         }
     }

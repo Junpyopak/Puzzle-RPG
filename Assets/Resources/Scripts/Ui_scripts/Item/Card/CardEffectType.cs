@@ -14,5 +14,6 @@ public enum CardEffectType
     ProjectileCount,
     MagnetRange,
     CountUp,
+    Bubble,
 }
 

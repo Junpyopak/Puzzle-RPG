@@ -82,6 +82,21 @@ public class Monster : MonoBehaviour
             Die();
         }
     }
+    public void TakeDamageFromBubble(int damage)
+    {
+        Hp -= damage;
+
+        // ±ôºýÀÓ È¿°ú
+        StartCoroutine(FlashCoroutine());
+
+        if (Hp <= 0)
+        {
+            Hp = 0;
+            Die();
+        }
+
+        Debug.Log($"¹öºí ÇÇÇØ: {damage}, ³²Àº HP: {Hp}");
+    }
     void Die()
     {
         Debug.Log($"{data.Name} »ç¸Á!");

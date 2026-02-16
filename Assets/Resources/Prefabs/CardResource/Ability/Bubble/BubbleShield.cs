@@ -7,11 +7,13 @@ public class BubbleShield : MonoBehaviour
     public Vector2Int offsetDir;
     private PlayerMove1 player;
     public float baseYOffset = 0.25f;
-    public void Init(PlayerMove1 player, Vector2Int dir)
+    private float damagePercent;
+    Player Player;
+    public void Init(PlayerMove1 player, Vector2Int dir , float percent)
     {
         this.player = player;
         this.offsetDir = dir;
-
+        damagePercent = percent;
         UpdatePosition();
     }
 
@@ -41,5 +43,15 @@ public class BubbleShield : MonoBehaviour
         float y = (pos.y - half) * cellSize.y + cellSize.y * baseYOffset;
 
         transform.position = new Vector3(x, y, player.transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Monster monster = collision.GetComponent<Monster>();
+        if (monster != null)
+        {
+            int damage = Mathf.RoundToInt(Player.PlayerATK * damagePercent);
+            monster.TakeDamageFromBubble(damage);
+        }
     }
 }

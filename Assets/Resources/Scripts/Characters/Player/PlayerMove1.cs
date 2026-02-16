@@ -18,6 +18,7 @@ public class PlayerMove1 : MonoBehaviour
 
     private List<GameObject> activeBubbles = new List<GameObject>();
     public bool isBubbleShield = false;
+    public int BubblePower ;
     void Start()
     {
         moveRemain = moveCount;
@@ -40,10 +41,14 @@ public class PlayerMove1 : MonoBehaviour
         SnapToCell();
     }
     void Update()
-    {
-        if(Input.GetKey(KeyCode.B))
+    { // 테스트용: B키를 누르면 버블 생성
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            CreateBubbleShield();
+            // 예시: 레벨 1 기준 CSV float 퍼센트
+            float testPercent = 0.03f; // 3%
+            CreateBubbleShield(testPercent);
+
+            Debug.Log($"[테스트] B 눌러 버블 생성! 데미지 퍼센트: {testPercent * 100}%");
         }
         if (!isPlayerTurn) return;
         // 이동 횟수 다 쓰면 이동 불가
@@ -108,7 +113,7 @@ public class PlayerMove1 : MonoBehaviour
         SnapToCell();
     }
 
-    public void CreateBubbleShield()
+    public void CreateBubbleShield(float damagePercen)
     {
         // 이미 있으면 생성 안함
         if (activeBubbles.Count > 0)
@@ -128,10 +133,9 @@ public class PlayerMove1 : MonoBehaviour
 
             BubbleShield shield = bubble.GetComponent<BubbleShield>();
 
-            shield.Init(this, dir);
+            shield.Init(this, dir,damagePercen);
 
             activeBubbles.Add(bubble);
         }
     }
-
 }
