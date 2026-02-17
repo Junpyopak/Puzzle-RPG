@@ -290,7 +290,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rarity: 0
+  cardData:
+    CardID: 0
+    CardName: 
+    CardType: 
+    Description: 
+    Grade: 
+    MaxLevel: 0
+    effectType: 0
+    isPercent: 1
+    baseValue: 0
+    valuePerLevel: 0
   cardName: 
+  CardID: 12
 --- !u!33 &538999594501534913
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -666,7 +678,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3110528e9c24f6a4090a93b1236f40e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ded3a0dc9800b44eb56c30cdc96b5da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

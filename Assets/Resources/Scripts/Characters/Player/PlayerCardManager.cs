@@ -84,6 +84,8 @@ public class PlayerCardManager : MonoBehaviour
     }
     void ApplyCardToPlayer(CardBaseData card, float value)
     {
+        Debug.Log("ApplyCardEffect »£√‚µ ");
+        Debug.Log("effectType: " + card.effectType);
         switch (card.effectType)
         {
             case CardEffectType.AttackPercent:
@@ -157,8 +159,20 @@ public class PlayerCardManager : MonoBehaviour
             case CardEffectType.CountUp:
                 if (card.isPercent)
                 {
-                    move1.moveCount = Mathf.RoundToInt(move1.moveCount * (1f + value));
-                    move1.ResetMove();
+                    int increase = Mathf.CeilToInt(move1.moveCount * value);
+                    move1.moveRemain += increase;
+
+                    Debug.Log("moveRemain ¡ı∞°µ (Percent): +" + increase);
+                    Debug.Log("«ˆ¿Á moveRemain: " + move1.moveRemain);
+                  
+                }
+                else
+                {
+                    int increase = Mathf.CeilToInt(value);
+                    move1.moveRemain += increase;
+
+                    Debug.Log("moveRemain ¡ı∞°µ (Fixed): +" + increase);
+                    Debug.Log("«ˆ¿Á moveRemain: " + move1.moveRemain);
                 }
                 break;  
             case CardEffectType.Bubble:
