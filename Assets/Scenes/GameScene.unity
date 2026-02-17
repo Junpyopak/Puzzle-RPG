@@ -3055,7 +3055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 437311290}
   ownedCards: []
-  move1: {fileID: 0}
+  move1: {fileID: 437311294}
 --- !u!1 &445465731
 GameObject:
   m_ObjectHideFlags: 0
