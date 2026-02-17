@@ -45,6 +45,8 @@ public class TurnManager : MonoBehaviour
 
         //모든 몬스터 행동 종료
         playerMove.isPlayerTurn = true;
+        player.Attack();
+        player.ShootBoomerangs();
         player.OnTurnEndRecovery();
         playerMove.ResetMove();
         monsterTurnRunning = false;

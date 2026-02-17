@@ -106,10 +106,10 @@ public class Player : MonoBehaviour
         // 1. 발사 전에 현재 카드 인벤토리 상황을 내 변수에 동기화
         UpdateBoomerangLevel();
 
-        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
-        {
-            ShootBoomerangs();
-        }
+        //if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
+        //{
+        //    ShootBoomerangs();
+        //}
     }
 
     public void Attack()
@@ -432,7 +432,7 @@ public class Player : MonoBehaviour
 
 
 
-    void UpdateBoomerangLevel()
+   public void UpdateBoomerangLevel()
     {
         if (GameManager.Instance.CardMgr == null) return;
 
@@ -441,7 +441,7 @@ public class Player : MonoBehaviour
         boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "BoomerangCard");
     }
 
-    void ShootBoomerangs()
+   public void ShootBoomerangs()
     {
         if (boomerangPrefab == null) return;
 

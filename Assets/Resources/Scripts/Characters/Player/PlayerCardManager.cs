@@ -10,6 +10,12 @@ public class PlayerCardManager : MonoBehaviour
     {
         Debug.Log("PlayerCardManager 생성됨: " + gameObject.name);
     }
+
+    void Start()
+    {
+        LoadCardsFromCardManager();
+    }
+
     public void GainCard(CardBaseData cardData)
     {
         PlayerCard card = ownedCards.Find(c => c.data.CardID == cardData.CardID);
@@ -36,7 +42,46 @@ public class PlayerCardManager : MonoBehaviour
 
         Debug.Log($"카드 획득/레벨업: {cardData.CardName} | Lv:{card.level}");
     }
+    void LoadCardsFromCardManager()
+    {
+        // DontDestroyOnLoad 상태의 CardManager 찾기
+        CardManager cardManager = FindObjectOfType<CardManager>();
 
+        if (cardManager == null)
+        {
+            Debug.LogError("CardManager를 찾을 수 없음!");
+            return;
+        }
+
+        if (cardManager.selectCardNames == null || cardManager.selectCardNames.Count == 0)
+        {
+            Debug.Log("적용할 카드 없음");
+            return;
+        }
+
+        foreach (string cardName in cardManager.selectCardNames)
+        {
+            GameObject prefab = cardManager.GetPrefabByName(cardName);
+
+            if (prefab == null)
+            {
+                Debug.LogError("카드 프리팹 없음: " + cardName);
+                continue;
+            }
+
+            Card card = prefab.GetComponent<Card>();
+
+            if (card == null)
+            {
+                Debug.LogError("Card 컴포넌트 없음: " + cardName);
+                continue;
+            }
+
+            GainCard(card.cardData);
+        }
+
+        Debug.Log("PlayerCardManager 카드 적용 완료");
+    }
     void ApplyCardToPlayer(CardBaseData card, float value)
     {
         switch (card.effectType)
@@ -127,6 +172,13 @@ public class PlayerCardManager : MonoBehaviour
                     // 직접 수치 증가일 경우 (optional)
                     move1.CreateBubbleShield(value / player.PlayerATK);
                 }
+                break;
+
+            case CardEffectType.Boomerang:
+                player.boomerangLevel += Mathf.RoundToInt(value);
+
+                Debug.Log("부메랑 레벨 증가: " + player.boomerangLevel);
+
                 break;
 
         }

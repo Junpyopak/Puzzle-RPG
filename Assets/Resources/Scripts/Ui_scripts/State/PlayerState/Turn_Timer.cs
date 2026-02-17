@@ -20,6 +20,8 @@ public class Turn_Timer : MonoBehaviour
 
     public GameObject playerTurnUI;
     public GameObject monsterTurnUI;
+
+    private bool isPlayerTurn = true;
     private void Awake()
     {
         if(Instance == null)
@@ -61,6 +63,7 @@ public class Turn_Timer : MonoBehaviour
     }
     public void StartTurn()
     {
+        isPlayerTurn = true;  // 플레이어 턴 시작
         isRunning = true;
         turnSlider.value = maxTime;
         ShowPlayerUI();
@@ -86,6 +89,7 @@ public class Turn_Timer : MonoBehaviour
     }
     public void EndTurn()
     {
+        if (!isPlayerTurn) return;
         isRunning = false;
         //Debug.Log("턴 종료!");
         //turnSlider.maxValue = maxTime;
@@ -116,7 +120,7 @@ public class Turn_Timer : MonoBehaviour
         }
 
         Debug.Log("턴 종료!");
-
+        isPlayerTurn = false; // ← 여기 추가 (이제 몬스터 턴)
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
 

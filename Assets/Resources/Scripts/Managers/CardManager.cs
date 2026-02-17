@@ -23,7 +23,6 @@ public class CardManager : MonoBehaviour
 
     [Header("플레이어가 획득한 카드 이름 리스트")]
     public List<string> selectCardNames = new List<string>();
-
     public void CardRarityOpen()
     {
         if (isOpen) return;
@@ -80,6 +79,19 @@ public class CardManager : MonoBehaviour
         string cleanName = clickedCardInstance.name.Replace("(Clone)", "").Trim();
 
         selectCardNames.Add(cleanName);
+
+        Card card = clickedCardInstance.GetComponent<Card>();
+
+        if (card != null)
+        {
+            PlayerCardManager pcm = FindObjectOfType<PlayerCardManager>();
+
+            if (pcm != null)
+            {
+                pcm.GainCard(card.cardData);
+            }
+        }
+
         Debug.Log($"플레이어 카드 리스트에 이름 저장 완료: {cleanName}");
     }
 
