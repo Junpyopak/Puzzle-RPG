@@ -13,7 +13,7 @@ public class PlayerStatSaveData
     public int attack;
     public int defense;
     public int moveCount;
-
+    public int moveRemain;
     public bool recovery;
     public int recoveryAmount;
     public int recoveryTurnInterval;

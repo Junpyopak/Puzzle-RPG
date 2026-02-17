@@ -90,7 +90,8 @@ public class GameLoader : MonoBehaviour
             cardManager.LoadFromSaveData(data.gainedCards);
         }
         playerMove.moveCount = data.playerMoveCount;
-        playerMove.ResetMove();
+        playerMove.moveRemain = data.playerMoveRemain;
+        //playerMove.ResetMove();
 
         // 기존 몬스터 전부 비활성화 + 리스트 정리
         TurnManager tm = FindObjectOfType<TurnManager>();

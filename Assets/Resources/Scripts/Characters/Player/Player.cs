@@ -221,8 +221,8 @@ public class Player : MonoBehaviour
         PlayerMove1 move = GetComponent<PlayerMove1>();
 
         move.moveCount = stats.moveCount;
-
-        move.ResetMove();
+        move.moveRemain = stats.moveRemain;
+        //move.ResetMove();
     }
     private IEnumerator SetPositonFrame(SaveData data)
     {

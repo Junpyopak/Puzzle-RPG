@@ -14,6 +14,7 @@ public class SaveData
     public int playerGridX;
     public int playerGridY;
     public int playerMoveCount;
+    public int playerMoveRemain;
     public string currentScene;
     public string saveTime;
     public float gameTime;//이게 불러올 타이머 시간
