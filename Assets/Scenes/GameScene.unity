@@ -2948,6 +2948,10 @@ MonoBehaviour:
   HealflashColor: {r: 0, g: 1, b: 0, a: 1}
   boomerangPrefab: {fileID: 5835082331336300644, guid: 236ed32a670c2f04d88f6153b6bd97cc, type: 3}
   boomerangLevel: 0
+  Recovery: 0
+  recoveryAmount: 0
+  recoveryTurnInterval: 2
+  recoveryTurnCounter: 0
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3036,6 +3040,7 @@ MonoBehaviour:
   bubbleShieldPrefab: {fileID: 4518669866273417106, guid: ffcdfc5e40eedb142856a12ce2d64607, type: 3}
   isBubbleShield: 0
   BubblePower: 0
+  BubblePowerPercent: 0
 --- !u!114 &437311295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7541,7 +7546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1208885922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7827,7 +7832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3832b3298074249830c698c493bc52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 437311294}
+  playerMove: {fileID: 437311294}
+  player: {fileID: 437311290}
   monsters: []
 --- !u!1 &1238139395
 GameObject:

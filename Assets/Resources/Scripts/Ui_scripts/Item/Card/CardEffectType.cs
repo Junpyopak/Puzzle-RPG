@@ -15,5 +15,6 @@ public enum CardEffectType
     MagnetRange,
     CountUp,
     Bubble,
+    Recovery,
 }
 

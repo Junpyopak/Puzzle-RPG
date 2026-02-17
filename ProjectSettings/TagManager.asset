@@ -8,6 +8,7 @@ TagManager:
   - ItemBox
   - PlayerAttack
   - ExpJem
+  - Card
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: effect
+    uniqueID: 874692135
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

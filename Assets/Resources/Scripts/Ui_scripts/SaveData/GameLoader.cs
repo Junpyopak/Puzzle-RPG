@@ -50,7 +50,11 @@ public class GameLoader : MonoBehaviour
         
         player.ApplySaveData(data);
         Debug.Log($"[Load] Player position after Apply: {player.transform.position}");
-
+        // 버블쉴드 복구
+        if (data.hasBubbleShield)
+        {
+            playerMove.CreateBubbleShield(data.bubbleShieldPercent);
+        }
         // 타이머 복구 (이게 핵심)
         UI_GameTimer timer = FindObjectOfType<UI_GameTimer>();
         if (timer != null)

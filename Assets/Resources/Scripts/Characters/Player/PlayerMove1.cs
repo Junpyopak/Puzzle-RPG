@@ -19,6 +19,7 @@ public class PlayerMove1 : MonoBehaviour
     private List<GameObject> activeBubbles = new List<GameObject>();
     public bool isBubbleShield = false;
     public int BubblePower ;
+    public float BubblePowerPercent = 0f;
     void Start()
     {
         moveRemain = moveCount;
@@ -130,5 +131,8 @@ public class PlayerMove1 : MonoBehaviour
         shield.Init(this, Vector2Int.zero, damagePercen); // offsetDir = 0,0 (중앙)
 
         activeBubbles.Add(bubble);
+        isBubbleShield = true;
+
+        BubblePowerPercent = damagePercen; //저장용
     }
 }

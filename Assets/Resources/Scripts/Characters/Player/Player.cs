@@ -55,9 +55,17 @@ public class Player : MonoBehaviour
     [Header("부메랑 설정")]
     public GameObject boomerangPrefab;
     public int boomerangLevel = 0;
+
+    [Header("은근슬쩍 회복 설정")]
+    public bool Recovery = false;
+    public int recoveryAmount = 0;
+    public int recoveryTurnInterval = 2;
+    public int recoveryTurnCounter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        recoveryTurnCounter = 0;
         Hp = MaxHp;
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
@@ -205,7 +213,11 @@ public class Player : MonoBehaviour
 
         PlayerATK = stats.attack;
         Defence = stats.defense;
-
+        //Recovery 이어하기 시에 복구
+        Recovery = stats.recovery;
+        recoveryAmount = stats.recoveryAmount;
+        recoveryTurnInterval = stats.recoveryTurnInterval;
+        recoveryTurnCounter = stats.recoveryTurnCounter;
         PlayerMove1 move = GetComponent<PlayerMove1>();
 
         move.moveCount = stats.moveCount;
@@ -259,7 +271,12 @@ public class Player : MonoBehaviour
             maxHp = MaxHp,
             currentHp = Hp,
             attack = PlayerATK,
-            defense = Defence
+            defense = Defence,
+            recovery = Recovery,
+            recoveryAmount = recoveryAmount,
+            recoveryTurnInterval = recoveryTurnInterval,
+            recoveryTurnCounter = recoveryTurnCounter,
+
         };
         int currentTurn = 1;
         if(turn!=null)
@@ -296,7 +313,21 @@ public class Player : MonoBehaviour
             Hp = MaxHp;
         }
     }
+    //은근슬쩍 회복
+    public void OnTurnEndRecovery()
+    {
+        if (!Recovery) return;
 
+        recoveryTurnCounter++;
+
+        if (recoveryTurnCounter >= recoveryTurnInterval)
+        {
+            HealHp(recoveryAmount);
+            recoveryTurnCounter = 0;
+
+            Debug.Log($"은근슬쩍 회복 발동 +{recoveryAmount}");
+        }
+    }
     void LevelUp() //플레이어 레벨업
     {
         PlayerLevel++; //현재 플레이어 레벨 증가

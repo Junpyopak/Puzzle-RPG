@@ -29,5 +29,8 @@ public class SaveData
     public List<CardSaveData> gainedCards = new List<CardSaveData>();
     //몬스터 저장
     public List<MonsterSaveData> monsters = new List<MonsterSaveData>();
+
+    public bool hasBubbleShield;
+    public float bubbleShieldPercent;
 }
 

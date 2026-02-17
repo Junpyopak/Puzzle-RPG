@@ -6,7 +6,8 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance;
 
-    public PlayerMove1 player;
+    public PlayerMove1 playerMove;
+    public Player player;
     public List<Monster> monsters = new List<Monster>();
 
     bool monsterTurnRunning = false;
@@ -29,7 +30,7 @@ public class TurnManager : MonoBehaviour
         monsterTurnRunning = true;
         Turn_Timer.Instance.ShowMonsterUI();
         //몬스터 턴 동안 플레이어 이동 금지
-        player.isPlayerTurn = false;
+        playerMove.isPlayerTurn = false;
 
         // 몬스터 전부 행동
         foreach (Monster m in monsters)
@@ -43,8 +44,9 @@ public class TurnManager : MonoBehaviour
         }
 
         //모든 몬스터 행동 종료
-        player.isPlayerTurn = true;
-        player.ResetMove();
+        playerMove.isPlayerTurn = true;
+        player.OnTurnEndRecovery();
+        playerMove.ResetMove();
         monsterTurnRunning = false;
         yield return new WaitForSeconds(1f);
 

@@ -55,18 +55,60 @@ public class PlayerCardManager : MonoBehaviour
                     player.Defence += Mathf.RoundToInt(value);
                 break;
 
-            case CardEffectType.HpPercent:
+            case CardEffectType.HpPercent: // 회복 카드
+                //if (card.isPercent)
+                //{
+                //    player.MaxHp = Mathf.RoundToInt(player.MaxHp * (1f + value));
+                //    if (player.Hp > player.MaxHp) player.Hp = player.MaxHp;
+                //}
+                //else
+                //{
+                //    player.MaxHp += Mathf.RoundToInt(value);
+                //    player.Hp += Mathf.RoundToInt(value);
+                //}
+                int healAmount;
+
                 if (card.isPercent)
                 {
-                    player.MaxHp = Mathf.RoundToInt(player.MaxHp * (1f + value));
-                    if (player.Hp > player.MaxHp) player.Hp = player.MaxHp;
+                    healAmount = Mathf.RoundToInt(player.MaxHp * value);
                 }
                 else
                 {
-                    player.MaxHp += Mathf.RoundToInt(value);
-                    player.Hp += Mathf.RoundToInt(value);
+                    healAmount = Mathf.RoundToInt(value);
                 }
-                break; 
+
+                player.Hp += healAmount;
+
+                // 최대체력 초과 방지
+                if (player.Hp > player.MaxHp)
+                    player.Hp = player.MaxHp;
+                break;   
+            case CardEffectType.MaxHpUp:// 최대체력 증가 카드
+                int increaseAmount;
+
+                if (card.isPercent)
+                {
+                    increaseAmount = Mathf.RoundToInt(player.MaxHp * value);
+                }
+                else
+                {
+                    increaseAmount = Mathf.RoundToInt(value);
+                }
+
+                player.MaxHp += increaseAmount;
+                // 증가한 만큼 회복
+                player.Hp += increaseAmount;
+
+                // 현재체력이 최대체력보다 클 경우만 제한
+                if (player.Hp > player.MaxHp)
+                    player.Hp = player.MaxHp;
+                break;
+
+            case CardEffectType.Recovery:
+                player.Recovery = true;
+                player.recoveryAmount += Mathf.RoundToInt(value);
+                break;
+
             case CardEffectType.CountUp:
                 if (card.isPercent)
                 {

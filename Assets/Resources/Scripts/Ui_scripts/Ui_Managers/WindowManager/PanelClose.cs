@@ -88,11 +88,17 @@ public class PanelClose : MonoBehaviour
                     currentHp = player.Hp,
                     attack = player.PlayerATK,
                     defense = player.Defence,
-                     moveCount = move.moveCount
+                     moveCount = move.moveCount,
+                    //은근슬쩍 회복 저장 추가
+                    recovery = player.Recovery,
+                    recoveryAmount = player.recoveryAmount,
+                    recoveryTurnInterval = player.recoveryTurnInterval,
+                    recoveryTurnCounter = player.recoveryTurnCounter
                 },
                 fieldItems = FieldItemManager.Instance.GetSaveData(),
-                TurnCount= currentTurn
-
+                TurnCount= currentTurn,
+                 hasBubbleShield = move.isBubbleShield,
+                bubbleShieldPercent = move.BubblePowerPercent,
             };
             // ===== 몬스터 저장 추가 =====
             data.monsters.Clear();
