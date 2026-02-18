@@ -47,6 +47,7 @@ public class TurnManager : MonoBehaviour
         playerMove.isPlayerTurn = true;
         player.Attack();
         player.ShootBoomerangs();
+        player.ShootSpikeBall();
         player.OnTurnEndRecovery();
         playerMove.ResetMove();
         monsterTurnRunning = false;

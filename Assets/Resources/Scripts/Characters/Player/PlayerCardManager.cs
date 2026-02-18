@@ -199,6 +199,10 @@ public class PlayerCardManager : MonoBehaviour
                 Debug.Log("카운터 활성화");
 
                 break;
+            case CardEffectType.BoundUp:
+                player.hasSpikeball = true;
+
+                    break;
 
         }
     }

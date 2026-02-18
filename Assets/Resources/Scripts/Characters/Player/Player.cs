@@ -67,6 +67,9 @@ public class Player : MonoBehaviour
     [Header("패시브 카운터 설정")]
     public bool PassiveCounter = false;
 
+    [Header("스파이크볼 설정")]
+    public GameObject spikeballPrefab;
+    public bool hasSpikeball = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
         originalColor = sr.color;
         GameManager.Instance.CardMgr.CardRarityOpen();
 
-}
+    }
     void LateUpdate()
     {
         if (!isClamp) return;
@@ -240,7 +243,7 @@ public class Player : MonoBehaviour
         {
             move.LoadGridPosition(new Vector2Int(data.playerGridX, data.playerGridY));
         }
-        
+
         if (data.playerStats != null)
         {
             ApplyStats(data.playerStats);
@@ -284,7 +287,7 @@ public class Player : MonoBehaviour
 
         };
         int currentTurn = 1;
-        if(turn!=null)
+        if (turn != null)
         {
             currentTurn = turn.TurnCount;
         }
@@ -341,7 +344,7 @@ public class Player : MonoBehaviour
         MaxHp = Hp;
         PlayerATK += AtkPerLevel;
 
-        if(PlayerLevel<3)
+        if (PlayerLevel < 3)
         {
             // 다음 레벨 필요 경험치 증가
             NeedExp *= 2;
@@ -359,7 +362,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             Monster monster = other.GetComponent<Monster>();
             if (monster != null)
@@ -443,7 +446,7 @@ public class Player : MonoBehaviour
 
 
 
-   public void UpdateBoomerangLevel()
+    public void UpdateBoomerangLevel()
     {
         if (GameManager.Instance.CardMgr == null) return;
 
@@ -452,7 +455,7 @@ public class Player : MonoBehaviour
         boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "BoomerangCard");
     }
 
-   public void ShootBoomerangs()
+    public void ShootBoomerangs()
     {
         if (boomerangPrefab == null) return;
 
@@ -471,5 +474,11 @@ public class Player : MonoBehaviour
                 bScript.Shot(shotDirections[i], this.transform);
             }
         }
+    }
+    public void ShootSpikeBall()
+    {
+        if(hasSpikeball==false) return;
+        if (spikeballPrefab == null) return;
+        Instantiate(spikeballPrefab, transform.position, Quaternion.identity);
     }
 }

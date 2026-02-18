@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class SpikeMove : MonoBehaviour
 {
-    public Camera cam;
+    private Camera cam;
     public float padding = 0.5f;
     public Vector3 velocity = new Vector3(1f, 1f, 0f); // ¿Ãµø º”µµ
     public int BoundCount = 1;
-
+    private PlayerCardManager cardManager;
     private void Start()
     {
         cam = Camera.main;
+        cardManager = FindObjectOfType<PlayerCardManager>();
     }
     void Update()
     {
@@ -37,7 +38,9 @@ public class SpikeMove : MonoBehaviour
             }
             else
             {
-                velocity = Vector3.zero; // ∆®±Ë »Ωºˆ ¥Ÿ µ«∏È ∏ÿ√„
+                //velocity = Vector3.zero; // ∆®±Ë »Ωºˆ ¥Ÿ µ«∏È ∏ÿ√„
+                Destroy(gameObject);
+                return;
             }
         }
         else if (pos.x > max.x - padding)
@@ -50,7 +53,9 @@ public class SpikeMove : MonoBehaviour
             }
             else
             {
-                velocity = Vector3.zero;
+                //velocity = Vector3.zero;
+                Destroy(gameObject);
+                return;
             }
         }
 
@@ -65,7 +70,9 @@ public class SpikeMove : MonoBehaviour
             }
             else
             {
-                velocity = Vector3.zero;
+                //velocity = Vector3.zero;
+                Destroy(gameObject);
+                return;
             }
         }
         else if (pos.y > max.y - padding)
@@ -78,7 +85,9 @@ public class SpikeMove : MonoBehaviour
             }
             else
             {
-                velocity = Vector3.zero;
+                //velocity = Vector3.zero;
+                Destroy(gameObject);
+                return;
             }
         }
 
