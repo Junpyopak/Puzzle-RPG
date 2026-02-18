@@ -194,6 +194,11 @@ public class PlayerCardManager : MonoBehaviour
                 Debug.Log("부메랑 레벨 증가: " + player.boomerangLevel);
 
                 break;
+            case CardEffectType.Counter:
+                player.PassiveCounter = true;
+                Debug.Log("카운터 활성화");
+
+                break;
 
         }
     }

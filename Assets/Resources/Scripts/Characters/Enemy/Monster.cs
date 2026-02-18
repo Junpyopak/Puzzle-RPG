@@ -286,7 +286,7 @@ public class Monster : MonoBehaviour
         }
         else//근거리일때
         {
-            player.TakeDamage(data.Atk);
+            player.TakeDamage(data.Atk, this);
         }
 
     }
@@ -306,7 +306,7 @@ public class Monster : MonoBehaviour
         // 미사일 이동 스크립트에 방향 전달
         EnemyMissile mm = missile.GetComponent<EnemyMissile>();
         if (mm != null)
-            mm.SetDirection(dir, EnemyMissileSpeed, data.Atk);
+            mm.SetDirection(dir, EnemyMissileSpeed, data.Atk, this);
     }
     void OnMonsterDead()
     {

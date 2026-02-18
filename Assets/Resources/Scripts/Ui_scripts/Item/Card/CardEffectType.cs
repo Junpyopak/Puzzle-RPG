@@ -17,5 +17,6 @@ public enum CardEffectType
     Bubble,
     Recovery,
     Boomerang,
+    Counter,
 }
 

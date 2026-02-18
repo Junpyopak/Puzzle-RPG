@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
@@ -61,6 +63,9 @@ public class Player : MonoBehaviour
     public int recoveryAmount = 0;
     public int recoveryTurnInterval = 2;
     public int recoveryTurnCounter = 0;
+
+    [Header("패시브 카운터 설정")]
+    public bool PassiveCounter = false;
 
     // Start is called before the first frame update
     void Start()
@@ -362,15 +367,21 @@ public class Player : MonoBehaviour
                 Debug.Log("플레이어 가 데미지 받음");
                 StartCoroutine(FlashCoroutine(1f));
                 int damage = monster.GetAttack();
-                TakeDamage(damage);
+                TakeDamage(damage, monster);
             }
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Monster attacker)
     {
         Hp -= damage;
         Debug.Log($"플레이어 데미지 {damage} / 현재 HP : {Hp}");
+        if (PassiveCounter && attacker != null)
+        {
+            attacker.TakeDamageFromBubble(PlayerATK);
+
+            Debug.Log($"카운터 발동 → {PlayerATK} 데미지 반사");
+        }
 
         if (Hp <= 0)
         {
