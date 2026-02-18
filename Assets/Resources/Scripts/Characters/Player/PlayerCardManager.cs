@@ -201,8 +201,13 @@ public class PlayerCardManager : MonoBehaviour
                 break;
             case CardEffectType.BoundUp:
                 player.hasSpikeball = true;
-
-                    break;
+                break; 
+            case CardEffectType.Emergency:
+                player.emergency = true;
+                break; 
+            case CardEffectType.Revival:
+                
+                break;
 
         }
     }

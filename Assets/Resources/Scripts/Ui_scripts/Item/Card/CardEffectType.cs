@@ -18,5 +18,7 @@ public enum CardEffectType
     Recovery,
     Boomerang,
     Counter,
+    Emergency,
+    Revival,
 }
 

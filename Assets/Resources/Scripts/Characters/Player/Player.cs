@@ -70,6 +70,14 @@ public class Player : MonoBehaviour
     [Header("스파이크볼 설정")]
     public GameObject spikeballPrefab;
     public bool hasSpikeball = false;
+    
+    [Header("응급 설정")]
+    public bool emergency = false;
+    public float emergencyThresholdPercent = 0.05f; // 5% 이하일 때 발동
+    public bool emergencyUsed = false;
+
+    [Header("부활 설정")]
+    public bool Revival = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -385,6 +393,18 @@ public class Player : MonoBehaviour
             attacker.TakeDamageFromBubble(PlayerATK);
 
             Debug.Log($"카운터 발동 → {PlayerATK} 데미지 반사");
+        }
+        // 응급 회복 (한 번만 발동)
+        if (emergency && !emergencyUsed)
+        {
+            int thresholdHp = Mathf.CeilToInt(MaxHp * emergencyThresholdPercent);
+
+            if (Hp <= thresholdHp)
+            {
+                Hp = MaxHp;
+                emergencyUsed = true;
+                Debug.Log("응급 회복 발동 → HP 전체 회복");
+            }
         }
 
         if (Hp <= 0)
