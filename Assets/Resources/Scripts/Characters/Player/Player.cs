@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     public Color flashColor = Color.red; // ±ôºýÀÏ »ö
     private float originalAlpha;
     private Color originalColor;
-
+    private PlayerCardManager cardManager;
     [Header("Å¸°Ù °ü·Ã")]
     public string enemyTag = "Enemy";   // Àû ÅÂ±×
     public float detectionDis = 10f;    // Å½Áö °Å¸®
@@ -80,6 +80,7 @@ public class Player : MonoBehaviour
         originalAlpha = sr.color.a;
         originalColor = sr.color;
         GameManager.Instance.CardMgr.CardRarityOpen();
+        cardManager = FindObjectOfType<PlayerCardManager>();
 
     }
     void LateUpdate()
@@ -479,6 +480,16 @@ public class Player : MonoBehaviour
     {
         if(hasSpikeball==false) return;
         if (spikeballPrefab == null) return;
-        Instantiate(spikeballPrefab, transform.position, Quaternion.identity);
+        GameObject ball = Instantiate(spikeballPrefab, transform.position, Quaternion.identity);
+
+        SpikeMove spike = ball.GetComponent<SpikeMove>();
+
+        PlayerCard boundCard = cardManager.ownedCards
+            .Find(c => c.data.effectType == CardEffectType.BoundUp);
+
+        if (boundCard != null)
+        {
+            spike.BoundCount = boundCard.level;
+        }
     }
 }
