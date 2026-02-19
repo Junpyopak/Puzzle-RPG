@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterID: 3
+  enemyTypeIndex: 3
   flashAlpha: 0.3
   fadeSpeed: 1
   flashDuration: 0.1

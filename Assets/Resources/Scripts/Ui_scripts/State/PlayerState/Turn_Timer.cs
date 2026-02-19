@@ -37,6 +37,7 @@ public class Turn_Timer : MonoBehaviour
     }
     void Start()
     {
+        player = FindObjectOfType<Player>();
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
         string roundWord = LocalizationSettings.StringDatabase.GetLocalizedString("Btn_Language", "Round");
@@ -91,7 +92,7 @@ public class Turn_Timer : MonoBehaviour
     }
     public void EndTurn()
     {
-        if (player.isDie == true) return; 
+        if (player.isDie) return; 
         if (!isPlayerTurn) return;
         isRunning = false;
         //Debug.Log("ео а╬╥А!");

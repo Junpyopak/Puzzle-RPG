@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     [Header("플레이어 사망")]
     public bool isDie =  false;
     private PuzzleBoard board;
+    public GameObject defeatUI;
 
     [Header("레벨 시스템")]
     public int NeedExp = 5;
@@ -451,6 +452,12 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.zero;
         Debug.Log("플레이어 완전히 사망");
     }
+
+    public void ShowDefeatUI()
+    {
+        defeatUI.SetActive(true);
+    }
+
     private IEnumerator FlashCoroutine(float totalTime)
     {
         float timer = 0f;

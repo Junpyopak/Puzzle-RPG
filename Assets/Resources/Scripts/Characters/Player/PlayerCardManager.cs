@@ -160,6 +160,7 @@ public class PlayerCardManager : MonoBehaviour
                 if (card.isPercent)
                 {
                     int increase = Mathf.CeilToInt(move1.moveCount * value);
+                    move1.moveCount += increase;
                     move1.moveRemain += increase;
 
                     Debug.Log("moveRemain Αυ°΅µΚ(Percent): +" + increase);
@@ -169,6 +170,7 @@ public class PlayerCardManager : MonoBehaviour
                 else
                 {
                     int increase = Mathf.CeilToInt(value);
+                    move1.moveCount += increase;
                     move1.moveRemain += increase;
 
                     Debug.Log("moveRemain Αυ°΅µΚ(Fixed): +" + increase);

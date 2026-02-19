@@ -327,6 +327,14 @@ public class Monster : MonoBehaviour
             Instantiate(food, transform.position, Quaternion.identity);
         }
     }
+    public void ResetEnemy()
+    {
+        sr.color = originalColor; // 원래 색으로 복구
+
+        // 필요하면 추가 초기화
+        //hp = maxHp;
+        // 상태이상 제거 등
+    }
 
     // 몬스터 경험치 드랍 타입 결정
     public ExpType GetRandomExpType()
@@ -399,7 +407,7 @@ public class Monster : MonoBehaviour
         monsterID = data.monsterID;
         enemyTypeIndex = data.enemyTypeIndex;
         Hp = data.hp;
-
+       
         gridPos = new Vector2Int(data.gridX, data.gridY);
 
         StartCoroutine(ApplyLoadedPosition());

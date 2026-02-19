@@ -46,6 +46,7 @@ public class PoolMgr : MonoBehaviour
     // 몬스터 반환
     public void ReturnEnemy(GameObject enemy)
     {
+        enemy.GetComponent<Monster>().ResetEnemy();
         enemy.SetActive(false);
     }
 }
