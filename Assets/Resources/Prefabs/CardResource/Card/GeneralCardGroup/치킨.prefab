@@ -306,6 +306,7 @@ MonoBehaviour:
   CardID: 19
   nameText: {fileID: 0}
   toolTipText: {fileID: 0}
+  cardImage: {fileID: 6715405709998199789}
 --- !u!33 &538999594501534913
 MeshFilter:
   m_ObjectHideFlags: 0

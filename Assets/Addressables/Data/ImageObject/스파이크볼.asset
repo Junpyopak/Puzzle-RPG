@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardID: 18
   Sprite: {fileID: 21300000, guid: 65d44d93700f4324f92971e054b3b7f3, type: 3}
+  EffectSprite: {fileID: 21300000, guid: 010b0ad8cf8d7494987989e027fa964e, type: 3}

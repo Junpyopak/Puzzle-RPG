@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Card : MonoBehaviour
     [Header("UI ÄÄÆ÷³ÍÆ®")]
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI toolTipText;
+
 
     void Awake()
     {
