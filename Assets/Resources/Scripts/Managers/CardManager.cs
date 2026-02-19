@@ -57,7 +57,21 @@ public class CardManager : MonoBehaviour
                 instantiatedCards.Add(newCard);
 
                 Card cardScript = newCard.GetComponent<Card>();
-                if (cardScript != null) cardScript.rarity = rarity;
+                //if (cardScript != null) cardScript.rarity = rarity;
+                if (cardScript != null)
+                {
+                    cardScript.rarity = rarity;
+
+                    // CardID 기반 데이터 로드
+                    cardScript.LoadData();
+
+                    // cardName과 cardToolTip 세팅
+                    if (cardScript.cardData != null)
+                    {
+                        cardScript.cardName = cardScript.cardData.CardName;
+                        cardScript.cardToolTip = cardScript.cardData.Description;
+                    }
+                }
 
                 //사용한 카드 임시풀에서 제거
                 targetPool.RemoveAt(randomIndex);
