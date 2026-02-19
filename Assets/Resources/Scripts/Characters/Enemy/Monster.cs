@@ -38,6 +38,21 @@ public class Monster : MonoBehaviour
 
     [Header("food Prefabs")]
     public GameObject foodPrefab;
+
+    [Header("itemBox Prefabs")]
+    public GameObject itemBoxPrefab;
+
+
+    [System.Serializable]
+    public class BleedStatus
+    {
+        public int damagePerTurn = 0;    // 한 턴당 데미지
+        public int remainingTurns = 0;   // 남은 턴 수
+        public float chance = 0f;        // 발동 확률 (0~1)
+    }
+
+    public BleedStatus bleed = null; // 몬스터별 출혈 상태
+
     void Start()
     {
         poolMgr = FindObjectOfType<PoolMgr>();
@@ -418,6 +433,23 @@ public class Monster : MonoBehaviour
         return null;
     }
 
+    // 몬스터 음식 드랍 결정
+    public GameObject GetRandomBox()
+    {
+
+        float roll = Random.Range(0f, 100f);
+
+        if (roll < data.BoxDrop)
+        {
+            Debug.Log("아이템 박스 드랍.");
+            return itemBoxPrefab;
+        }
+
+        //드롭되지 않으면 null 반환
+        Debug.Log("아이템 박스 드랍안됌.");
+        return null;
+    }
+
     public MonsterSaveData GetSaveData()
     {
         MonsterSaveData data = new MonsterSaveData();
@@ -452,6 +484,32 @@ public class Monster : MonoBehaviour
 
         SnapToCell();
         isInitialized = true;
+    }
+
+    // Monster 턴 종료 후 출혈이라면 호출
+    public void OnTurnEndBleed()
+    {
+        if (bleed == null) return;
+
+        if (Random.value <= bleed.chance)
+        {
+            Hp -= bleed.damagePerTurn;
+            StartCoroutine(FlashCoroutine()); // 데미지 깜빡임
+            Debug.Log($"{data.Name} 출혈 피해 {bleed.damagePerTurn} / 남은 HP {Hp}");
+
+            if (Hp <= 0)
+            {
+                Hp = 0;
+                Die();
+            }
+        }
+
+        bleed.remainingTurns--;
+        if (bleed.remainingTurns <= 0)
+        {
+            bleed = null;
+            Debug.Log($"{data.Name} 출혈 효과 종료");
+        }
     }
 }
 

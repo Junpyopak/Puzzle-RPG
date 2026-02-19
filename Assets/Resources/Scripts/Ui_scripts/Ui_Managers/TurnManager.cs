@@ -57,6 +57,11 @@ public class TurnManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.1f);
             }
+            // 몬스터 턴 종료 직후
+            if (m != null && m.bleed != null)
+            {
+                m.OnTurnEndBleed();
+            }
         }
 
         //모든 몬스터 행동 종료

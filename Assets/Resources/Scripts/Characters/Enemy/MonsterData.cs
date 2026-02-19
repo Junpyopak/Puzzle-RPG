@@ -20,4 +20,7 @@ public class MonsterData
 
     //회복음식 확률
     public float FoodDrop;
+
+    //아이템 상자 확률
+    public float BoxDrop;
 }

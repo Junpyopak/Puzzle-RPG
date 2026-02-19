@@ -18,7 +18,7 @@ public class RetryButton : MonoBehaviour
 
     public void OnClickRetry()
     {
-        int slot = SaveContext.Instance.currentSlot;
+
 
         // 저장 데이터가 있든 없든 전투 씬으로 이동
         Scenemgr.Instance.ChangeScene(eSCENE.GameScene);

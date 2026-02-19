@@ -27,7 +27,7 @@ public class PlayerCardManager : MonoBehaviour
     public void GainCard(CardBaseData cardData)
     {
         PlayerCard card = ownedCards.Find(c => c.data.CardID == cardData.CardID);
-        Debug.Log("GainCard 호출됨: " );
+        Debug.Log("GainCard 호출됨: ");
         if (card == null)
         {
             // 새 카드 획득
@@ -137,7 +137,7 @@ public class PlayerCardManager : MonoBehaviour
                 // 최대체력 초과 방지
                 if (player.Hp > player.MaxHp)
                     player.Hp = player.MaxHp;
-                break;   
+                break;
             case CardEffectType.MaxHpUp:// 최대체력 증가 카드
                 int increaseAmount;
 
@@ -173,7 +173,7 @@ public class PlayerCardManager : MonoBehaviour
 
                     Debug.Log("moveRemain 증가됨(Percent): +" + increase);
                     Debug.Log("현재 moveRemain: " + move1.moveRemain);
-                  
+
                 }
                 else
                 {
@@ -184,7 +184,7 @@ public class PlayerCardManager : MonoBehaviour
                     Debug.Log("moveRemain 증가됨(Fixed): +" + increase);
                     Debug.Log("현재 moveRemain: " + move1.moveRemain);
                 }
-                break;  
+                break;
             case CardEffectType.Bubble:
                 if (card.isPercent)
                 {
@@ -213,37 +213,61 @@ public class PlayerCardManager : MonoBehaviour
 
             case CardEffectType.BoundUp:
                 player.hasSpikeball = true;
-                break; 
+                break;
 
             case CardEffectType.Emergency:
                 player.emergency = true;
-                break; 
+                break;
 
             case CardEffectType.Revival:
                 player.Revival = true;
-                break;  
+                break;
 
             case CardEffectType.Lucky:
                 AddLuckyChanceToPlayer(value);
                 break;
-                
+
             case CardEffectType.TwoPick:
 
                 GameManager.Instance.CardMgr.twoPickValue = value;
                 Debug.Log($"TwoPick 카드 적용: value = {value}% 확률");
-                break;  
-                
+                break;
+
             case CardEffectType.Angry:
-                player. Anger = true;
+                player.Anger = true;
                 if (card.isPercent)
                     player.PlayerATK = Mathf.RoundToInt(player.PlayerATK * (1f + value));
                 else
                     player.PlayerATK += Mathf.RoundToInt(value);
-                break; 
+                break;
             case CardEffectType.Revenge:
-                player. revenge = true;
+                player.revenge = true;
                 player.revengeAmount += value; // 중복 카드일 경우 누적
                 Debug.Log($"복수 카드 적용 → 누적 공격력 증가 {player.revengeAmount * 100}%");
+                break;
+
+            case CardEffectType.MagnetRange:
+                player.pickupDistanceBonus += value; // CSV 수치만큼 누적
+                Debug.Log($"자석 거리 증가: +{value} → 총 {player.pickupDistanceBonus}");
+                break;
+
+            case CardEffectType.BonusExp:
+                player.bonusExpIncrease += Mathf.RoundToInt(value); // CSV 값 그대로 누적
+                Debug.Log($"보너스 경험치 카드 적용 → 누적 +{player.bonusExpIncrease}");
+                break;
+
+            case CardEffectType.BloodDamage:
+                player.hasBloodDamage = true;
+                // isPercent에 따라 확률 계산
+                if (card.isPercent)
+                    player.bloodDamageChance = value * 100f; // value = 0.05 → 5%
+                else
+                    player.bloodDamageChance = value;// value = 5 → 5%
+
+                player.bloodDamagePerTick = 1;   // 틱 데미지 1
+                player.bloodDamageTurns = 3;     // 3턴 지속
+
+                Debug.Log($"블러드 카드 적용: 확률 {player.bloodDamageChance}% / 틱데미지 {player.bloodDamagePerTick} / {player.bloodDamageTurns}턴 지속");
                 break;
 
         }

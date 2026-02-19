@@ -24,5 +24,7 @@ public enum CardEffectType
     TwoPick,
     Angry,
     Revenge,
+    BonusExp,
+    BloodDamage,
 }
 

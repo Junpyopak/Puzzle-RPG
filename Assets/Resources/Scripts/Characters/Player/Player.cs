@@ -102,6 +102,19 @@ public class Player : MonoBehaviour
     public int revengeTurnCounter = 0;
     private int revengeHitThisTurn = 0; // 턴 동안 맞은 횟수
     public bool revengeActiveThisTurn = false;
+    
+    [Header("아이템 자석 설정")]
+    public float pickupDistanceBonus = 0f; 
+
+    [Header("경험치 보너스설정")]
+    public int bonusExpIncrease = 0;
+
+    [Header("날카로운 검 출혈 설정")]
+    public bool hasBloodDamage = false;
+    public float bloodDamageChance = 0f;  // 발동 확률 %
+    public int bloodDamagePerTick = 1;     // 틱당 데미지
+    public int bloodDamageTurns = 3;       // 지속 턴 수
+
     // Start is called before the first frame update
 
     private void Awake()
