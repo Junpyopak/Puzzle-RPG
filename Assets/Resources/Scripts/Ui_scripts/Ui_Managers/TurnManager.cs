@@ -67,6 +67,7 @@ public class TurnManager : MonoBehaviour
         player.ShootBoomerangs();
         player.ShootSpikeBall();
         player.OnTurnEndRecovery();
+        player.OnTurnEndAnger();
         playerMove.ResetMove();
         monsterTurnRunning = false;
         yield return new WaitForSeconds(1f);

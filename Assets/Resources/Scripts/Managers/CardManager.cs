@@ -23,6 +23,11 @@ public class CardManager : MonoBehaviour
 
     [Header("플레이어가 획득한 카드 이름 리스트")]
     public List<string> selectCardNames = new List<string>();
+
+    [Header("TwoPick 관련")]
+    [SerializeField] public bool twoPick = false;
+    [SerializeField] public float twoPickValue = 0f;
+
     public void CardRarityOpen()
     {
         if (isOpen) return;

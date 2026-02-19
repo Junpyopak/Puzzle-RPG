@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     public int Exp = 0;
     public int PlayerLevel = 1;
     public int PlayerATK = 1;
+    private int baseATK;        // 기본 공격력 저장
     public int Defence = 0;
 
     [Header("플레이어 사망")]
@@ -83,7 +84,16 @@ public class Player : MonoBehaviour
 
     [Header("부활 설정")]
     public bool Revival = false;
-    public bool revivalUsed = false;
+    public bool revivalUsed = false; 
+    
+    [Header("럭키 설정")]
+    public float LuckyChance = 0f;
+
+    [Header("분노 설정")]
+    public bool Anger = false;
+    public int AngeAmount = 0;
+    public int AngerTurnInterval = 3;
+    public int AngerTurnCounter = 0;
     // Start is called before the first frame update
 
     private void Awake()
@@ -97,6 +107,7 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
+        baseATK = PlayerATK; // 초기 기본 공격력 저장
         recoveryTurnCounter = 0;
         Hp = MaxHp;
         anim = GetComponent<Animator>();
@@ -362,6 +373,28 @@ public class Player : MonoBehaviour
             Debug.Log($"은근슬쩍 회복 발동 +{recoveryAmount}");
         }
     }
+
+    // 분노 효과 - 턴 종료 시 발동 및 원복
+    public void OnTurnEndAnger()
+    {
+        if (!Anger) return;
+
+        AngerTurnCounter++;
+
+        if (AngerTurnCounter >= AngerTurnInterval)
+        {
+            AngerTurnCounter = 0;
+
+            // 분노 효과 적용 (턴 동안만)
+            PlayerATK = Mathf.RoundToInt(baseATK * (1f + AngeAmount));
+            Debug.Log($"분노효과 발동 +{AngeAmount * 100}%");
+
+            // 바로 원복 처리 - 다음 턴으로 넘어가면 공격력 원래대로
+            // (혹은 원하면 Update나 턴 종료 이벤트에서 다시 원복)
+            PlayerATK = baseATK;
+            Debug.Log("분노효과 종료, 공격력 원복");
+        }
+    }
     void LevelUp() //플레이어 레벨업
     {
         PlayerLevel++; //현재 플레이어 레벨 증가
@@ -400,9 +433,20 @@ public class Player : MonoBehaviour
             }
         }
     }
-
+    //럭키
+    public void AddTemporaryDodge(float chance)
+    {
+        LuckyChance += chance;
+        LuckyChance = Mathf.Clamp01(LuckyChance); // 최대 100%
+    }
     public void TakeDamage(int damage, Monster attacker)
     {
+        // Lucky 회피 확률 체크
+        if (LuckyChance > 0f && Random.value < LuckyChance)
+        {
+            Debug.Log("럭키 회피 성공! 데미지 무시");
+            return; // 데미지 무시
+        }
         Hp -= damage;
         Debug.Log($"플레이어 데미지 {damage} / 현재 HP : {Hp}");
         if (PassiveCounter && attacker != null)

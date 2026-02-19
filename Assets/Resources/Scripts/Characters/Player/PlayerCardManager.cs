@@ -204,19 +204,41 @@ public class PlayerCardManager : MonoBehaviour
                 Debug.Log("부메랑 레벨 증가: " + player.boomerangLevel);
 
                 break;
+
             case CardEffectType.Counter:
                 player.PassiveCounter = true;
                 Debug.Log("카운터 활성화");
 
                 break;
+
             case CardEffectType.BoundUp:
                 player.hasSpikeball = true;
                 break; 
+
             case CardEffectType.Emergency:
                 player.emergency = true;
                 break; 
+
             case CardEffectType.Revival:
                 player.Revival = true;
+                break;  
+
+            case CardEffectType.Lucky:
+                AddLuckyChanceToPlayer(value);
+                break;
+                
+            case CardEffectType.TwoPick:
+
+                GameManager.Instance.CardMgr.twoPickValue = value;
+                Debug.Log($"TwoPick 카드 적용: value = {value}% 확률");
+                break;  
+                
+            case CardEffectType.Angry:
+                player. Anger = true;
+                if (card.isPercent)
+                    player.PlayerATK = Mathf.RoundToInt(player.PlayerATK * (1f + value));
+                else
+                    player.PlayerATK += Mathf.RoundToInt(value);
                 break;
 
         }
@@ -270,5 +292,14 @@ public class PlayerCardManager : MonoBehaviour
     {
         ownedCards.Clear();
         Debug.Log("PlayerCardManager 초기화 완료");
+    }
+
+    private void AddLuckyChanceToPlayer(float increase)
+    {
+        player.LuckyChance += increase; // CSV 값 그대로 누적
+        //player.LuckyChance = Mathf.Clamp01(player.LuckyChance); // 최대 1(100%) 제한
+
+        Debug.Log($"럭키 회피율 증가: {increase} → 현재 LuckyChance: {player.LuckyChance}");
+
     }
 }

@@ -679,7 +679,7 @@ MonoBehaviour:
     baseValue: 0
     valuePerLevel: 0
   cardName: 
-  CardID: 15
+  CardID: 12
 --- !u!33 &8179955110518847480
 MeshFilter:
   m_ObjectHideFlags: 0

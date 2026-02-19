@@ -20,10 +20,9 @@ public class RetryButton : MonoBehaviour
     {
         int slot = SaveContext.Instance.currentSlot;
 
-        if (SaveManager.HasSave(slot))
-        {
-            Scenemgr.Instance.ChangeScene(eSCENE.MainMenu);
-        }
+        // 저장 데이터가 있든 없든 전투 씬으로 이동
+        Scenemgr.Instance.ChangeScene(eSCENE.GameScene);
+
     }
     public void Gotittle()
     {

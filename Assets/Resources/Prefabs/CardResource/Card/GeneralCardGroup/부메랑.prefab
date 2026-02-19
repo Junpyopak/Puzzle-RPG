@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 5674784887514265132}
   - component: {fileID: 5480221402741426735}
   m_Layer: 0
-  m_Name: BoomerangCard
+  m_Name: "\uBD80\uBA54\uB791"
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
     baseValue: 0
     valuePerLevel: 0
   cardName: 
-  CardID: 11
+  CardID: 8
 --- !u!33 &538999594501534913
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -20,5 +20,8 @@ public enum CardEffectType
     Counter,
     Emergency,
     Revival,
+    Lucky,
+    TwoPick,
+    Angry,
 }
 

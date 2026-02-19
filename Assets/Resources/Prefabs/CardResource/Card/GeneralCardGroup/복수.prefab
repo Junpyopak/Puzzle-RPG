@@ -290,7 +290,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rarity: 0
+  cardData:
+    CardID: 0
+    CardName: 
+    CardType: 
+    Description: 
+    Grade: 
+    MaxLevel: 0
+    effectType: 0
+    isPercent: 1
+    baseValue: 0
+    valuePerLevel: 0
   cardName: 
+  CardID: 15
 --- !u!33 &538999594501534913
 MeshFilter:
   m_ObjectHideFlags: 0
