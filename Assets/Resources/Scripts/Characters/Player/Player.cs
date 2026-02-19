@@ -94,6 +94,14 @@ public class Player : MonoBehaviour
     public int AngeAmount = 0;
     public int AngerTurnInterval = 3;
     public int AngerTurnCounter = 0;
+    
+    [Header("복수 설정")]
+    public bool revenge = false;
+    public float revengeAmount = 0;
+    public int revengeTurnInterval = 3;
+    public int revengeTurnCounter = 0;
+    private int revengeHitThisTurn = 0; // 턴 동안 맞은 횟수
+    public bool revengeActiveThisTurn = false;
     // Start is called before the first frame update
 
     private void Awake()
@@ -395,6 +403,28 @@ public class Player : MonoBehaviour
             Debug.Log("분노효과 종료, 공격력 원복");
         }
     }
+
+    // 복수 효과 - 턴 종료 시 발동 및 원복
+    public void OnTurnEndRevenge()
+    {
+        if (!revenge) return;
+
+        revengeTurnCounter++;
+
+        if (revengeTurnCounter >= revengeTurnInterval)
+        {
+            revengeTurnCounter = 0;
+
+            // 분노 효과 적용 (턴 동안만)
+            PlayerATK = Mathf.RoundToInt(baseATK * (1f + revengeAmount));
+            Debug.Log($"복수 효과 발동 +{revengeAmount * 100}%");
+
+            // 바로 원복 처리 - 다음 턴으로 넘어가면 공격력 원래대로
+            // (혹은 원하면 Update나 턴 종료 이벤트에서 다시 원복)
+            PlayerATK = baseATK;
+            Debug.Log("복수 효과 종료, 공격력 원복");
+        }
+    }
     void LevelUp() //플레이어 레벨업
     {
         PlayerLevel++; //현재 플레이어 레벨 증가
@@ -449,6 +479,21 @@ public class Player : MonoBehaviour
         }
         Hp -= damage;
         Debug.Log($"플레이어 데미지 {damage} / 현재 HP : {Hp}");
+
+
+        // 복수 효과 발동
+        if (revenge && !revengeActiveThisTurn)
+        {
+            revengeHitThisTurn++;
+
+            if (revengeHitThisTurn % revengeTurnInterval == 0)
+            {
+                PlayerATK = Mathf.RoundToInt(baseATK * (1f + revengeAmount));
+                revengeActiveThisTurn = true;
+                Debug.Log($"복수 효과 발동! 맞은 횟수 {revengeHitThisTurn} → 공격력 +{revengeAmount * 100}%");
+            }
+        }
+
         if (PassiveCounter && attacker != null)
         {
             attacker.TakeDamageFromBubble(PlayerATK);

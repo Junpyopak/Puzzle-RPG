@@ -239,6 +239,11 @@ public class PlayerCardManager : MonoBehaviour
                     player.PlayerATK = Mathf.RoundToInt(player.PlayerATK * (1f + value));
                 else
                     player.PlayerATK += Mathf.RoundToInt(value);
+                break; 
+            case CardEffectType.Revenge:
+                player. revenge = true;
+                player.revengeAmount += value; // 중복 카드일 경우 누적
+                Debug.Log($"복수 카드 적용 → 누적 공격력 증가 {player.revengeAmount * 100}%");
                 break;
 
         }

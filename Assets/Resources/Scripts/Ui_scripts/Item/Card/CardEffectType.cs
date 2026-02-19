@@ -23,5 +23,6 @@ public enum CardEffectType
     Lucky,
     TwoPick,
     Angry,
+    Revenge,
 }
 
