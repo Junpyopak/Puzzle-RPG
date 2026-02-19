@@ -2479,6 +2479,8 @@ MonoBehaviour:
   cellSize: {x: 60, y: 55}
   spacing: {x: 3, y: 5}
   ComboText: {fileID: 657787562}
+  isPlayerTurn: 1
+  isPlayerDead: 0
 --- !u!1 &360244963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,6 +2940,7 @@ MonoBehaviour:
   PlayerLevel: 1
   PlayerATK: 1
   Defence: 0
+  isDie: 0
   NeedExp: 5
   HpPerLevel: 5
   AtkPerLevel: 1
@@ -2954,6 +2957,12 @@ MonoBehaviour:
   recoveryTurnCounter: 0
   PassiveCounter: 0
   spikeballPrefab: {fileID: 2478256471109115392, guid: fb53dd4219c1ef14aa95c97ab2e16676, type: 3}
+  hasSpikeball: 0
+  emergency: 0
+  emergencyThresholdPercent: 0.05
+  emergencyUsed: 0
+  Revival: 0
+  revivalUsed: 0
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2986,8 +2995,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.057520986, y: 0.6514424}
-  m_Size: {x: 1.1346042, y: 1.7184865}
+  m_Offset: {x: -0.057520986, y: 0.62312746}
+  m_Size: {x: 1.1346042, y: 1.4693546}
   m_Direction: 0
 --- !u!114 &437311292
 MonoBehaviour:
@@ -7764,6 +7773,7 @@ MonoBehaviour:
   playerMove: {fileID: 437311294}
   player: {fileID: 437311290}
   monsters: []
+  board: {fileID: 0}
 --- !u!1 &1238139395
 GameObject:
   m_ObjectHideFlags: 0
@@ -9529,6 +9539,7 @@ MonoBehaviour:
   isPaused: 0
   playerTurnUI: {fileID: 1724624189}
   monsterTurnUI: {fileID: 1319308732}
+  player: {fileID: 0}
 --- !u!1 &1693440027
 GameObject:
   m_ObjectHideFlags: 0

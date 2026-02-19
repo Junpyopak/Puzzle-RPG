@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
     public int PlayerATK = 1;
     public int Defence = 0;
 
+    [Header("플레이어 사망")]
+    public bool isDie =  false;
+    private PuzzleBoard board;
+
     [Header("레벨 시스템")]
     public int NeedExp = 5;
 
@@ -78,6 +82,7 @@ public class Player : MonoBehaviour
 
     [Header("부활 설정")]
     public bool Revival = false;
+    public bool revivalUsed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -89,6 +94,7 @@ public class Player : MonoBehaviour
         originalColor = sr.color;
         GameManager.Instance.CardMgr.CardRarityOpen();
         cardManager = FindObjectOfType<PlayerCardManager>();
+        board = FindObjectOfType<PuzzleBoard>();
 
     }
     void LateUpdate()
@@ -404,14 +410,46 @@ public class Player : MonoBehaviour
                 Hp = MaxHp;
                 emergencyUsed = true;
                 Debug.Log("응급 회복 발동 → HP 전체 회복");
+                return;
             }
         }
 
         if (Hp <= 0)
         {
+            if(Revival && !revivalUsed)
+            {
+                Hp = MaxHp;
+                revivalUsed = true;
+                Debug.Log("부활 발동 → 최대 체력으로 부활");
+
+                return; //죽지 않게 여기서 종료
+            }
             Hp = 0;
             Debug.Log("플레이어 사망");
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        if (isDie) return;
+        anim.SetBool("PlayerDie",true);
+        if(board!=null)
+        {
+            board.isPlayerDead = true;
+            board.isPlayerTurn = false;
+        }
+        // 이동 막기
+        GetComponent<PlayerMove1>().enabled = false;
+        // 콜라이더 막기 (선택)
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = false;
+        // 필요하면 Rigidbody 정지
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+            rb.velocity = Vector2.zero;
+        Debug.Log("플레이어 완전히 사망");
     }
     private IEnumerator FlashCoroutine(float totalTime)
     {

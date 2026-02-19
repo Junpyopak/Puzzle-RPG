@@ -21,6 +21,8 @@ public class Turn_Timer : MonoBehaviour
     public GameObject playerTurnUI;
     public GameObject monsterTurnUI;
 
+    public Player player;
+
     private bool isPlayerTurn = true;
     private void Awake()
     {
@@ -89,6 +91,7 @@ public class Turn_Timer : MonoBehaviour
     }
     public void EndTurn()
     {
+        if (player.isDie == true) return; 
         if (!isPlayerTurn) return;
         isRunning = false;
         //Debug.Log("ео а╬╥А!");
@@ -105,7 +108,7 @@ public class Turn_Timer : MonoBehaviour
         //EnemyTurnText.text = roundWord + " : " + TurnCount;
         //TurnCount++;
         //SpawnMgr.Instance.SpawnOnRoundStart();
-        isRunning = false;
+        //isRunning = false;
         StartCoroutine(EndTurnRoutine());
     }
     IEnumerator EndTurnRoutine()

@@ -17,6 +17,11 @@ public class PuzzleBoard : MonoBehaviour
     private RectTransform boardRect;
     List<PuzzleBlock> disabledBlocks = new List<PuzzleBlock>();
 
+    [Header("Control State")]
+    public bool isPlayerTurn = true;
+    public bool isPlayerDead = false;
+
+
     private void Awake()
     {
         //ComboText.enabled = false;
@@ -79,6 +84,14 @@ public class PuzzleBoard : MonoBehaviour
 
     public void TrySwap(PuzzleBlock a, PuzzleBlock b)
     {
+        if (!CanControl())
+        {
+            // ¿øÀ§Ä¡ º¹±Í
+            a.transform.localPosition = GetPosition(a.x, a.y);
+            b.transform.localPosition = GetPosition(b.x, b.y);
+            return;
+        }
+
         int dx = Mathf.Abs(a.x - b.x);
         int dy = Mathf.Abs(a.y - b.y);
 
@@ -414,6 +427,10 @@ public class PuzzleBoard : MonoBehaviour
     public bool HasMatchedBlocks()
     {
         return disabledBlocks.Count > 0;
+    }
+    public bool CanControl()
+    {
+        return isPlayerTurn && !isPlayerDead;
     }
 }
 

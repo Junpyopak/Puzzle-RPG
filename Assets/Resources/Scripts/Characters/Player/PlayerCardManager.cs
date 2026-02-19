@@ -206,7 +206,7 @@ public class PlayerCardManager : MonoBehaviour
                 player.emergency = true;
                 break; 
             case CardEffectType.Revival:
-                
+                player.Revival = true;
                 break;
 
         }

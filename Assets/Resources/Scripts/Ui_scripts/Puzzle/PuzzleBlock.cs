@@ -24,7 +24,7 @@ public class PuzzleBlock : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (isDisabled)
+        if (isDisabled || !board.CanControl())
             return;
         startPos = transform.position;
         canvasGroup.blocksRaycasts = false;
@@ -32,14 +32,14 @@ public class PuzzleBlock : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDisabled)
+        if (isDisabled || !board.CanControl())
             return;
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (isDisabled)
+        if (isDisabled || !board.CanControl())
             return;
         canvasGroup.blocksRaycasts = true;
 

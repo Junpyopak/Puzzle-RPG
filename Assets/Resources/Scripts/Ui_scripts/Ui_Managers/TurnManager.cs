@@ -9,6 +9,7 @@ public class TurnManager : MonoBehaviour
     public PlayerMove1 playerMove;
     public Player player;
     public List<Monster> monsters = new List<Monster>();
+    public PuzzleBoard board;
 
     bool monsterTurnRunning = false;
 
@@ -31,7 +32,7 @@ public class TurnManager : MonoBehaviour
         Turn_Timer.Instance.ShowMonsterUI();
         //몬스터 턴 동안 플레이어 이동 금지
         playerMove.isPlayerTurn = false;
-
+        board.isPlayerTurn = false;
         // 몬스터 전부 행동
         foreach (Monster m in monsters)
         {
@@ -45,6 +46,7 @@ public class TurnManager : MonoBehaviour
 
         //모든 몬스터 행동 종료
         playerMove.isPlayerTurn = true;
+        board.isPlayerTurn = true;
         player.Attack();
         player.ShootBoomerangs();
         player.ShootSpikeBall();
