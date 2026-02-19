@@ -367,7 +367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 48704bdb4e16fc64bb732955de30a3b9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 75ec5ae5250a38d419e6e86fa1063c4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -679,7 +679,10 @@ MonoBehaviour:
     baseValue: 0
     valuePerLevel: 0
   cardName: 
+  cardToolTip: 
   CardID: 11
+  nameText: {fileID: 0}
+  toolTipText: {fileID: 0}
 --- !u!33 &8179955110518847480
 MeshFilter:
   m_ObjectHideFlags: 0
