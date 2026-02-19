@@ -29,6 +29,7 @@ public class TurnManager : MonoBehaviour
     {
         Debug.Log("MonsterTurnCoroutine 실행됨");
         monsterTurnRunning = true;
+        board.OnTurnEnd();
         Turn_Timer.Instance.ShowMonsterUI();
         //몬스터 턴 동안 플레이어 이동 금지
         playerMove.isPlayerTurn = false;
@@ -61,6 +62,7 @@ public class TurnManager : MonoBehaviour
         //모든 몬스터 행동 종료
         playerMove.isPlayerTurn = true;
         board.isPlayerTurn = true;
+        board.OnTurnStart();
         player.Attack();
         player.ShootBoomerangs();
         player.ShootSpikeBall();

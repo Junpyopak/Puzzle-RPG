@@ -135,4 +135,16 @@ public class PlayerMove1 : MonoBehaviour
 
         BubblePowerPercent = damagePercen; //ÀúÀå¿ë
     }
+
+    public void ClearBubbles()
+    {
+        foreach (var bubble in activeBubbles)
+        {
+            if (bubble != null)
+                Destroy(bubble);
+        }
+        activeBubbles.Clear();
+        isBubbleShield = false;
+        BubblePowerPercent = 0f;
+    }
 }

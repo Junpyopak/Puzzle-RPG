@@ -66,21 +66,53 @@ public class Monster : MonoBehaviour
 
 
     //전투
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (!collision.CompareTag("PlayerAttack")) return;
+    //    Damage();
+    //    Debug.Log("데미지 받음.");
+    //}
+    //void Damage()
+    //{
+    //    int damage = Mathf.Max(player.PlayerATK, 1);
+    //    Debug.Log($"Damage() 호출 시 PlayerATK = {damage}");
+    //    //Hp -= player.PlayerATK;
+    //    Hp -= damage;
+    //    StartCoroutine(FlashCoroutine());
+    //    if (Hp <= 0)
+    //    {
+    //        Hp = 0;
+    //        Die();
+    //    }
+    //}
+    //public void TakeDamageFromPlayer(float atk)
+    //{
+
+
+    //    int damage = Mathf.RoundToInt(atk); // 한 번만 반올림
+    //    Hp -= damage;
+    //    Debug.Log($"몬스터가 {damage} 데미지를 받음 / 남은 HP: {Hp}");
+    //    StartCoroutine(FlashCoroutine()); // 깜빡임 효과
+
+    //    if (Hp <= 0)
+    //    {
+    //        Hp = 0;
+    //        Die();
+    //    }
+    //}
+    public void TakeDamageFromPlayer(float atk)
     {
-        if (!collision.CompareTag("PlayerAttack")) return;
-        Damage();
-        Debug.Log("데미지 받음.");
-    }
-    void Damage()
-    {
-        Hp -= player.PlayerATK;
+        int damage = Mathf.Max(1, Mathf.RoundToInt(atk)); // 최소 1
+        Hp -= damage;
         StartCoroutine(FlashCoroutine());
+
         if (Hp <= 0)
         {
             Hp = 0;
             Die();
         }
+
+        Debug.Log($"몬스터가 {damage} 데미지를 받음 / PlayerATK:{atk} / 남은 HP:{Hp}");
     }
     public void TakeDamageFromBubble(int damage)
     {

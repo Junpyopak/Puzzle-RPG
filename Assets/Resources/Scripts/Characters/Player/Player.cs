@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     public int Defence = 0;
 
     [Header("플레이어 사망")]
-    public bool isDie =  false;
+    public bool isDie = false;
     private PuzzleBoard board;
     public GameObject defeatUI;
 
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     [Header("스파이크볼 설정")]
     public GameObject spikeballPrefab;
     public bool hasSpikeball = false;
-    
+
     [Header("응급 설정")]
     public bool emergency = false;
     public float emergencyThresholdPercent = 0.05f; // 5% 이하일 때 발동
@@ -85,6 +85,16 @@ public class Player : MonoBehaviour
     public bool Revival = false;
     public bool revivalUsed = false;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+
+        Debug.Log("PlayerATK at Awake: " + PlayerATK);
+    }
+    public void SetTemporaryATK(int value)
+    {
+        PlayerATK = value; // 최소 보장 없이 바로 적용
+    }
     void Start()
     {
         recoveryTurnCounter = 0;
@@ -135,7 +145,6 @@ public class Player : MonoBehaviour
         //    ShootBoomerangs();
         //}
     }
-
     public void Attack()
     {
         //v 누르면 공격 나가기
@@ -189,7 +198,8 @@ public class Player : MonoBehaviour
         // 미사일 이동 스크립트에 방향 전달
         MissileMove mm = missile.GetComponent<MissileMove>();
         if (mm != null)
-            mm.SetDirection(dir, MissileSpeed);
+        mm.SetDirection(dir, MissileSpeed);
+
     }
     private GameObject FindNearestEnemy()
     {
@@ -417,7 +427,7 @@ public class Player : MonoBehaviour
 
         if (Hp <= 0)
         {
-            if(Revival && !revivalUsed)
+            if (Revival && !revivalUsed)
             {
                 Hp = MaxHp;
                 revivalUsed = true;
@@ -434,8 +444,8 @@ public class Player : MonoBehaviour
     private void Die()
     {
         if (isDie) return;
-        anim.SetBool("PlayerDie",true);
-        if(board!=null)
+        anim.SetBool("PlayerDie", true);
+        if (board != null)
         {
             board.isPlayerDead = true;
             board.isPlayerTurn = false;
@@ -543,7 +553,7 @@ public class Player : MonoBehaviour
     }
     public void ShootSpikeBall()
     {
-        if(hasSpikeball==false) return;
+        if (hasSpikeball == false) return;
         if (spikeballPrefab == null) return;
         GameObject ball = Instantiate(spikeballPrefab, transform.position, Quaternion.identity);
 

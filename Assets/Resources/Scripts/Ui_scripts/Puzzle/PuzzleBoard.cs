@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,14 @@ public class PuzzleBoard : MonoBehaviour
 
     public Vector2 cellSize = new Vector2(60, 55);
     public Vector2 spacing = new Vector2(3, 5);
-
+    [Header("콤보 공격력")]
+    public Player player; // 인스펙터에서 연결
     public Text ComboText;
     private int ComboCount = 0;
+    private float tempATKMultiplier = 1f; // 콤보 배율
+    private int originalATK ; // 턴 시작 시 저장할 공격력
+    public int comboAtk = 0;  // 콤보 공격력 변수
+
     public PuzzleBlock[,] blocks;
     private RectTransform boardRect;
     List<PuzzleBlock> disabledBlocks = new List<PuzzleBlock>();
@@ -20,6 +26,7 @@ public class PuzzleBoard : MonoBehaviour
     [Header("Control State")]
     public bool isPlayerTurn = true;
     public bool isPlayerDead = false;
+
 
 
     private void Awake()
@@ -30,7 +37,11 @@ public class PuzzleBoard : MonoBehaviour
         //InitBoard();
         ComboText.enabled = false;
         boardRect = GetComponent<RectTransform>();
-
+        player = FindObjectOfType<Player>();
+        if (player == null)
+        {
+            Debug.LogError("씬에 Player가 없습니다!");
+        }
         if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
         {
             //이어하기면 건드리지 마라
@@ -174,14 +185,25 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
 
-
         if (matched.Count > 0)
         {
             ComboText.enabled = true;
             ComboCount++;
             ComboText.text = "Combo " + ComboCount;
+
+            tempATKMultiplier = GetComboMultiplier(ComboCount);
+
+            // PlayerATK를 직접 현재 값 기준으로 곱함
+            player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK * tempATKMultiplier));
+            //콤보 시작 시 원래 공격력 저장
+
+            // 턴 시작 시 기본 공격력 저장
+
+            Debug.Log($"콤보 {ComboCount} → PlayerATK {player.PlayerATK}");
+
             StartCoroutine(offComboTEXT());
         }
+
         // 같은 퍼즐 3개 이상 포함된 블럭들만 false
         foreach (PuzzleBlock block in matched)
         {
@@ -195,6 +217,13 @@ public class PuzzleBoard : MonoBehaviour
 
             disabledBlocks.Add(block);
         }
+    }
+    float GetComboMultiplier(int comboCount)
+    {
+        if (comboCount <= 3) return 1.5f;
+        if (comboCount <= 6) return 3f;
+        if (comboCount <= 9) return 4.5f;
+        return 6f;
     }
 
     List<PuzzleBlock> GetLineBlocks(PuzzleBlock center, int dx, int dy)
@@ -431,6 +460,31 @@ public class PuzzleBoard : MonoBehaviour
     public bool CanControl()
     {
         return isPlayerTurn && !isPlayerDead;
+    }
+
+    // 턴 종료 시 호출
+    public void OnTurnEnd()
+    {
+        ComboCount = 0;
+        tempATKMultiplier = 1f;
+        //if (player != null)
+        //{
+        //    player.PlayerATK = originalATK;
+        //    Debug.Log($"턴 종료 → PlayerATK 복원: {player.PlayerATK}");
+        //}
+    }
+
+    public void OnTurnStart()
+    {
+        if (player == null)
+            player = FindObjectOfType<Player>();
+
+        // 인스펙터 값 그대로 저장
+        //originalATK = player.PlayerATK;
+        ComboCount = 0;
+        tempATKMultiplier = 1f;
+
+        Debug.Log($"턴 시작 → 원래 공격력 저장: {originalATK}");
     }
 }
 

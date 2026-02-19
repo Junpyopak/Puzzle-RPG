@@ -2635,6 +2635,7 @@ MonoBehaviour:
   height: 6
   cellSize: {x: 60, y: 55}
   spacing: {x: 3, y: 5}
+  player: {fileID: 0}
   ComboText: {fileID: 657787562}
   isPlayerTurn: 1
   isPlayerDead: 0

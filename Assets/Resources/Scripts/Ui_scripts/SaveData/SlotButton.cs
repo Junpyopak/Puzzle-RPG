@@ -13,6 +13,7 @@ public class SlotButton : MonoBehaviour
     public string slotLabelKey = "Slot Number";   // Table Reference = "UI"
     public string emptyLabelKey = "Empty slot";
 
+
     void Start()
     {
         Refresh();
@@ -68,6 +69,9 @@ public class SlotButton : MonoBehaviour
             CardGainDataHolder.Instance.Data != null)
             {
                 CardGainDataHolder.Instance.Data.Clear();
+                CardManager cardMgr = FindObjectOfType<CardManager>();
+                if (cardMgr != null)
+                    cardMgr.ClearSelectedCards();
                 Debug.Log("새 게임 → 카드 획득 데이터 초기화");
             }
             if (SaveManager.HasSave(slotIndex))

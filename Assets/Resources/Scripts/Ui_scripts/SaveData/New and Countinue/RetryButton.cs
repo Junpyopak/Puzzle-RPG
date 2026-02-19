@@ -27,6 +27,13 @@ public class RetryButton : MonoBehaviour
     }
     public void Gotittle()
     {
+        int slot = SaveContext.Instance.currentSlot;
+
+        if (slot >= 0)
+            SaveManager.Delete(slot);
+
+        SaveContext.Instance.currentSlot = -1;
+        SaveContext.Instance.isLoading = false;
         Scenemgr.Instance.ChangeScene(eSCENE.TITLE);
     }
 }

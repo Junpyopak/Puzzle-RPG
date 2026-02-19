@@ -7,6 +7,13 @@ public class GameLoader : MonoBehaviour
 {
     public static void NewGame(int slot)
     {
+        // 기존 저장 삭제
+        if (SaveManager.HasSave(slot))
+        {
+            SaveManager.Delete(slot);
+            Debug.Log($"슬롯 {slot} 기존 저장 삭제");
+        }
+
         SaveContext.Instance.currentSlot = slot;
         SaveContext.Instance.isLoading = false;
         SceneManager.LoadScene("GameScene");

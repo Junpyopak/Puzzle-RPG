@@ -15,16 +15,36 @@ public class ItemMagnet : MonoBehaviour
     {
         itemID = GetComponent<ItemID>();
         FieldItemManager.Instance.Register(itemID);
-        
-        player = GameObject.FindWithTag("Player").transform;
+
+        //player = GameObject.FindWithTag("Player").transform;
+        //if (OpenItem == null)
+        //{
+        //    OpenItem = GameObject.Find("OpenItem");
+        //    if (OpenItem == null)
+        //        Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
+        //}
+
+        //OpenItem.SetActive(false);
+        GameObject playerObj = GameObject.FindWithTag("Player");
+
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("Player 태그를 가진 오브젝트를 찾지 못했습니다!");
+        }
+
         if (OpenItem == null)
         {
             OpenItem = GameObject.Find("OpenItem");
-            if (OpenItem == null)
-                Debug.LogWarning("Rollet UI를 찾을 수 없습니다!");
-        }
 
-        OpenItem.SetActive(false);
+            if (OpenItem == null)
+                Debug.LogWarning("OpenItem UI를 찾을 수 없습니다!");
+            else
+                OpenItem.SetActive(false);
+        }
     }
 
     // Update is called once per frame

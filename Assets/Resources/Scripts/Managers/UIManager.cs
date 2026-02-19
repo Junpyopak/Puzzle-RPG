@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
 
     private void PauseMenu()//일시정지 메뉴
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) //esc 키를 눌렀고 일시정지중이 아니였다면.
+        if (Input.GetKeyDown(KeyCode.V)) //esc 키를 눌렀고 일시정지중이 아니였다면.
         {
             if (isOpenPauseMenu == false)
             {

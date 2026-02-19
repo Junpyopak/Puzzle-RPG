@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCardManager : MonoBehaviour
 {
+    public static PlayerCardManager Instance;
     public Player player; // 기존 Player.cs
     public List<PlayerCard> ownedCards = new List<PlayerCard>();
     public PlayerMove1 move1;
@@ -14,6 +16,12 @@ public class PlayerCardManager : MonoBehaviour
     void Start()
     {
         LoadCardsFromCardManager();
+        if (SlotSelectContext.Instance.mode == SlotSelectMode.NewGame)
+        {
+            ClearCards(); // 이전 슬롯 카드 모두 삭제
+            move1.ClearBubbles();
+            Debug.Log("게임 씬 → PlayerCardManager 카드 초기화");
+        }
     }
 
     public void GainCard(CardBaseData cardData)
@@ -255,5 +263,12 @@ public class PlayerCardManager : MonoBehaviour
         }
 
         Debug.Log("카드 불러오기 완료");
+    }
+
+    //새 게임일때 초기화
+    public void ClearCards()
+    {
+        ownedCards.Clear();
+        Debug.Log("PlayerCardManager 초기화 완료");
     }
 }

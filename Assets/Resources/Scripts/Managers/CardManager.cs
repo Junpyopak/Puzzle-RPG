@@ -128,4 +128,10 @@ public class CardManager : MonoBehaviour
 
         return prefab;
     }
+
+    public void ClearSelectedCards()
+    {
+        selectCardNames.Clear();   // 선택 카드 이름 초기화
+        Debug.Log("새 게임 → CardManager 선택 카드 초기화");
+    }
 }
