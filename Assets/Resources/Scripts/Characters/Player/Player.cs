@@ -630,7 +630,7 @@ public class Player : MonoBehaviour
 
         // CardManager의 리스트에서 내 부메랑 카드 개수를 세서 변수에 저장
         // 이렇게 하면 인스펙터에서도 숫자가 올라가는 게 보입니다.
-        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "BoomerangCard");
+        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "부메랑");
     }
 
     public void ShootBoomerangs()
