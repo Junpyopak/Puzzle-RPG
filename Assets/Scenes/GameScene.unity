@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70299b9b0467ffc43ab363af0d7a171d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 468596c30d1cc484f8febe1a5c658b51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2735,11 +2735,11 @@ MonoBehaviour:
   bloodDamagePerTick: 1
   bloodDamageTurns: 3
   dieSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
-  levelUpSound: {fileID: 0}
-  boomerangSound: {fileID: 0}
-  angerSound: {fileID: 0}
-  spikeSound: {fileID: 0}
-  revivalSound: {fileID: 0}
+  levelUpSound: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
+  boomerangSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
+  angerSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
+  spikeSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
+  revivalSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4294,7 +4294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5283019, g: 0.30968133, b: 0, a: 1}
+  m_Color: {r: 0.4575472, g: 0.89329547, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5172,7 +5172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d2ba80b6978754f8db41eb13d56a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardSelectSound: {fileID: 0}
+  cardSelectSound: {fileID: 8300000, guid: 9cfc054105d5a8744bffedf93fd8861a, type: 3}
 --- !u!1 &982010517
 GameObject:
   m_ObjectHideFlags: 0
