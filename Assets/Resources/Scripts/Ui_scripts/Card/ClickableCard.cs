@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class ClickableCard : MonoBehaviour
 {
+
+    public AudioClip cardSelectSound; // 카드 선택시 나오는 사운드
+
     void Update()
     {
         CardClickable();
@@ -57,6 +60,7 @@ public class ClickableCard : MonoBehaviour
                     var cardMgr = GameManager.Instance.CardMgr;
 
                     Debug.Log($"현재 클릭한 카드 : {clickedObject.name}");
+                    GameManager.Instance.SoundMgr.SoundPlay("sfx", "카드 선택",cardSelectSound);
 
                     // TwoPick 카드일 경우 CSV value 기반 확률 체크
                     if (cardMgr.twoPickValue > 0f)
