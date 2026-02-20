@@ -119,12 +119,12 @@ public class PlayerMove1 : MonoBehaviour
         // 이미 있으면 생성 안함
         if (activeBubbles.Count > 0)
             return;
-        Vector3 spawnPos = transform.position + new Vector3(0f, 1f, 0f); // y = 1만큼 위로
+        Vector3 spawnPos = transform.position + new Vector3(0f, 0f, 0f); // y = 1만큼 위로
         // 중앙에 1개만 생성
         GameObject bubble = Instantiate(bubbleShieldPrefab, spawnPos, Quaternion.identity);
 
         // 스케일 변경
-        bubble.transform.localScale = new Vector3(3f, 3f, 1f);
+        bubble.transform.localScale = new Vector3(2f, 2f, 1f);
 
         // 버블 초기화
         BubbleShield shield = bubble.GetComponent<BubbleShield>();

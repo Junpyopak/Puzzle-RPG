@@ -6,7 +6,7 @@ public class BubbleShield : MonoBehaviour
 {
     public Vector2Int offsetDir;
     private PlayerMove1 playerMove;
-    public float baseYOffset = 0.85f;
+    public float baseYOffset = 0f;
     private float damagePercent;
     Player playerStat;
     //public void Init(PlayerMove1 player, Vector2Int dir , float percent)

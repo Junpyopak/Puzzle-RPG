@@ -11,6 +11,12 @@ public class ItemMagnet : MonoBehaviour
     Transform player;
     public GameObject OpenItem;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        OpenItem = GameObject.Find("OpenItem");
+    }
+
     void Start()
     {
         itemID = GetComponent<ItemID>();
