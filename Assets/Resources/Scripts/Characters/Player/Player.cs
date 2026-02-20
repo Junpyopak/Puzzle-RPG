@@ -630,18 +630,13 @@ public class Player : MonoBehaviour
 
         // CardManager의 리스트에서 내 부메랑 카드 개수를 세서 변수에 저장
         // 이렇게 하면 인스펙터에서도 숫자가 올라가는 게 보입니다.
-        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "부메랑");
+        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "BoomerangCard");
     }
 
     public void ShootBoomerangs()
     {
-        Debug.Log("ShootBoomerangs called");
-        if (boomerangPrefab == null)
-        {
-            Debug.Log("부메랑이 없습니다");
-            return;
-        }
-        Debug.Log("부메랑 발사");
+        if (boomerangPrefab == null) return;
+
         // 2. 이제 헷갈릴 것 없이 무조건 내 변수(boomerangLevel)만 봅니다.
         if (boomerangLevel <= 0) return;
 
@@ -653,12 +648,11 @@ public class Player : MonoBehaviour
             Boomerang bScript = go.GetComponent<Boomerang>();
 
             if (bScript != null)
-            { 
+            {
                 bScript.Shot(shotDirections[i], this.transform);
             }
         }
     }
-
     public void ShootSpikeBall()
     {
         if (hasSpikeball == false) return;
