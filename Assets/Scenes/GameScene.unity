@@ -2734,6 +2734,12 @@ MonoBehaviour:
   bloodDamageChance: 0
   bloodDamagePerTick: 1
   bloodDamageTurns: 3
+  dieSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
+  levelUpSound: {fileID: 0}
+  boomerangSound: {fileID: 0}
+  angerSound: {fileID: 0}
+  spikeSound: {fileID: 0}
+  revivalSound: {fileID: 0}
 --- !u!70 &437311291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
