@@ -14,7 +14,16 @@ public class Boomerang : MonoBehaviour
         player = playerTransform; // 플레이어 정보 즉시 저장
 
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-        if (rb != null) rb.velocity = direction.normalized * speed;
+        //if (rb != null) rb.velocity = direction.normalized * speed;
+        if (rb != null)
+        {
+            rb.velocity = direction.normalized * speed;
+            Debug.Log("Boomerang Shot! Velocity: " + rb.velocity + ", Direction: " + direction);
+        }
+        else
+        {
+            Debug.LogError("Rigidbody2D is missing!");
+        }
     }
 
     private void Update()

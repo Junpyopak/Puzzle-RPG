@@ -43,14 +43,14 @@ public class PlayerMove1 : MonoBehaviour
     }
     void Update()
     { // 테스트용: B키를 누르면 버블 생성
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            // 예시: 레벨 1 기준 CSV float 퍼센트
-            float testPercent = 0.03f; // 3%
-            CreateBubbleShield(testPercent);
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    // 예시: 레벨 1 기준 CSV float 퍼센트
+        //    float testPercent = 0.03f; // 3%
+        //    CreateBubbleShield(testPercent);
 
-            Debug.Log($"[테스트] B 눌러 버블 생성! 데미지 퍼센트: {testPercent * 100}%");
-        }
+        //    Debug.Log($"[테스트] B 눌러 버블 생성! 데미지 퍼센트: {testPercent * 100}%");
+        //}
         if (!isPlayerTurn) return;
         // 이동 횟수 다 쓰면 이동 불가
         if (moveRemain <= 0) return;
