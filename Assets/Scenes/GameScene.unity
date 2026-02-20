@@ -5296,6 +5296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d2ba80b6978754f8db41eb13d56a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardSelectSound: {fileID: 8300000, guid: 9cfc054105d5a8744bffedf93fd8861a, type: 3}
 --- !u!1 &982010517
 GameObject:
   m_ObjectHideFlags: 0
