@@ -26,5 +26,6 @@ public enum CardEffectType
     Revenge,
     BonusExp,
     BloodDamage,
+    FireCount,
 }
 
