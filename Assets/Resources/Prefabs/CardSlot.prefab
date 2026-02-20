@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bb9a7a5a14efe9e4691200ea29228071, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad6f126878665b0428fe89090cc769db, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,4 +89,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardImage: {fileID: 0}
-  emptySprite: {fileID: 21300000, guid: bb9a7a5a14efe9e4691200ea29228071, type: 3}
+  cardData:
+    CardID: 0
+    CardName: 
+    CardType: 
+    Description: 
+    Grade: 
+    MaxLevel: 0
+    effectType: 0
+    isPercent: 1
+    baseValue: 0
+    valuePerLevel: 0
