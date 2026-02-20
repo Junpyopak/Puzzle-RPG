@@ -603,7 +603,19 @@ MonoBehaviour:
       m_Image: {fileID: 21300000, guid: 47075df98387d9943b60ca9e236bfe68, type: 3}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &209645223
 MonoBehaviour:
@@ -1301,9 +1313,9 @@ MonoBehaviour:
   masterVolume: 1
   bgmVolume: 1
   sfxVloume: 1
-  s_master: 0
-  s_bgm: 0
-  s_sfx: 0
+  s_master: 1
+  s_bgm: 1
+  s_sfx: 1
 --- !u!1 &510370377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,7 +1398,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 510370380}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &510370380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,6 +1449,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510370377}
   m_CullTransparentMesh: 1
+--- !u!1 &511239824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 511239826}
+  - component: {fileID: 511239825}
+  m_Layer: 0
+  m_Name: TitleSoundGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &511239825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511239824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ade2faf94e54541a0b6bbb639664cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonDownSound: {fileID: 8300000, guid: 9cfc054105d5a8744bffedf93fd8861a, type: 3}
+  type: sfx
+--- !u!4 &511239826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511239824}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 428.7266, y: 242.65959, z: -82.96002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &555039306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,7 +1888,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &687436623
 MonoBehaviour:
@@ -3420,6 +3502,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1196954847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3902,6 +3996,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ScreenOption, Assembly-CSharp
         m_MethodName: DropOptionChange
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5175,6 +5281,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1872744513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5299,6 +5417,18 @@ MonoBehaviour:
       - m_Target: {fileID: 702336593}
         m_TargetAssemblyTypeName: StartGame, Assembly-CSharp
         m_MethodName: OnClickContinue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5669,6 +5799,18 @@ MonoBehaviour:
       - m_Target: {fileID: 702336593}
         m_TargetAssemblyTypeName: StartGame, Assembly-CSharp
         m_MethodName: OpenOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 511239825}
+        m_TargetAssemblyTypeName: DropDownBtnSound, Assembly-CSharp
+        m_MethodName: BtnSoundPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6877,7 +7019,7 @@ GameObject:
   - component: {fileID: 4995365606335406699}
   - component: {fileID: 8332989816623987555}
   m_Layer: 5
-  m_Name: VolumSlider (1)
+  m_Name: VolumSlider1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7751,7 +7893,7 @@ GameObject:
   - component: {fileID: 8049142583915758543}
   - component: {fileID: 6527150677945291492}
   m_Layer: 5
-  m_Name: VolumSlider (2)
+  m_Name: VolumSlider2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7874,6 +8016,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 676722036}
+  - {fileID: 511239826}
   - {fileID: 1551155904}
   - {fileID: 702336592}
   - {fileID: 1491698072}
