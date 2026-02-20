@@ -115,6 +115,16 @@ public class Player : MonoBehaviour
     public int bloodDamagePerTick = 1;     // 틱당 데미지
     public int bloodDamageTurns = 3;       // 지속 턴 수
 
+    [Header("플레이어 사운드")]
+    public AudioClip dieSound; //사망 사운드
+    public AudioClip levelUpSound; //레벨업 사운드
+
+    public AudioClip boomerangSound; //부메랑 사운드
+    public AudioClip angerSound; // 분노 사운드
+    public AudioClip spikeSound; // 스파이크 사운드
+    public AudioClip revivalSound; //부활 사운드
+
+
     // Start is called before the first frame update
 
     private void Awake()
