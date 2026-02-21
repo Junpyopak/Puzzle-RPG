@@ -6,6 +6,7 @@ public class Boomerang : MonoBehaviour
     private Transform player; // public에서 private으로 변경 가능
     private Rigidbody2D rb;
     private bool isReturning = false;
+    private Player playerSc;
 
     // Shot 호출 시 플레이어 정보를 직접 넘겨받음
     public void Shot(Vector2 direction, Transform playerTransform)
@@ -16,7 +17,10 @@ public class Boomerang : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.velocity = direction.normalized * speed;
     }
-
+    private void Start()
+    {
+        playerSc = FindObjectOfType<Player>();
+    }
     private void Update()
     {
         // player가 할당되어 있어야만 로직 실행
@@ -43,5 +47,32 @@ public class Boomerang : MonoBehaviour
 
         if (Vector2.Distance(transform.position, player.position) < 0.1f) //삭제 범위
             Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        Monster monster = collision.GetComponent<Monster>();
+        if (monster != null && player != null)
+        {
+            // PlayerATK 실시간 참조
+            int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
+            monster.TakeDamageFromPlayer(damage);
+            // 2. 날카로운 검 출혈 적용
+            if (playerSc.hasBloodDamage)
+            {
+                if (Random.value <= playerSc.bloodDamageChance / 100f) // 확률 체크
+                {
+                    // 몬스터에 Bleed 상태가 없으면 새로 생성
+                    if (monster.bleed == null) monster.bleed = new Monster.BleedStatus();
+
+                    monster.bleed.damagePerTurn = playerSc.bloodDamagePerTick;
+                    monster.bleed.remainingTurns = playerSc.bloodDamageTurns;
+                    monster.bleed.chance = playerSc.bloodDamageChance / 100f;
+
+                    Debug.Log($"{monster.name}에게 출혈 적용! {playerSc.bloodDamagePerTick} 데미지, {playerSc.bloodDamageTurns}턴");
+                }
+            }
+        }
     }
 }

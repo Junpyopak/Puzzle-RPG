@@ -9,10 +9,12 @@ public class SpikeMove : MonoBehaviour
     public Vector3 velocity = new Vector3(1f, 1f, 0f); // 이동 속도
     public int BoundCount = 1;
     private PlayerCardManager cardManager;
+    private Player player;
     private void Start()
     {
         cam = Camera.main;
         cardManager = FindObjectOfType<PlayerCardManager>();
+        player = FindObjectOfType<Player>();
     }
     void Update()
     {
@@ -92,5 +94,32 @@ public class SpikeMove : MonoBehaviour
         }
 
         transform.position = pos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        Monster monster = collision.GetComponent<Monster>();
+        if (monster != null && player != null)
+        {
+            // PlayerATK 실시간 참조
+            int damage = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK));
+            monster.TakeDamageFromPlayer(damage);
+            // 2. 날카로운 검 출혈 적용
+            if (player.hasBloodDamage)
+            {
+                if (Random.value <= player.bloodDamageChance / 100f) // 확률 체크
+                {
+                    // 몬스터에 Bleed 상태가 없으면 새로 생성
+                    if (monster.bleed == null) monster.bleed = new Monster.BleedStatus();
+
+                    monster.bleed.damagePerTurn = player.bloodDamagePerTick;
+                    monster.bleed.remainingTurns = player.bloodDamageTurns;
+                    monster.bleed.chance = player.bloodDamageChance / 100f;
+
+                    Debug.Log($"{monster.name}에게 출혈 적용! {player.bloodDamagePerTick} 데미지, {player.bloodDamageTurns}턴");
+                }
+            }
+        }
     }
 }
