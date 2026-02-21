@@ -94,13 +94,26 @@ public class CardCollector : MonoBehaviour
         SlotCount = content.childCount; // 안전하게 동기화
     }
     //카드 획득 시 호출할 함수
-    public void AddCard(Sprite cardSprite)
+    //public void AddCard(Sprite cardSprite)
+    //{
+    //    foreach (CardSlot slot in slots)
+    //    {
+    //        if (slot.IsEmpty())
+    //        {
+    //            slot.SetCard(cardSprite);
+    //            return;
+    //        }
+    //    }
+
+    //    Debug.Log("카드 도감 슬롯이 가득 찼습니다!");
+    //}
+    public void AddCard(Sprite cardSprite, CardBaseData data)
     {
         foreach (CardSlot slot in slots)
         {
             if (slot.IsEmpty())
             {
-                slot.SetCard(cardSprite);
+                slot.SetCard(cardSprite, data);
                 return;
             }
         }
@@ -140,6 +153,45 @@ public class CardCollector : MonoBehaviour
         }
     }
 
+    //void ShowGainedCards()
+    //{
+    //    if (CardGainDataHolder.Instance == null ||
+    //        CardGainDataHolder.Instance.Data == null)
+    //    {
+    //        Debug.LogWarning("CardGainDataHolder 또는 Data 없음");
+    //        return;
+    //    }
+
+    //    var list = CardGainDataHolder.Instance.Data.gainedCardIDs;
+
+    //    if (list.Count == 0)
+    //    {
+    //        Debug.Log("표시할 카드 없음");
+    //        return;
+    //    }
+
+    //    int slotIndex = 0;
+
+    //    foreach (int id in list)
+    //    {
+    //        CardSprite visual = CardSpriteManager.instance.GetVisual(id);
+
+    //        if (visual == null)
+    //        {
+    //            Debug.LogWarning($"CardID {id} 스프라이트 없음");
+    //            continue;
+    //        }
+
+    //        if (slotIndex >= slots.Count)
+    //        {
+    //            Debug.LogWarning("카드 도감 슬롯 부족");
+    //            break;
+    //        }
+
+    //        slots[slotIndex].SetCard(visual.Sprite);
+    //        slotIndex++;
+    //    }
+    //}
     void ShowGainedCards()
     {
         if (CardGainDataHolder.Instance == null ||
@@ -161,6 +213,7 @@ public class CardCollector : MonoBehaviour
 
         foreach (int id in list)
         {
+            // 1. 스프라이트 가져오기
             CardSprite visual = CardSpriteManager.instance.GetVisual(id);
 
             if (visual == null)
@@ -169,13 +222,25 @@ public class CardCollector : MonoBehaviour
                 continue;
             }
 
+            // 2. 카드 데이터 가져오기 (이게 핵심)
+            CardBaseData data = CardDatabase.Instance.GetCardByID(id);
+
+            if (data == null)
+            {
+                Debug.LogWarning($"CardID {id} 카드 데이터 없음");
+                continue;
+            }
+
+            // 3. 슬롯 부족 체크
             if (slotIndex >= slots.Count)
             {
                 Debug.LogWarning("카드 도감 슬롯 부족");
                 break;
             }
 
-            slots[slotIndex].SetCard(visual.Sprite);
+            // 4. 슬롯에 카드 표시
+            slots[slotIndex].SetCard(visual.Sprite, data);
+
             slotIndex++;
         }
     }

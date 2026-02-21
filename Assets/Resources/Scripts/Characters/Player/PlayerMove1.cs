@@ -42,7 +42,8 @@ public class PlayerMove1 : MonoBehaviour
         SnapToCell();
     }
     void Update()
-    { // 테스트용: B키를 누르면 버블 생성
+    {
+        // 테스트용: B키를 누르면 버블 생성
         if (Input.GetKeyDown(KeyCode.B))
         {
             // 예시: 레벨 1 기준 CSV float 퍼센트
