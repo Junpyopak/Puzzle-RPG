@@ -103,6 +103,9 @@ public class CardManager : MonoBehaviour
 
         if (card != null)
         {
+            //도감에 클릭한 카드추가
+            CardGainDataHolder.Instance.Data.AddCard(card.cardData.CardID);
+
             PlayerCardManager pcm = FindObjectOfType<PlayerCardManager>();
 
             if (pcm != null)
