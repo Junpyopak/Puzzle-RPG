@@ -2711,7 +2711,7 @@ MonoBehaviour:
   recoveryTurnInterval: 2
   recoveryTurnCounter: 0
   PassiveCounter: 0
-  spikeballPrefab: {fileID: 2478256471109115392, guid: fb53dd4219c1ef14aa95c97ab2e16676, type: 3}
+  spikeballPrefab: {fileID: 8042799572050927018, guid: fb53dd4219c1ef14aa95c97ab2e16676, type: 3}
   hasSpikeball: 0
   emergency: 0
   emergencyThresholdPercent: 0.05
