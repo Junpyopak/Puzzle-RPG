@@ -322,6 +322,7 @@ public class CardRoulette : MonoBehaviour
             if (pcm != null)
             {
                 pcm.GainCard(pickedCard);
+
             }
             //cardGainData.AddCard(pickedCard.CardID);
         }

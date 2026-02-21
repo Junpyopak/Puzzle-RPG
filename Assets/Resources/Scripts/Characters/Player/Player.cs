@@ -636,11 +636,30 @@ public class Player : MonoBehaviour
 
     public void UpdateBoomerangLevel()
     {
-        if (GameManager.Instance.CardMgr == null) return;
+        //if (GameManager.Instance.CardMgr == null) return;
 
-        // CardManager의 리스트에서 내 부메랑 카드 개수를 세서 변수에 저장
-        // 이렇게 하면 인스펙터에서도 숫자가 올라가는 게 보입니다.
-        boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "부메랑");
+        //// CardManager의 리스트에서 내 부메랑 카드 개수를 세서 변수에 저장
+        //// 이렇게 하면 인스펙터에서도 숫자가 올라가는 게 보입니다.
+        //boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "부메랑");
+        var pcm = PlayerCardManager.Instance;
+        if (pcm == null || pcm.ownedCards == null || pcm.ownedCards.Count == 0)
+            return;
+
+        int boomerangID = 8; // CSV에서 부메랑 카드 ID
+
+        // 부메랑 카드 총 레벨 합
+        int totalLevel = 0;
+        foreach (var card in pcm.ownedCards)
+        {
+            if (card.data.CardID == boomerangID)
+            {
+                totalLevel += card.level;
+            }
+        }
+
+        this.boomerangLevel = totalLevel;
+
+        Debug.Log("부메랑 레벨 업데이트: " + this.boomerangLevel);
     }
 
     public void ShootBoomerangs()

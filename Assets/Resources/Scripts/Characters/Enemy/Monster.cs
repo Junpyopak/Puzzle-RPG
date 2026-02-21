@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
@@ -18,6 +19,7 @@ public class Monster : MonoBehaviour
     private float originalAlpha;
     private Color originalColor;
     public int Hp;
+    [SerializeField] GameObject damageTextPrefab;
 
     [Header("Grid Move")]
     public Vector2Int gridPos;
@@ -119,15 +121,33 @@ public class Monster : MonoBehaviour
     {
         int damage = Mathf.Max(1, Mathf.RoundToInt(atk)); // 최소 1
         Hp -= damage;
-        StartCoroutine(FlashCoroutine());
+        //StartCoroutine(FlashCoroutine());
 
+        //if (Hp <= 0)
+        //{
+        //    Hp = 0;
+        //    Die();
+        //}
+        // 몬스터가 살아있다면 깜빡이 코루틴 실행
+        if (Hp > 0 && gameObject.activeInHierarchy)
+        {
+            StartCoroutine(FlashCoroutine());
+        }
+
+        // 몬스터 사망 처리
         if (Hp <= 0)
         {
             Hp = 0;
-            Die();
+            Die(); // Die 안에서 SetActive(false)나 사망 애니메이션 처리
         }
+        GameObject dmg = Instantiate(
+     damageTextPrefab,
+     transform.position + Vector3.up * 0.5f,
+     Quaternion.identity
+ );
 
-        Debug.Log($"몬스터가 {damage} 데미지를 받음 / PlayerATK:{atk} / 남은 HP:{Hp}");
+        dmg.GetComponent<DamageText>().Setup(damage);
+        // Debug.Log($"몬스터가 {damage} 데미지를 받음 / PlayerATK:{atk} / 남은 HP:{Hp}");
     }
     public void TakeDamageFromBubble(int damage)
     {
@@ -277,19 +297,55 @@ public class Monster : MonoBehaviour
             StartCoroutine(InitAfterGridReady());
         }
     }
+    //IEnumerator InitAfterGridReady()
+    //{
+    //    // Grid 생성될 때까지 대기
+    //    yield return new WaitForEndOfFrame();
+
+    //    InitGridPosFromWorld();
+    //    SnapToCell();
+    //    isInitialized = true;
+    //    Debug.Log($"{data.Name} gridPos 초기화 완료 : {gridPos}");
+    //}
+
+    //void InitGridPosFromWorld()
+    //{
+    //    Vector2 cellSize = Grid15x15.Instance.cellWorldSize;
+    //    int gridCount = Grid15x15.Instance.gridCount;
+    //    float half = (gridCount - 1) / 2f;
+
+    //    float wx = transform.position.x;
+    //    float wy = transform.position.y;
+
+    //    int gx = Mathf.RoundToInt(wx / cellSize.x + half);
+    //    int gy = Mathf.RoundToInt(wy / cellSize.y + half);
+
+    //    gx = Mathf.Clamp(gx, 0, gridCount - 1);
+    //    gy = Mathf.Clamp(gy, 0, gridCount - 1);
+
+    //    gridPos = new Vector2Int(gx, gy);
+    //}
     IEnumerator InitAfterGridReady()
     {
-        // Grid 생성될 때까지 대기
-        yield return new WaitForEndOfFrame();
+        // Grid15x15.Instance가 준비될 때까지 대기
+        while (Grid15x15.Instance == null)
+            yield return null;
 
         InitGridPosFromWorld();
         SnapToCell();
         isInitialized = true;
+
         Debug.Log($"{data.Name} gridPos 초기화 완료 : {gridPos}");
     }
 
     void InitGridPosFromWorld()
     {
+        if (Grid15x15.Instance == null)
+        {
+            Debug.LogError("Grid15x15.Instance가 아직 준비되지 않았습니다!");
+            return;
+        }
+
         Vector2 cellSize = Grid15x15.Instance.cellWorldSize;
         int gridCount = Grid15x15.Instance.gridCount;
         float half = (gridCount - 1) / 2f;
@@ -427,7 +483,7 @@ public class Monster : MonoBehaviour
             Debug.Log("회복 음식 드랍.");
             return foodPrefab;
         }
-     
+
         // 음식이 드롭되지 않으면 null 반환
         Debug.Log("음식 드랍 안됌.");
         return null;
@@ -471,7 +527,7 @@ public class Monster : MonoBehaviour
         monsterID = data.monsterID;
         enemyTypeIndex = data.enemyTypeIndex;
         Hp = data.hp;
-       
+
         gridPos = new Vector2Int(data.gridX, data.gridY);
 
         StartCoroutine(ApplyLoadedPosition());

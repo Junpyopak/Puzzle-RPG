@@ -276,6 +276,7 @@ MonoBehaviour:
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   Hp: 0
+  damageTextPrefab: {fileID: 7472407249009212256, guid: 61cab3f1546eb2f4ca7f101cb1351ef8, type: 3}
   gridPos: {x: 0, y: 0}
   EnemyMissilePre: {fileID: 2518108920101046322, guid: 8bddc68636271734fa0745fdb026aa8b, type: 3}
   EnemyMissileSpeed: 3

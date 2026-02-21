@@ -9,6 +9,8 @@ public class BubbleShield : MonoBehaviour
     public float baseYOffset = 0f;
     private float damagePercent;
     Player playerStat;
+    private float damageInterval = 0.3f; // 0.5초마다 데미지
+    private Dictionary<Monster, float> lastDamageTime = new Dictionary<Monster, float>();
     //public void Init(PlayerMove1 player, Vector2Int dir , float percent)
     //{
     //    this.player = player;
@@ -66,6 +68,27 @@ public class BubbleShield : MonoBehaviour
                 int damage = Mathf.Max(1, Mathf.RoundToInt(playerStat.PlayerATK * damagePercent));
                 monster.TakeDamageFromBubble(damage);
                 Debug.Log("몬스터 버블 데미지 받음");
+            }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                float currentTime = Time.time;
+                if (!lastDamageTime.ContainsKey(monster))
+                    lastDamageTime[monster] = -damageInterval;
+
+                if (currentTime - lastDamageTime[monster] >= damageInterval)
+                {
+                    int damage = Mathf.Max(1, Mathf.RoundToInt(playerStat.PlayerATK * damagePercent));
+                    monster.TakeDamageFromBubble(damage);
+                    lastDamageTime[monster] = currentTime;
+                    Debug.Log("몬스터 버블 지속 데미지 받음");
+                }
             }
         }
     }

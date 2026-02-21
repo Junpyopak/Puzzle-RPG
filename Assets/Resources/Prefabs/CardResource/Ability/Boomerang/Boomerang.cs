@@ -13,13 +13,9 @@ public class Boomerang : MonoBehaviour
     {
         isReturning = false;
         player = playerTransform; // 플레이어 정보 즉시 저장
-
+        playerSc = playerTransform.GetComponent<Player>();
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.velocity = direction.normalized * speed;
-    }
-    private void Start()
-    {
-        playerSc = FindObjectOfType<Player>();
     }
     private void Update()
     {
@@ -53,7 +49,7 @@ public class Boomerang : MonoBehaviour
     {
 
         Monster monster = collision.GetComponent<Monster>();
-        if (monster != null && player != null)
+        if (monster != null && playerSc != null)
         {
             // PlayerATK 실시간 참조
             int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
