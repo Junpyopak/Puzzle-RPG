@@ -11,6 +11,7 @@ public class PlayerStatSaveData
     public int currentHp;
 
     public int attack;
+
     public int defense;
     public int moveCount;
     public int moveRemain;

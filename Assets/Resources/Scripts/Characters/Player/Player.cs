@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public int Exp = 0;
     public int PlayerLevel = 1;
     public int PlayerATK = 1;
-    private int baseATK;        // 기본 공격력 저장
+    public int baseATK;        // 기본 공격력 저장
     public int Defence = 0;
 
     [Header("플레이어 사망")]

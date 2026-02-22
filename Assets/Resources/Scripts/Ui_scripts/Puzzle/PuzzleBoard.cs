@@ -162,6 +162,62 @@ public class PuzzleBoard : MonoBehaviour
         cellSize = new Vector2(cellW, cellH);
     }
 
+    //void DisableMatchedBlocks()
+    //{
+    //    HashSet<PuzzleBlock> matched = new HashSet<PuzzleBlock>();
+
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        for (int y = 0; y < height; y++)
+    //        {
+    //            PuzzleBlock center = blocks[x, y];
+    //            if (center == null) continue;
+
+    //            // 가로
+    //            List<PuzzleBlock> h = GetLineBlocks(center, 1, 0);
+    //            if (h.Count >= 3)
+    //                matched.UnionWith(h);
+
+    //            // 세로
+    //            List<PuzzleBlock> v = GetLineBlocks(center, 0, 1);
+    //            if (v.Count >= 3)
+    //                matched.UnionWith(v);
+    //        }
+    //    }
+
+    //    if (matched.Count > 0)
+    //    {
+    //        ComboText.enabled = true;
+    //        ComboCount++;
+    //        ComboText.text = "Combo " + ComboCount;
+
+    //        tempATKMultiplier = GetComboMultiplier(ComboCount);
+
+    //        // PlayerATK를 직접 현재 값 기준으로 곱함
+    //        player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK * tempATKMultiplier));
+    //        //콤보 시작 시 원래 공격력 저장
+
+    //        // 턴 시작 시 기본 공격력 저장
+
+    //        Debug.Log($"콤보 {ComboCount} → PlayerATK {player.PlayerATK}");
+
+    //        StartCoroutine(offComboTEXT());
+    //    }
+
+    //    // 같은 퍼즐 3개 이상 포함된 블럭들만 false
+    //    foreach (PuzzleBlock block in matched)
+    //    {
+    //        if (block.isDisabled) continue;
+    //        //blocks[block.x, block.y] = null;
+    //        //block.gameObject.SetActive(false);
+    //        Image img = block.GetComponent<Image>();//매칭된 블록 흐림처리
+    //        Color c = img.color;
+    //        img.color = new Color(c.r, c.g, c.b, 0.4f);
+    //        block.isDisabled = true;
+
+    //        disabledBlocks.Add(block);
+    //    }
+    //}
     void DisableMatchedBlocks()
     {
         HashSet<PuzzleBlock> matched = new HashSet<PuzzleBlock>();
@@ -193,11 +249,8 @@ public class PuzzleBoard : MonoBehaviour
 
             tempATKMultiplier = GetComboMultiplier(ComboCount);
 
-            // PlayerATK를 직접 현재 값 기준으로 곱함
-            player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK * tempATKMultiplier));
-            //콤보 시작 시 원래 공격력 저장
-
-            // 턴 시작 시 기본 공격력 저장
+            // baseATK 기준으로 곱하기 → 누적 안 됨
+            player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.baseATK * tempATKMultiplier));
 
             Debug.Log($"콤보 {ComboCount} → PlayerATK {player.PlayerATK}");
 
@@ -208,9 +261,7 @@ public class PuzzleBoard : MonoBehaviour
         foreach (PuzzleBlock block in matched)
         {
             if (block.isDisabled) continue;
-            //blocks[block.x, block.y] = null;
-            //block.gameObject.SetActive(false);
-            Image img = block.GetComponent<Image>();//매칭된 블록 흐림처리
+            Image img = block.GetComponent<Image>();
             Color c = img.color;
             img.color = new Color(c.r, c.g, c.b, 0.4f);
             block.isDisabled = true;
@@ -462,29 +513,49 @@ public class PuzzleBoard : MonoBehaviour
         return isPlayerTurn && !isPlayerDead;
     }
 
-    // 턴 종료 시 호출
+    //// 턴 종료 시 호출
+    //public void OnTurnEnd()
+    //{
+    //    ComboCount = 0;
+    //    tempATKMultiplier = 1f;
+    //    //if (player != null)
+    //    //{
+    //    //    player.PlayerATK = originalATK;
+    //    //    Debug.Log($"턴 종료 → PlayerATK 복원: {player.PlayerATK}");
+    //    //}
+    //}
+
+    //public void OnTurnStart()
+    //{
+    //    if (player == null)
+    //        player = FindObjectOfType<Player>();
+
+    //    // 인스펙터 값 그대로 저장
+    //    //originalATK = player.PlayerATK;
+    //    ComboCount = 0;
+    //    tempATKMultiplier = 1f;
+
+    //    Debug.Log($"턴 시작 → 원래 공격력 저장: {originalATK}");
+    //}
+    public void OnTurnStart()
+    {
+        ComboCount = 0;
+        tempATKMultiplier = 1f;
+
+        if (player != null)
+            player.PlayerATK = player.baseATK; // 기본 공격력으로 초기화
+
+        Debug.Log($"턴 시작 → PlayerATK 초기화: {player.PlayerATK}");
+    }
+
+    // 턴 종료 시
     public void OnTurnEnd()
     {
         ComboCount = 0;
         tempATKMultiplier = 1f;
-        //if (player != null)
-        //{
-        //    player.PlayerATK = originalATK;
-        //    Debug.Log($"턴 종료 → PlayerATK 복원: {player.PlayerATK}");
-        //}
-    }
 
-    public void OnTurnStart()
-    {
-        if (player == null)
-            player = FindObjectOfType<Player>();
-
-        // 인스펙터 값 그대로 저장
-        //originalATK = player.PlayerATK;
-        ComboCount = 0;
-        tempATKMultiplier = 1f;
-
-        Debug.Log($"턴 시작 → 원래 공격력 저장: {originalATK}");
+        if (player != null)
+            player.PlayerATK = player.baseATK; // 턴 종료 후 공격력 원복
     }
 }
 
