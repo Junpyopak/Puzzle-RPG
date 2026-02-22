@@ -84,8 +84,10 @@ public class Player : MonoBehaviour
 
     [Header("부활 설정")]
     public bool Revival = false;
-    public bool revivalUsed = false; 
-    
+    public bool revivalUsed = false;
+    public bool isInvincible = false;
+    public float reviveFlashAlpha = 0.3f;
+
     [Header("럭키 설정")]
     public float LuckyChance = 0f;
 
@@ -494,6 +496,12 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(int damage, Monster attacker)
     {
+        if (isInvincible)
+        {
+            Debug.Log("무적 상태, 데미지 무시");
+            return; // 무적이면 데미지 무시
+        }
+
         // Lucky 회피 확률 체크
         if (LuckyChance > 0f && Random.value < LuckyChance)
         {
@@ -543,6 +551,19 @@ public class Player : MonoBehaviour
             {
                 Hp = MaxHp;
                 revivalUsed = true;
+                isDie = false;
+
+                // 죽음 관련 상태 초기화
+                GetComponent<PlayerMove1>().enabled = true;
+                Collider2D col = GetComponent<Collider2D>();
+                if (col != null) col.enabled = true;
+                anim.SetBool("PlayerDie", false);
+
+                // 부활 사운드 재생
+
+
+                // 무적 + 깜박임 연출
+                StartCoroutine(ReviveInvincibleBlinkCoroutine(2f, 0.2f));
                 Debug.Log("부활 발동 → 최대 체력으로 부활");
 
                 return; //죽지 않게 여기서 종료
@@ -573,6 +594,32 @@ public class Player : MonoBehaviour
         if (rb != null)
             rb.velocity = Vector2.zero;
         Debug.Log("플레이어 완전히 사망");
+    }
+
+    //부활후 무적 연출
+    private IEnumerator ReviveInvincibleBlinkCoroutine(float blinkTime, float blinkInterval)
+    {
+        isInvincible = true; // 무적 시작
+
+        float elapsed = 0f;
+
+        // 항상 플레이어 정상 색 기준
+        Color original = originalColor;
+        Color blinkColor = new Color(original.r, original.g, original.b, reviveFlashAlpha); // 반투명
+
+        while (elapsed < blinkTime)
+        {
+            sr.color = blinkColor;
+            yield return new WaitForSeconds(blinkInterval);
+
+            sr.color = original;
+            yield return new WaitForSeconds(blinkInterval);
+
+            elapsed += blinkInterval * 2f;
+        }
+
+        sr.color = original; // 마지막에 반드시 원래색으로 복원
+        isInvincible = false; // 무적 종료
     }
 
     public void ShowDefeatUI()

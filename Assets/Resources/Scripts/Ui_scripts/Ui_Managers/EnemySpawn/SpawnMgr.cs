@@ -12,7 +12,7 @@ public class SpawnMgr : MonoBehaviour
     public int maxMonsterCount = 10;   // 씬에 최대 몬스터 수
 
     private int nextSpawnIndex = 0;    // 다음 스폰 포인트 시작 인덱스
-
+    private BossPanel bossPanel;
 
 
     [SerializeField] private float[] timeThresholds;    // 시간 경과별 활성 포인트 기준 (초)
@@ -26,7 +26,8 @@ public class SpawnMgr : MonoBehaviour
 
     private void Start()
     {
-        if(timeThresholds.Length > 4)
+        bossPanel = FindObjectOfType<BossPanel>();
+        if (timeThresholds.Length > 4)
             Debug.LogWarning("timeThresholds는 최대 4개까지만 사용하세요.");
         if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
         {
@@ -34,9 +35,16 @@ public class SpawnMgr : MonoBehaviour
         }
         else
         {
-            SpawnNewGameMonsters();
+            //SpawnNewGameMonsters();
+            StartCoroutine(SpawnFirstRoundDelay());
+
         }
         // StartCoroutine(SpawnRoutine());
+    }
+    private IEnumerator SpawnFirstRoundDelay()
+    {
+        yield return null; // 한 프레임 대기
+        SpawnNewGameMonsters();
     }
     private void Update()
     {
@@ -181,7 +189,7 @@ public class SpawnMgr : MonoBehaviour
     }
     private int[] GetWeightsByRound(int round)
     {
-        // [슬라임,스켈,리자드,소악마, 중급, 최상급]
+        // [슬라임,스켈,리자드,소악마,오크,오크보스]
         if (round <= 4)
             return new int[] { 100, 0, 0, 0, 0, 0 };
 
@@ -203,8 +211,19 @@ public class SpawnMgr : MonoBehaviour
         if (round <= 16)
             return new int[] { 10, 20, 20, 50, 0 , 0 };
 
-        // 후반부
-        return new int[] { 0, 10, 20, 70, 0 , 0 };
+        if(round ==24)
+            return new int[] { 0, 0, 0, 0, 100,0 };
+
+        // 50배수 50,100,150,200 등 보스 라운드
+        if (round % 50 == 0)
+        {
+            bossPanel.ShowPopup();
+            return new int[] { 0, 0, 0, 0, 0, 100 };
+        }
+           
+
+        // 중 ~ 후반부
+        return new int[] { 0, 10, 30, 20, 40 , 0 };
     }
     private int GetWeightedRandomIndex(int[] weights)
     {
