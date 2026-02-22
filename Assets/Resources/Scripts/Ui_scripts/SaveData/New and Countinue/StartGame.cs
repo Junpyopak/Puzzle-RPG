@@ -43,4 +43,9 @@ public class StartGame : MonoBehaviour
     {
         CloseOption();
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

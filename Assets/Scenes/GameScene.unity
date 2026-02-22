@@ -2961,6 +2961,7 @@ MonoBehaviour:
   Exp: 0
   PlayerLevel: 1
   PlayerATK: 1
+  baseATK: 0
   Defence: 0
   isDie: 0
   defeatUI: {fileID: 144911067}
@@ -3007,6 +3008,7 @@ MonoBehaviour:
   swardPrefab: {fileID: 8546849597694051684, guid: 06d37dfd9d28dae4b99fa0a49688ed2e, type: 3}
   playerfireLevel: 0
   hasSward: 0
+  swardCooldown: 2
   dieSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
   levelUpSound: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
   boomerangSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
@@ -7335,7 +7337,7 @@ MonoBehaviour:
   - {fileID: 7531069925604838678, guid: 30009c88911ca6f40ad2cab996285e6d, type: 3}
   - {fileID: 6781866278593877259, guid: 7360276eee23ed24da76b5ab44511149, type: 3}
   - {fileID: 1572836461112346555, guid: 486247bd7af1958499713946f6ed729e, type: 3}
-  - {fileID: 6306930057479923586, guid: ab0614c8a48ba3e4284216e4f6701056, type: 3}
+  - {fileID: 2143529867699171173, guid: 063e00b5ae1ae6c4796cad0c9bf7daaf, type: 3}
   poolSize: 20
 --- !u!1 &1251417149
 GameObject:
