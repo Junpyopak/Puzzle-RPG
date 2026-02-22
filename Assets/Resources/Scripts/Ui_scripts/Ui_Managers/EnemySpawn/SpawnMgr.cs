@@ -223,7 +223,7 @@ public class SpawnMgr : MonoBehaviour
            
 
         // 중 ~ 후반부
-        return new int[] { 0, 10, 30, 20, 40 , 0 };
+        return new int[] { 10, 10, 30, 20, 30 , 0 };
     }
     private int GetWeightedRandomIndex(int[] weights)
     {
