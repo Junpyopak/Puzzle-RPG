@@ -128,6 +128,8 @@ public class Turn_Timer : MonoBehaviour
         turnSlider.maxValue = maxTime;
         turnSlider.value = maxTime;
 
+        // 여기서 1프레임 정도 대기해서 모든 공격 애니메이션 처리
+        yield return null;
         TurnManager.Instance.StartMonsterTurn();
 
         string roundWord = LocalizationSettings.StringDatabase

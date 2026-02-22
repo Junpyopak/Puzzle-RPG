@@ -15,13 +15,14 @@ public class PlayerCardManager : MonoBehaviour
 
     void Start()
     {
-        LoadCardsFromCardManager();
+       
         if (SlotSelectContext.Instance.mode == SlotSelectMode.NewGame)
         {
             ClearCards(); // 이전 슬롯 카드 모두 삭제
             move1.ClearBubbles();
             Debug.Log("게임 씬 → PlayerCardManager 카드 초기화");
         }
+        LoadCardsFromCardManager();
     }
 
     public void GainCard(CardBaseData cardData)

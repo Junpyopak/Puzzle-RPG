@@ -191,7 +191,7 @@ public class Player : MonoBehaviour
         //Attack();
         // 1. 발사 전에 현재 카드 인벤토리 상황을 내 변수에 동기화
         UpdateBoomerangLevel();
-        ShootSward();
+        //ShootSward();
         //if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
         //{
         //    ShootBoomerangs();
@@ -516,8 +516,11 @@ public class Player : MonoBehaviour
             Debug.Log("럭키 회피 성공! 데미지 무시");
             return; // 데미지 무시
         }
-        Hp -= damage;
-        Debug.Log($"플레이어 데미지 {damage} / 현재 HP : {Hp}");
+        //Hp -= damage;
+        int finalDamage = damage - Defence;
+        if (finalDamage <= 0) finalDamage = 0; // 방어력으로 데미지 0 이하이면 0
+        Hp -= finalDamage;
+        Debug.Log($"플레이어 데미지 {finalDamage} / 현재 HP : {Hp}");
 
 
         // 복수 효과 발동

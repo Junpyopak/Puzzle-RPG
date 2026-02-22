@@ -34,16 +34,6 @@ public class TurnManager : MonoBehaviour
         //몬스터 턴 동안 플레이어 이동 금지
         playerMove.isPlayerTurn = false;
         board.isPlayerTurn = false;
-        // 몬스터 전부 행동
-        //foreach (Monster m in monsters)
-        //{
-        //    m.StartTurn();
-
-        //    while (!m.Act())
-        //    {
-        //        yield return new WaitForSeconds(0.1f); // 한 칸씩 연출
-        //    }
-        //}
         for (int i = 0; i < monsters.Count; i++)
         {
             Monster m = monsters[i];
@@ -71,7 +61,7 @@ public class TurnManager : MonoBehaviour
         player.Attack();
         player.ShootBoomerangs();
         player.ShootSpikeBall();
-        //player.ShootSward();
+        player.ShootSward();
         player.OnTurnEndRecovery();
         player.OnTurnEndAnger();
         playerMove.ResetMove();
