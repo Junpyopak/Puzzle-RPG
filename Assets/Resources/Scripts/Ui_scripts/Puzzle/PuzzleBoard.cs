@@ -241,6 +241,22 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
 
+        //if (matched.Count > 0)
+        //{
+        //    ComboText.enabled = true;
+        //    ComboCount++;
+        //    ComboText.text = "Combo " + ComboCount;
+
+        //    tempATKMultiplier = GetComboMultiplier(ComboCount);
+
+        //    // baseATK 기준으로 곱하기 → 누적 안 됨
+        //    player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.baseATK * tempATKMultiplier));
+
+        //    Debug.Log($"콤보 {ComboCount} → PlayerATK {player.PlayerATK}");
+
+        //    StartCoroutine(offComboTEXT());
+        //}
+
         if (matched.Count > 0)
         {
             ComboText.enabled = true;
@@ -249,13 +265,17 @@ public class PuzzleBoard : MonoBehaviour
 
             tempATKMultiplier = GetComboMultiplier(ComboCount);
 
-            // baseATK 기준으로 곱하기 → 누적 안 됨
-            player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.baseATK * tempATKMultiplier));
+
+            if (originalATK == 0)
+                originalATK = player.PlayerATK;
+            //항상 턴 시작 시 공격력 기준으로 계산 (누적 방지)
+            player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(originalATK * tempATKMultiplier));
 
             Debug.Log($"콤보 {ComboCount} → PlayerATK {player.PlayerATK}");
 
             StartCoroutine(offComboTEXT());
         }
+
 
         // 같은 퍼즐 3개 이상 포함된 블럭들만 false
         foreach (PuzzleBlock block in matched)
@@ -514,25 +534,48 @@ public class PuzzleBoard : MonoBehaviour
     }
 
 
+    //public void OnTurnStart()
+    //{
+    //    ComboCount = 0;
+    //    tempATKMultiplier = 1f;
+
+    //    if (player != null)
+    //        player.PlayerATK = player.baseATK; // 기본 공격력으로 초기화
+
+    //    Debug.Log($"턴 시작 → PlayerATK 초기화: {player.PlayerATK}");
+    //}
     public void OnTurnStart()
     {
         ComboCount = 0;
         tempATKMultiplier = 1f;
 
         if (player != null)
-            player.PlayerATK = player.baseATK; // 기본 공격력으로 초기화
+        {
+            originalATK = player.PlayerATK; // 현재 공격력 저장 (카드/레벨 반영된 값)
+        }
 
-        Debug.Log($"턴 시작 → PlayerATK 초기화: {player.PlayerATK}");
+        Debug.Log($"턴 시작 → originalATK 저장: {originalATK}");
     }
 
-    // 턴 종료 시
+    //// 턴 종료 시
+    //public void OnTurnEnd()
+    //{
+    //    ComboCount = 0;
+    //    tempATKMultiplier = 1f;
+
+    //    if (player != null)
+    //        player.PlayerATK = player.baseATK; // 턴 종료 후 공격력 원복
+    //}
     public void OnTurnEnd()
     {
         ComboCount = 0;
         tempATKMultiplier = 1f;
 
         if (player != null)
-            player.PlayerATK = player.baseATK; // 턴 종료 후 공격력 원복
+        {
+            player.PlayerATK = originalATK; // 턴 시작 시 공격력으로 복원
+            originalATK = 0;
+        }
     }
 }
 
