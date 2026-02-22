@@ -16,7 +16,7 @@ public class PuzzleBoard : MonoBehaviour
     public Text ComboText;
     private int ComboCount = 0;
     private float tempATKMultiplier = 1f; // 콤보 배율
-    private int originalATK ; // 턴 시작 시 저장할 공격력
+    private int originalATK; // 턴 시작 시 저장할 공격력
     public int comboAtk = 0;  // 콤보 공격력 변수
 
     public PuzzleBlock[,] blocks;
@@ -513,30 +513,7 @@ public class PuzzleBoard : MonoBehaviour
         return isPlayerTurn && !isPlayerDead;
     }
 
-    //// 턴 종료 시 호출
-    //public void OnTurnEnd()
-    //{
-    //    ComboCount = 0;
-    //    tempATKMultiplier = 1f;
-    //    //if (player != null)
-    //    //{
-    //    //    player.PlayerATK = originalATK;
-    //    //    Debug.Log($"턴 종료 → PlayerATK 복원: {player.PlayerATK}");
-    //    //}
-    //}
 
-    //public void OnTurnStart()
-    //{
-    //    if (player == null)
-    //        player = FindObjectOfType<Player>();
-
-    //    // 인스펙터 값 그대로 저장
-    //    //originalATK = player.PlayerATK;
-    //    ComboCount = 0;
-    //    tempATKMultiplier = 1f;
-
-    //    Debug.Log($"턴 시작 → 원래 공격력 저장: {originalATK}");
-    //}
     public void OnTurnStart()
     {
         ComboCount = 0;
