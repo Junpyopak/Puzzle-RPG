@@ -7,7 +7,7 @@ public class Boomerang : MonoBehaviour
     private Rigidbody2D rb;
     private bool isReturning = false;
     private Player playerSc;
-
+    private int damage;
     // Shot 호출 시 플레이어 정보를 직접 넘겨받음
     public void Shot(Vector2 direction, Transform playerTransform)
     {
@@ -25,7 +25,10 @@ public class Boomerang : MonoBehaviour
         if (!isReturning) CheckOutOfBounds();
         else ReturnToPlayer();
     }
-
+    public void SetDamage(int dmg)
+    {
+        damage = dmg;
+    }
     private void CheckOutOfBounds()
     {
         if (Camera.main == null) return;
@@ -52,8 +55,10 @@ public class Boomerang : MonoBehaviour
         if (monster != null && playerSc != null)
         {
             // PlayerATK 실시간 참조
-            int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
-            monster.TakeDamageFromPlayer(damage);
+            //int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
+            //monster.TakeDamageFromPlayer(damage);
+            int finalDamage = Mathf.Max(1, damage);
+            monster.TakeDamageFromPlayer(finalDamage);
             // 2. 날카로운 검 출혈 적용
             if (playerSc.hasBloodDamage)
             {

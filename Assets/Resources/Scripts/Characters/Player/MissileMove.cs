@@ -9,6 +9,7 @@ public class MissileMove : MonoBehaviour
    // private int damage = 1;
     private Player player; // 플레이어 참조
     private PuzzleBoard board;
+    private int damage;
     // 발사 방향과 속도 설정
     public void SetDirection(Vector2 dir, float spd)
     {
@@ -25,7 +26,10 @@ public class MissileMove : MonoBehaviour
         // 직선 이동, 회전은 발사 시점에서만 적용
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
-
+    public void SetDamage(int dmg)
+    {
+        damage = dmg;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Monster monster = collision.GetComponent<Monster>();
@@ -54,8 +58,10 @@ public class MissileMove : MonoBehaviour
         if (monster != null && player != null)
         {
             // PlayerATK 실시간 참조
-            int damage = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK));
-            monster.TakeDamageFromPlayer(damage);
+            //int damage = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK));
+            int finalDamage = Mathf.Max(1, damage);
+            monster.TakeDamageFromPlayer(finalDamage);
+           // monster.TakeDamageFromPlayer(damage);
             // 2. 날카로운 검 출혈 적용
             if (player.hasBloodDamage)
             {

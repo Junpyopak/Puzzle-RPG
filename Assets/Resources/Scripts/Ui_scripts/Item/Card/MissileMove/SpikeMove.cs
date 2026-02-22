@@ -10,11 +10,16 @@ public class SpikeMove : MonoBehaviour
     public int BoundCount = 1;
     private PlayerCardManager cardManager;
     private Player player;
+    private int damage;
     private void Start()
     {
         cam = Camera.main;
         cardManager = FindObjectOfType<PlayerCardManager>();
         player = FindObjectOfType<Player>();
+    }
+    public void SetDamage(int dmg)
+    {
+        damage = dmg;
     }
     void Update()
     {
@@ -103,8 +108,10 @@ public class SpikeMove : MonoBehaviour
         if (monster != null && player != null)
         {
             // PlayerATK 실시간 참조
-            int damage = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK));
-            monster.TakeDamageFromPlayer(damage);
+            //int damage = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK));
+            //monster.TakeDamageFromPlayer(damage);
+            int finalDamage = Mathf.Max(1, damage);
+            monster.TakeDamageFromPlayer(finalDamage);
             // 2. 날카로운 검 출혈 적용
             if (player.hasBloodDamage)
             {

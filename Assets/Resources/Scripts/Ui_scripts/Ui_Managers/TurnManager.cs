@@ -58,10 +58,10 @@ public class TurnManager : MonoBehaviour
         playerMove.isPlayerTurn = true;
         board.isPlayerTurn = true;
         board.OnTurnStart();
-        player.Attack();
-        player.ShootBoomerangs();
-        player.ShootSpikeBall();
-        player.ShootSward();
+        //player.Attack();
+        //player.ShootBoomerangs();
+        //player.ShootSpikeBall();
+        //player.ShootSward();
         player.OnTurnEndRecovery();
         player.OnTurnEndAnger();
         playerMove.ResetMove();

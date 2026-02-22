@@ -155,7 +155,6 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
-        GameManager.Instance.CardMgr.CardRarityOpen();
         cardManager = FindObjectOfType<PlayerCardManager>();
         board = FindObjectOfType<PuzzleBoard>();
 
@@ -251,7 +250,7 @@ public class Player : MonoBehaviour
         MissileMove mm = missile.GetComponent<MissileMove>();
         if (mm != null)
         mm.SetDirection(dir, MissileSpeed);
-
+        mm.SetDamage(PlayerATK);
     }
     private GameObject FindNearestEnemy()
     {
@@ -756,10 +755,10 @@ public class Player : MonoBehaviour
         {
             GameObject go = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);
             Boomerang bScript = go.GetComponent<Boomerang>();
-
             if (bScript != null)
             {
                 bScript.Shot(shotDirections[i], this.transform);
+                bScript.SetDamage(PlayerATK);
             }
         }
     }
@@ -770,7 +769,7 @@ public class Player : MonoBehaviour
         GameObject ball = Instantiate(spikeballPrefab, transform.position, Quaternion.identity);
 
         SpikeMove spike = ball.GetComponent<SpikeMove>();
-
+        spike.SetDamage(PlayerATK);
         PlayerCard boundCard = cardManager.ownedCards
             .Find(c => c.data.effectType == CardEffectType.BoundUp);
 
@@ -845,7 +844,7 @@ public class Player : MonoBehaviour
         {
             // 이동 방향 그대로 적용
             sScript.SetDirection(dir);
-
+            sScript.SetDamage(PlayerATK);
             // 시각적 회전
             float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             swardGO.transform.rotation = Quaternion.Euler(0, 0, baseAngle + angleOffset);

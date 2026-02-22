@@ -9,6 +9,7 @@ public class oneSward : MonoBehaviour
     private Camera mainCam;
     private Rigidbody2D rb;
     private Player playerSc;
+    private int damage;
     void Awake()
     {
         mainCam = Camera.main;
@@ -29,7 +30,10 @@ public class oneSward : MonoBehaviour
         if (rb != null)
             rb.velocity = direction * speed;  // 여기만 사용
     }
-
+    public void SetDamage(int dmg)
+    {
+        damage = dmg;
+    }
     void Update()
     {
         // 화면 밖이면 삭제
@@ -54,8 +58,10 @@ public class oneSward : MonoBehaviour
             if (monster != null && playerSc != null)
             {
                 // PlayerATK 실시간 참조
-                int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
-                monster.TakeDamageFromPlayer(damage);
+                //int damage = Mathf.Max(1, Mathf.RoundToInt(playerSc.PlayerATK));
+                //monster.TakeDamageFromPlayer(damage);
+                int finalDamage = Mathf.Max(1, damage);
+                monster.TakeDamageFromPlayer(finalDamage);
                 // 2. 날카로운 검 출혈 적용
                 if (playerSc.hasBloodDamage)
                 {

@@ -120,7 +120,21 @@ public class Turn_Timer : MonoBehaviour
         if (board != null && board.HasMatchedBlocks())
         {
             // 매칭 있음 → 터뜨리고 끝나면 적 턴
-            yield return board.BoomAndThen(() => { });
+            yield return board.BoomAndThen(() => 
+            {
+                player.Attack();
+                player.ShootBoomerangs();
+                player.ShootSpikeBall();
+                player.ShootSward();
+            });
+        }
+        else
+        {
+            // 매칭 없어도 공격은 해야 함
+            player.Attack();
+            player.ShootBoomerangs();
+            player.ShootSpikeBall();
+            player.ShootSward();
         }
 
         Debug.Log("턴 종료!");
