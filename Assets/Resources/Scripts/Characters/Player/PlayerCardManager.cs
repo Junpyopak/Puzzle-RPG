@@ -269,7 +269,11 @@ public class PlayerCardManager : MonoBehaviour
 
                 Debug.Log($"블러드 카드 적용: 확률 {player.bloodDamageChance}% / 틱데미지 {player.bloodDamagePerTick} / {player.bloodDamageTurns}턴 지속");
                 break;
-
+            case CardEffectType.FireCount:
+                player.hasSward = true;
+                player.playerfireLevel += Mathf.RoundToInt(value);
+                Debug.Log("1자스트아리크 레벨 증가: " + player.playerfireLevel);
+                break;
         }
     }
     public List<CardSaveData> GetSaveData()

@@ -117,6 +117,14 @@ public class Player : MonoBehaviour
     public int bloodDamagePerTick = 1;     // 틱당 데미지
     public int bloodDamageTurns = 3;       // 지속 턴 수
 
+    [Header("1자 스트라이크 설정")]
+
+    public GameObject swardPrefab;
+    public int playerfireLevel = 0;
+    public bool hasSward = false;
+    public float swardCooldown = 2f; // 1초마다 발사 private float lastSwardTime = -999f;
+    private float lastSwardTime = -999f;
+
     [Header("플레이어 사운드")]
     public AudioClip dieSound; //사망 사운드
     public AudioClip levelUpSound; //레벨업 사운드
@@ -183,7 +191,7 @@ public class Player : MonoBehaviour
         //Attack();
         // 1. 발사 전에 현재 카드 인벤토리 상황을 내 변수에 동기화
         UpdateBoomerangLevel();
-
+        ShootSward();
         //if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
         //{
         //    ShootBoomerangs();
@@ -743,6 +751,78 @@ public class Player : MonoBehaviour
         if (boundCard != null)
         {
             spike.BoundCount = boundCard.level;
+        }
+    }
+
+    public void ShootSward()
+    {
+        if (!hasSward || swardPrefab == null) return;
+        if (Time.time - lastSwardTime < swardCooldown)
+            return; // 아직 쿨다운 안 됨
+
+        lastSwardTime = Time.time;
+
+        // 플레이어가 왼쪽을 보고 있는지
+        bool isFlipped = GetComponent<SpriteRenderer>().flipX;
+
+        // 방향 결정용 함수
+        Vector2 AdjustDir(Vector2 dir)
+        {
+            if (isFlipped) dir.x *= -1; // 왼쪽이면 x 반전
+            return dir;
+        }
+
+        switch (playerfireLevel)
+        {
+            case 1:
+                SpawnSward(AdjustDir(Vector2.right), -50f); // 앞
+                break;
+            case 2:
+                SpawnSward(AdjustDir(Vector2.right), -50f); // 앞
+                SpawnSward(AdjustDir(Vector2.left), - 50f);         // 뒤
+                break;
+            case 3:
+                SpawnSward(AdjustDir(Vector2.right), -50f); // 앞
+                SpawnSward(AdjustDir(Vector2.left), - 50f);         // 뒤
+                SpawnSward(AdjustDir(Vector2.up), - 50f);           // 왼쪽
+                break;
+            case 4:
+            default:
+                SpawnSward(AdjustDir(Vector2.right), -50f); // 앞
+                SpawnSward(AdjustDir(Vector2.left), -50f);         // 뒤
+                SpawnSward(AdjustDir(Vector2.up), -50f);           // 왼쪽
+                SpawnSward(AdjustDir(Vector2.down), -50f);         // 오른쪽
+                break;
+        }
+
+        Debug.Log($"Sward 발사 완료! 레벨: {playerfireLevel}");
+    }
+    //private void SpawnSward(Vector2 dir, float angleOffset = 0f)
+    //{
+    //    GameObject swardGO = Instantiate(swardPrefab, transform.position, Quaternion.identity);
+    //    oneSward sScript = swardGO.GetComponent<oneSward>();
+    //    if (sScript != null)
+    //    {
+    //        // 이동 방향은 dir 그대로
+    //        sScript.SetDirection(dir);
+
+    //        // 시각적 회전만 -45도 적용
+    //        float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+    //        swardGO.transform.rotation = Quaternion.Euler(0, 0, baseAngle + angleOffset);
+    //    }
+    //}
+    private void SpawnSward(Vector2 dir, float angleOffset = 0f)
+    {
+        GameObject swardGO = Instantiate(swardPrefab, transform.position, Quaternion.identity);
+        oneSward sScript = swardGO.GetComponent<oneSward>();
+        if (sScript != null)
+        {
+            // 이동 방향 그대로 적용
+            sScript.SetDirection(dir);
+
+            // 시각적 회전
+            float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            swardGO.transform.rotation = Quaternion.Euler(0, 0, baseAngle + angleOffset);
         }
     }
 }

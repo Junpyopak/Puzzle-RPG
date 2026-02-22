@@ -2951,7 +2951,7 @@ MonoBehaviour:
   flashDuration: 0.25
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   enemyTag: Enemy
-  detectionDis: 7
+  detectionDis: 10
   NearTarget: {fileID: 0}
   MissilePrefab: {fileID: 800065900800941315, guid: 4c0d4b2e319507a4588cc168eb1a504c, type: 3}
   AttackBox: {fileID: 2053662510}
@@ -3004,6 +3004,9 @@ MonoBehaviour:
   bloodDamageChance: 0
   bloodDamagePerTick: 1
   bloodDamageTurns: 3
+  swardPrefab: {fileID: 8546849597694051684, guid: 06d37dfd9d28dae4b99fa0a49688ed2e, type: 3}
+  playerfireLevel: 0
+  hasSward: 0
   dieSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
   levelUpSound: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
   boomerangSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}

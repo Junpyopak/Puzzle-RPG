@@ -6944,8 +6944,8 @@ MonoBehaviour:
   generalCardPool:
   - {fileID: 3122407132275929496, guid: 61f566ae0ce770e4f9e2db65e939be98, type: 3}
   - {fileID: 3122407132275929496, guid: ab51303b302928d4da51a96c113f5bfa, type: 3}
-  - {fileID: 3122407132275929496, guid: 332c1e27e2dbeda469fde1a2023e2c28, type: 3}
   - {fileID: 3122407132275929496, guid: d5aa22944e5cf5e41a9319ddc1da79f1, type: 3}
+  - {fileID: 3122407132275929496, guid: 8f32d95b0016f2040b9a18aeffb5a2bb, type: 3}
   legendCardPool:
   - {fileID: 7362764510648869261, guid: f92f0ff44921f08498f0a6bed5276f61, type: 3}
   - {fileID: 7362764510648869261, guid: de5d1ba15053e3944bc73ad96096d9c1, type: 3}

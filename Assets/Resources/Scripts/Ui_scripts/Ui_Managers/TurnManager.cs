@@ -71,6 +71,7 @@ public class TurnManager : MonoBehaviour
         player.Attack();
         player.ShootBoomerangs();
         player.ShootSpikeBall();
+        //player.ShootSward();
         player.OnTurnEndRecovery();
         player.OnTurnEndAnger();
         playerMove.ResetMove();
