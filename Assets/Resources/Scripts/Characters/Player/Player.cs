@@ -504,6 +504,7 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(int damage, Monster attacker)
     {
+        if (isDie) return;
         if (isInvincible)
         {
             Debug.Log("무적 상태, 데미지 무시");
@@ -521,6 +522,7 @@ public class Player : MonoBehaviour
         if (finalDamage <= 0) finalDamage = 0; // 방어력으로 데미지 0 이하이면 0
         Hp -= finalDamage;
         Debug.Log($"플레이어 데미지 {finalDamage} / 현재 HP : {Hp}");
+
 
 
         // 복수 효과 발동
@@ -587,23 +589,44 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        if (isDie) return;
+        //if (isDie) return;
+        //anim.SetBool("PlayerDie", true);
+        //if (board != null)
+        //{
+        //    board.isPlayerDead = true;
+        //    board.isPlayerTurn = false;
+        //}
+        //// 이동 막기
+        //GetComponent<PlayerMove1>().enabled = false;
+        //// 콜라이더 막기 (선택)
+        //Collider2D col = GetComponent<Collider2D>();
+        //if (col != null)
+        //    col.enabled = false;
+        //// 필요하면 Rigidbody 정지
+        //Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        //if (rb != null)
+        //    rb.velocity = Vector2.zero;
+        //Debug.Log("플레이어 완전히 사망");
+        if (isDie) return; // 중복 방지
+        isDie = true;
+
         anim.SetBool("PlayerDie", true);
+
+        PlayerMove1 move = GetComponent<PlayerMove1>();
+        if (move != null) move.enabled = false;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null) rb.velocity = Vector2.zero;
+
         if (board != null)
         {
             board.isPlayerDead = true;
             board.isPlayerTurn = false;
         }
-        // 이동 막기
-        GetComponent<PlayerMove1>().enabled = false;
-        // 콜라이더 막기 (선택)
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null)
-            col.enabled = false;
-        // 필요하면 Rigidbody 정지
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
-            rb.velocity = Vector2.zero;
+
         Debug.Log("플레이어 완전히 사망");
     }
 
