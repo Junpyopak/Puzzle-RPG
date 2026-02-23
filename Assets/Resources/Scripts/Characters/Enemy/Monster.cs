@@ -6,16 +6,16 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     public int monsterID;
-    public int enemyTypeIndex;//Pool Å¸ÀÔ ÀÎµ¦½º
+    public int enemyTypeIndex;//Pool íƒ€ì… ì¸ë±ìŠ¤
     private MonsterData data;
     bool loadedFromSave = false;
     PoolMgr poolMgr;
     [Header("Damage")]
     private SpriteRenderer sr;
-    public float flashAlpha = 0.7f;      // ±ôºıÀÏ ¶§ ¾ËÆÄ
+    public float flashAlpha = 0.7f;      // ê¹œë¹¡ì¼ ë•Œ ì•ŒíŒŒ
     public float fadeSpeed = 5f;
-    public float flashDuration = 0.1f;   // ¹İÂ¦ÀÓ À¯Áö ½Ã°£
-    public Color flashColor = Color.red; // ±ôºıÀÏ »ö
+    public float flashDuration = 0.1f;   // ë°˜ì§ì„ ìœ ì§€ ì‹œê°„
+    public Color flashColor = Color.red; // ê¹œë¹¡ì¼ ìƒ‰
     private float originalAlpha;
     private Color originalColor;
     public int Hp;
@@ -44,16 +44,19 @@ public class Monster : MonoBehaviour
     [Header("itemBox Prefabs")]
     public GameObject itemBoxPrefab;
 
+    [Header("ì‚¬ìš´ë“œ")] public AudioClip HurtSound;
+    public AudioClip hitSound;
+
 
     [System.Serializable]
     public class BleedStatus
     {
-        public int damagePerTurn = 0;    // ÇÑ ÅÏ´ç µ¥¹ÌÁö
-        public int remainingTurns = 0;   // ³²Àº ÅÏ ¼ö
-        public float chance = 0f;        // ¹ßµ¿ È®·ü (0~1)
+        public int damagePerTurn = 0;    // í•œ í„´ë‹¹ ë°ë¯¸ì§€
+        public int remainingTurns = 0;   // ë‚¨ì€ í„´ ìˆ˜
+        public float chance = 0f;        // ë°œë™ í™•ë¥  (0~1)
     }
 
-    public BleedStatus bleed = null; // ¸ó½ºÅÍº° ÃâÇ÷ »óÅÂ
+    public BleedStatus bleed = null; // ëª¬ìŠ¤í„°ë³„ ì¶œí˜ˆ ìƒíƒœ
 
     void Start()
     {
@@ -63,7 +66,7 @@ public class Monster : MonoBehaviour
         data = MonsterDataTable.Instance.monsterDic[monsterID];
         playerTpos = FindObjectOfType<PlayerMove1>();
         player = FindObjectOfType<Player>();
-        Debug.Log($"{data.Name} »ı¼º / Å¸ÀÔ : {data.MonsterType} / °ø°İ·Â : {data.Atk} / Ã¼·Â :  {data.Hp} / ÅÏ¼ö {data.RemainTurn}");
+        Debug.Log($"{data.Name} ìƒì„± / íƒ€ì… : {data.MonsterType} / ê³µê²©ë ¥ : {data.Atk} / ì²´ë ¥ :  {data.Hp} / í„´ìˆ˜ {data.RemainTurn}");
         sr = GetComponent<SpriteRenderer>();
         originalAlpha = sr.color.a;
         originalColor = sr.color;
@@ -72,7 +75,7 @@ public class Monster : MonoBehaviour
         //    return;
         //if (SaveContext.Instance == null || !SaveContext.Instance.isLoading)
         //{
-        //    Hp = data.Hp;   // »õ °ÔÀÓÀÏ ¶§¸¸ Ç®ÇÇ
+        //    Hp = data.Hp;   // ìƒˆ ê²Œì„ì¼ ë•Œë§Œ í’€í”¼
         //}
         if (!loadedFromSave)
         {
@@ -82,17 +85,17 @@ public class Monster : MonoBehaviour
     }
 
 
-    //ÀüÅõ
+    //ì „íˆ¬
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
     //    if (!collision.CompareTag("PlayerAttack")) return;
     //    Damage();
-    //    Debug.Log("µ¥¹ÌÁö ¹ŞÀ½.");
+    //    Debug.Log("ë°ë¯¸ì§€ ë°›ìŒ.");
     //}
     //void Damage()
     //{
     //    int damage = Mathf.Max(player.PlayerATK, 1);
-    //    Debug.Log($"Damage() È£Ãâ ½Ã PlayerATK = {damage}");
+    //    Debug.Log($"Damage() í˜¸ì¶œ ì‹œ PlayerATK = {damage}");
     //    //Hp -= player.PlayerATK;
     //    Hp -= damage;
     //    StartCoroutine(FlashCoroutine());
@@ -106,10 +109,10 @@ public class Monster : MonoBehaviour
     //{
 
 
-    //    int damage = Mathf.RoundToInt(atk); // ÇÑ ¹ø¸¸ ¹İ¿Ã¸²
+    //    int damage = Mathf.RoundToInt(atk); // í•œ ë²ˆë§Œ ë°˜ì˜¬ë¦¼
     //    Hp -= damage;
-    //    Debug.Log($"¸ó½ºÅÍ°¡ {damage} µ¥¹ÌÁö¸¦ ¹ŞÀ½ / ³²Àº HP: {Hp}");
-    //    StartCoroutine(FlashCoroutine()); // ±ôºıÀÓ È¿°ú
+    //    Debug.Log($"ëª¬ìŠ¤í„°ê°€ {damage} ë°ë¯¸ì§€ë¥¼ ë°›ìŒ / ë‚¨ì€ HP: {Hp}");
+    //    StartCoroutine(FlashCoroutine()); // ê¹œë¹¡ì„ íš¨ê³¼
 
     //    if (Hp <= 0)
     //    {
@@ -119,8 +122,9 @@ public class Monster : MonoBehaviour
     //}
     public void TakeDamageFromPlayer(float atk)
     {
-        int damage = Mathf.Max(1, Mathf.RoundToInt(atk)); // ÃÖ¼Ò 1
+        int damage = Mathf.Max(1, Mathf.RoundToInt(atk)); // ìµœì†Œ 1
         Hp -= damage;
+            GameManager.Instance.SoundMgr.SoundPlay("sfx","í”¼ê²©ìŒ",HurtSound);
         //StartCoroutine(FlashCoroutine());
 
         //if (Hp <= 0)
@@ -128,17 +132,17 @@ public class Monster : MonoBehaviour
         //    Hp = 0;
         //    Die();
         //}
-        // ¸ó½ºÅÍ°¡ »ì¾ÆÀÖ´Ù¸é ±ôºıÀÌ ÄÚ·çÆ¾ ½ÇÇà
+        // ëª¬ìŠ¤í„°ê°€ ì‚´ì•„ìˆë‹¤ë©´ ê¹œë¹¡ì´ ì½”ë£¨í‹´ ì‹¤í–‰
         if (Hp > 0 && gameObject.activeInHierarchy)
         {
             StartCoroutine(FlashCoroutine());
         }
 
-        // ¸ó½ºÅÍ »ç¸Á Ã³¸®
+        // ëª¬ìŠ¤í„° ì‚¬ë§ ì²˜ë¦¬
         if (Hp <= 0)
         {
             Hp = 0;
-            Die(); // Die ¾È¿¡¼­ SetActive(false)³ª »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç Ã³¸®
+            Die(); // Die ì•ˆì—ì„œ SetActive(false)ë‚˜ ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ì²˜ë¦¬
         }
         GameObject dmg = Instantiate(
      damageTextPrefab,
@@ -147,13 +151,14 @@ public class Monster : MonoBehaviour
  );
 
         dmg.GetComponent<DamageText>().Setup(damage);
-        // Debug.Log($"¸ó½ºÅÍ°¡ {damage} µ¥¹ÌÁö¸¦ ¹ŞÀ½ / PlayerATK:{atk} / ³²Àº HP:{Hp}");
+        // Debug.Log($"ëª¬ìŠ¤í„°ê°€ {damage} ë°ë¯¸ì§€ë¥¼ ë°›ìŒ / PlayerATK:{atk} / ë‚¨ì€ HP:{Hp}");
     }
     public void TakeDamageFromBubble(int damage)
     {
         Hp -= damage;
 
-        // ±ôºıÀÓ È¿°ú
+        GameManager.Instance.SoundMgr.SoundPlay("sfx","í”¼ê²©ìŒ",HurtSound);
+        // ê¹œë¹¡ì„ íš¨ê³¼
         StartCoroutine(FlashCoroutine());
 
         if (Hp <= 0)
@@ -162,12 +167,12 @@ public class Monster : MonoBehaviour
             Die();
         }
 
-        Debug.Log($"¹öºí ÇÇÇØ: {damage}, ³²Àº HP: {Hp}");
+        Debug.Log($"ë²„ë¸” í”¼í•´: {damage}, ë‚¨ì€ HP: {Hp}");
     }
     void Die()
     {
-        Debug.Log($"{data.Name} »ç¸Á!");
-        // °æÇèÄ¡ µå¶ø
+        Debug.Log($"{data.Name} ì‚¬ë§!");
+        // ê²½í—˜ì¹˜ ë“œë
         OnMonsterDead();
 
         if (poolMgr != null)
@@ -179,15 +184,15 @@ public class Monster : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    private IEnumerator FlashCoroutine()//µ¥¹ÌÁö ÀÔ¾úÀ»¶§ »¡°£»ö ¹öÀü 
+    private IEnumerator FlashCoroutine()//ë°ë¯¸ì§€ ì…ì—ˆì„ë•Œ ë¹¨ê°„ìƒ‰ ë²„ì „ 
     {
-        // 1. »¡°­À¸·Î º¯°æ
+        // 1. ë¹¨ê°•ìœ¼ë¡œ ë³€ê²½
         sr.color = flashColor;
 
-        // 2. Àá½Ã ´ë±â
+        // 2. ì ì‹œ ëŒ€ê¸°
         yield return new WaitForSeconds(flashDuration);
 
-        // 3. ¿ø·¡ »öÀ¸·Î º¹¿ø
+        // 3. ì›ë˜ ìƒ‰ìœ¼ë¡œ ë³µì›
         sr.color = originalColor;
     }
 
@@ -195,31 +200,31 @@ public class Monster : MonoBehaviour
     {
         return data.Atk;
     }
-    //Ä­ ÀÌµ¿ + ÇÃ·¹ÀÌ¾î ÃßÀû
+    //ì¹¸ ì´ë™ + í”Œë ˆì´ì–´ ì¶”ì 
     public void StartTurn()
     {
         if (!isInitialized) return;
         moveRemain = data.RemainTurn;
-        Debug.Log($"[¸ó½ºÅÍ ÅÏ ½ÃÀÛ] {data.Name} | ÀÌµ¿ °¡´É:{moveRemain} | ÇöÀçÀ§Ä¡:{gridPos}");
+        Debug.Log($"[ëª¬ìŠ¤í„° í„´ ì‹œì‘] {data.Name} | ì´ë™ ê°€ëŠ¥:{moveRemain} | í˜„ì¬ìœ„ì¹˜:{gridPos}");
     }
 
-    //return true = ÀÌ ¸ó½ºÅÍ ÅÏ Á¾·á
+    //return true = ì´ ëª¬ìŠ¤í„° í„´ ì¢…ë£Œ
     public bool Act()
     {
         if (!isInitialized) return true;
         if (moveRemain <= 0)
             return true;
-        //ÇÃ·¹ÀÌ¾î°¡ °ø°İ°Å¸® ³»¿¡ µé¾î¿À¸é °ø°İÈÄ ÅÏ Á¾·á
+        //í”Œë ˆì´ì–´ê°€ ê³µê²©ê±°ë¦¬ ë‚´ì— ë“¤ì–´ì˜¤ë©´ ê³µê²©í›„ í„´ ì¢…ë£Œ
         if (PlayerAttackRange())
         {
             AttackPlayer();
             moveRemain = 0;
-            return true; // °ø°İÇÏ¸é ÀÌ ¸ó½ºÅÍ ÅÏ Á¾·á
+            return true; // ê³µê²©í•˜ë©´ ì´ ëª¬ìŠ¤í„° í„´ ì¢…ë£Œ
         }
 
         MoveTowardPlayer();
         moveRemain--;
-        Debug.Log($"[¸ó½ºÅÍ ÀÌµ¿] {data.Name} | ³²Àº ÀÌµ¿:{moveRemain}");
+        Debug.Log($"[ëª¬ìŠ¤í„° ì´ë™] {data.Name} | ë‚¨ì€ ì´ë™:{moveRemain}");
         return moveRemain <= 0;
     }
 
@@ -231,7 +236,7 @@ public class Monster : MonoBehaviour
 
         int x = Mathf.Clamp(dir.x, -1, 1);
         int y = Mathf.Clamp(dir.y, -1, 1);
-        Debug.Log($"[ÃßÀû °è»ê] {data.Name} | ÇÃ·¹ÀÌ¾î:{playerPos} | ¹æÇâ:({x},{y})");
+        Debug.Log($"[ì¶”ì  ê³„ì‚°] {data.Name} | í”Œë ˆì´ì–´:{playerPos} | ë°©í–¥:({x},{y})");
         gridPos += new Vector2Int(x, y);
 
         SnapToCell();
@@ -246,23 +251,23 @@ public class Monster : MonoBehaviour
         float x = (gridPos.x - half) * cellSize.x;
         float y = (gridPos.y - half) * cellSize.y;
 
-        transform.position = new Vector3(Mathf.Round(x * 100f) / 100f, Mathf.Round(y * 100f) / 100f, transform.position.z); // ºÎµ¿¼Ò¼öÁ¡ ¿ÀÂ÷ ¹æÁö
+        transform.position = new Vector3(Mathf.Round(x * 100f) / 100f, Mathf.Round(y * 100f) / 100f, transform.position.z); // ë¶€ë™ì†Œìˆ˜ì  ì˜¤ì°¨ ë°©ì§€
     }
 
-    ////Á×¾úÀ»¶§ ÅÏ¸Ş´ÏÀú ¸®½ºÆ®¿¡¼­ »èÁ¦
+    ////ì£½ì—ˆì„ë•Œ í„´ë©”ë‹ˆì € ë¦¬ìŠ¤íŠ¸ì—ì„œ ì‚­ì œ
     //void OnDestroy()
     //{
     //    if (TurnManager.Instance != null)
     //        TurnManager.Instance.monsters.Remove(this);
     //}
-    //Æú¸µÀ» »ç¿ëÇÏ¿© Àç»ç¿ëÇÒ¶§ ¿ÀºêÁ§Æ®°¡ ²¨Á³À¸¸é ÅÏ¸Ş´ÏÀú¿¡¼­ Á¦°Å.
+    //í´ë§ì„ ì‚¬ìš©í•˜ì—¬ ì¬ì‚¬ìš©í• ë•Œ ì˜¤ë¸Œì íŠ¸ê°€ êº¼ì¡Œìœ¼ë©´ í„´ë©”ë‹ˆì €ì—ì„œ ì œê±°.
     void OnDisable()
     {
         if (TurnManager.Instance != null)
             TurnManager.Instance.monsters.Remove(this);
     }
 
-    //¸ó½ºÅÍ°¡ Æú¸µÀ¸·Î Àç»ı¼º½Ã ÅÏ¸Ş´ÏÀú¿¡ Ãß°¡ÇÏ°í hp °ª ÃÊ±âÈ­ ÇÏ±â À§ÇØ
+    //ëª¬ìŠ¤í„°ê°€ í´ë§ìœ¼ë¡œ ì¬ìƒì„±ì‹œ í„´ë©”ë‹ˆì €ì— ì¶”ê°€í•˜ê³  hp ê°’ ì´ˆê¸°í™” í•˜ê¸° ìœ„í•´
     void OnEnable()
     {
         //if (TurnManager.Instance != null)
@@ -285,7 +290,7 @@ public class Monster : MonoBehaviour
         //    //Hp = data.Hp;
         //    if (SaveContext.Instance == null || !SaveContext.Instance.isLoading)
         //    {
-        //        Hp = data.Hp;   //»õ °ÔÀÓÀÏ ¶§¸¸ Ç®ÇÇ
+        //        Hp = data.Hp;   //ìƒˆ ê²Œì„ì¼ ë•Œë§Œ í’€í”¼
         //    }
         //    isInitialized = false;
         //    StartCoroutine(InitAfterGridReady());
@@ -299,13 +304,13 @@ public class Monster : MonoBehaviour
     }
     //IEnumerator InitAfterGridReady()
     //{
-    //    // Grid »ı¼ºµÉ ¶§±îÁö ´ë±â
+    //    // Grid ìƒì„±ë  ë•Œê¹Œì§€ ëŒ€ê¸°
     //    yield return new WaitForEndOfFrame();
 
     //    InitGridPosFromWorld();
     //    SnapToCell();
     //    isInitialized = true;
-    //    Debug.Log($"{data.Name} gridPos ÃÊ±âÈ­ ¿Ï·á : {gridPos}");
+    //    Debug.Log($"{data.Name} gridPos ì´ˆê¸°í™” ì™„ë£Œ : {gridPos}");
     //}
 
     //void InitGridPosFromWorld()
@@ -327,7 +332,7 @@ public class Monster : MonoBehaviour
     //}
     IEnumerator InitAfterGridReady()
     {
-        // Grid15x15.Instance°¡ ÁØºñµÉ ¶§±îÁö ´ë±â
+        // Grid15x15.Instanceê°€ ì¤€ë¹„ë  ë•Œê¹Œì§€ ëŒ€ê¸°
         while (Grid15x15.Instance == null)
             yield return null;
 
@@ -335,14 +340,14 @@ public class Monster : MonoBehaviour
         SnapToCell();
         isInitialized = true;
 
-        Debug.Log($"{data.Name} gridPos ÃÊ±âÈ­ ¿Ï·á : {gridPos}");
+        Debug.Log($"{data.Name} gridPos ì´ˆê¸°í™” ì™„ë£Œ : {gridPos}");
     }
 
     void InitGridPosFromWorld()
     {
         if (Grid15x15.Instance == null)
         {
-            Debug.LogError("Grid15x15.Instance°¡ ¾ÆÁ÷ ÁØºñµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogError("Grid15x15.Instanceê°€ ì•„ì§ ì¤€ë¹„ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
 
@@ -362,7 +367,7 @@ public class Monster : MonoBehaviour
         gridPos = new Vector2Int(gx, gy);
     }
 
-    ///¸ó½ºÅÍ °ø°İ ±â´É
+    ///ëª¬ìŠ¤í„° ê³µê²© ê¸°ëŠ¥
     bool PlayerAttackRange()
     {
         Vector2Int playerPos = playerTpos.GridPos;
@@ -371,7 +376,7 @@ public class Monster : MonoBehaviour
         int distX = Mathf.Abs(diff.x);
         int distY = Mathf.Abs(diff.y);
 
-        // Ã¼½º King ÀÌµ¿ ±âÁØ (´ë°¢ Æ÷ÇÔ)
+        // ì²´ìŠ¤ King ì´ë™ ê¸°ì¤€ (ëŒ€ê° í¬í•¨)
         int chebyshevDist = Mathf.Max(distX, distY);
 
         return chebyshevDist <= data.AttackRange;
@@ -379,15 +384,16 @@ public class Monster : MonoBehaviour
 
     void AttackPlayer()
     {
-        Debug.Log($"MonsterType ½ÇÁ¦ °ª : {data.MonsterType} ({(int)data.MonsterType})");
-        Debug.Log($"[¸ó½ºÅÍ °ø°İ] {data.Name} ¡æ ÇÃ·¹ÀÌ¾î °ø°İ!");
+        Debug.Log($"MonsterType ì‹¤ì œ ê°’ : {data.MonsterType} ({(int)data.MonsterType})");
+        Debug.Log($"[ëª¬ìŠ¤í„° ê³µê²©] {data.Name} â†’ í”Œë ˆì´ì–´ ê³µê²©!");
 
-        if (data.MonsterType == MonsterType.¿ø°Å¸®)
+        if (data.MonsterType == MonsterType.ì›ê±°ë¦¬)
         {
-            Debug.Log($"[¸ó½ºÅÍ °ø°İ] {data.Name} ¡æ ÇÃ·¹ÀÌ¾î °ø°İ ÅõÃ´!");
+            Debug.Log($"[ëª¬ìŠ¤í„° ê³µê²©] {data.Name} â†’ í”Œë ˆì´ì–´ ê³µê²© íˆ¬ì²™!");
+            GameManager.Instance.SoundMgr.SoundPlay("sfx","ì›ê±°ë¦¬ ê³µê²©",hitSound);
             ShootMissile();
         }
-        else//±Ù°Å¸®ÀÏ¶§
+        else//ê·¼ê±°ë¦¬ì¼ë•Œ
         {
             player.TakeDamage(data.Atk, this);
         }
@@ -396,17 +402,17 @@ public class Monster : MonoBehaviour
 
     public void ShootMissile()
     {
-        // ¹Ì»çÀÏ »ı¼º
+        // ë¯¸ì‚¬ì¼ ìƒì„±
         GameObject missile = Instantiate(EnemyMissilePre, firePoint.position, Quaternion.identity);
 
         Vector2 dir = (player.transform.position - firePoint.position).normalized;
 
-        // Sprite°¡ À§¸¦ ¹Ù¶óº¸´Â °æ¿ì È¸Àü Á¶Á¤
-        // À§ÂÊ Sprite ±âÁØ ¡æ ZÃà °¢µµ = atan2(y, x) - 90
+        // Spriteê°€ ìœ„ë¥¼ ë°”ë¼ë³´ëŠ” ê²½ìš° íšŒì „ ì¡°ì •
+        // ìœ„ìª½ Sprite ê¸°ì¤€ â†’ Zì¶• ê°ë„ = atan2(y, x) - 90
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         missile.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // ¹Ì»çÀÏ ÀÌµ¿ ½ºÅ©¸³Æ®¿¡ ¹æÇâ Àü´Ş
+        // ë¯¸ì‚¬ì¼ ì´ë™ ìŠ¤í¬ë¦½íŠ¸ì— ë°©í–¥ ì „ë‹¬
         EnemyMissile mm = missile.GetComponent<EnemyMissile>();
         if (mm != null)
             mm.SetDirection(dir, EnemyMissileSpeed, data.Atk, this);
@@ -432,14 +438,14 @@ public class Monster : MonoBehaviour
     }
     public void ResetEnemy()
     {
-        sr.color = originalColor; // ¿ø·¡ »öÀ¸·Î º¹±¸
+        sr.color = originalColor; // ì›ë˜ ìƒ‰ìœ¼ë¡œ ë³µêµ¬
 
-        // ÇÊ¿äÇÏ¸é Ãß°¡ ÃÊ±âÈ­
+        // í•„ìš”í•˜ë©´ ì¶”ê°€ ì´ˆê¸°í™”
         //hp = maxHp;
-        // »óÅÂÀÌ»ó Á¦°Å µî
+        // ìƒíƒœì´ìƒ ì œê±° ë“±
     }
 
-    // ¸ó½ºÅÍ °æÇèÄ¡ µå¶ø Å¸ÀÔ °áÁ¤
+    // ëª¬ìŠ¤í„° ê²½í—˜ì¹˜ ë“œë íƒ€ì… ê²°ì •
     public ExpType GetRandomExpType()
     {
         float total = data.ExpNormal + data.ExpAlpha + data.ExpSuper;
@@ -472,7 +478,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    // ¸ó½ºÅÍ À½½Ä µå¶ø °áÁ¤
+    // ëª¬ìŠ¤í„° ìŒì‹ ë“œë ê²°ì •
     public GameObject GetRandomFood()
     {
 
@@ -480,16 +486,16 @@ public class Monster : MonoBehaviour
 
         if (roll < data.FoodDrop)
         {
-            Debug.Log("È¸º¹ À½½Ä µå¶ø.");
+            Debug.Log("íšŒë³µ ìŒì‹ ë“œë.");
             return foodPrefab;
         }
 
-        // À½½ÄÀÌ µå·ÓµÇÁö ¾ÊÀ¸¸é null ¹İÈ¯
-        Debug.Log("À½½Ä µå¶ø ¾È‰Î.");
+        // ìŒì‹ì´ ë“œë¡­ë˜ì§€ ì•Šìœ¼ë©´ null ë°˜í™˜
+        Debug.Log("ìŒì‹ ë“œë ì•ˆëŒ.");
         return null;
     }
 
-    // ¸ó½ºÅÍ À½½Ä µå¶ø °áÁ¤
+    // ëª¬ìŠ¤í„° ìŒì‹ ë“œë ê²°ì •
     public GameObject GetRandomBox()
     {
 
@@ -497,12 +503,12 @@ public class Monster : MonoBehaviour
 
         if (roll < data.BoxDrop)
         {
-            Debug.Log("¾ÆÀÌÅÛ ¹Ú½º µå¶ø.");
+            Debug.Log("ì•„ì´í…œ ë°•ìŠ¤ ë“œë.");
             return itemBoxPrefab;
         }
 
-        //µå·ÓµÇÁö ¾ÊÀ¸¸é null ¹İÈ¯
-        Debug.Log("¾ÆÀÌÅÛ ¹Ú½º µå¶ø¾È‰Î.");
+        //ë“œë¡­ë˜ì§€ ì•Šìœ¼ë©´ null ë°˜í™˜
+        Debug.Log("ì•„ì´í…œ ë°•ìŠ¤ ë“œëì•ˆëŒ.");
         return null;
     }
 
@@ -517,7 +523,7 @@ public class Monster : MonoBehaviour
         return data;
     }
 
-    // ================= º¹¿ø¿ë =================
+    // ================= ë³µì›ìš© =================
     public void LoadFromSaveData(MonsterSaveData data)
     {
         StopAllCoroutines();
@@ -535,14 +541,14 @@ public class Monster : MonoBehaviour
 
     IEnumerator ApplyLoadedPosition()
     {
-        // Grid »ı¼º ´ë±â
+        // Grid ìƒì„± ëŒ€ê¸°
         yield return new WaitForEndOfFrame();
 
         SnapToCell();
         isInitialized = true;
     }
 
-    // Monster ÅÏ Á¾·á ÈÄ ÃâÇ÷ÀÌ¶ó¸é È£Ãâ
+    // Monster í„´ ì¢…ë£Œ í›„ ì¶œí˜ˆì´ë¼ë©´ í˜¸ì¶œ
     public void OnTurnEndBleed()
     {
         if (bleed == null) return;
@@ -550,8 +556,8 @@ public class Monster : MonoBehaviour
         if (Random.value <= bleed.chance)
         {
             Hp -= bleed.damagePerTurn;
-            StartCoroutine(FlashCoroutine()); // µ¥¹ÌÁö ±ôºıÀÓ
-            Debug.Log($"{data.Name} ÃâÇ÷ ÇÇÇØ {bleed.damagePerTurn} / ³²Àº HP {Hp}");
+            StartCoroutine(FlashCoroutine()); // ë°ë¯¸ì§€ ê¹œë¹¡ì„
+            Debug.Log($"{data.Name} ì¶œí˜ˆ í”¼í•´ {bleed.damagePerTurn} / ë‚¨ì€ HP {Hp}");
 
             if (Hp <= 0)
             {
@@ -564,7 +570,7 @@ public class Monster : MonoBehaviour
         if (bleed.remainingTurns <= 0)
         {
             bleed = null;
-            Debug.Log($"{data.Name} ÃâÇ÷ È¿°ú Á¾·á");
+            Debug.Log($"{data.Name} ì¶œí˜ˆ íš¨ê³¼ ì¢…ë£Œ");
         }
     }
 }

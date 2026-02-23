@@ -11,13 +11,13 @@ public class PuzzleBoard : MonoBehaviour
 
     public Vector2 cellSize = new Vector2(60, 55);
     public Vector2 spacing = new Vector2(3, 5);
-    [Header("ÄŞº¸ °ø°İ·Â")]
-    public Player player; // ÀÎ½ºÆåÅÍ¿¡¼­ ¿¬°á
+    [Header("ì½¤ë³´ ê³µê²©ë ¥")]
+    public Player player; // ì¸ìŠ¤í™í„°ì—ì„œ ì—°ê²°
     public Text ComboText;
     private int ComboCount = 0;
-    private float tempATKMultiplier = 1f; // ÄŞº¸ ¹èÀ²
-    private int originalATK; // ÅÏ ½ÃÀÛ ½Ã ÀúÀåÇÒ °ø°İ·Â
-    public int comboAtk = 0;  // ÄŞº¸ °ø°İ·Â º¯¼ö
+    private float tempATKMultiplier = 1f; // ì½¤ë³´ ë°°ìœ¨
+    private int originalATK; // í„´ ì‹œì‘ ì‹œ ì €ì¥í•  ê³µê²©ë ¥
+    public int comboAtk = 0;  // ì½¤ë³´ ê³µê²©ë ¥ ë³€ìˆ˜
 
     public PuzzleBlock[,] blocks;
     private RectTransform boardRect;
@@ -27,6 +27,9 @@ public class PuzzleBoard : MonoBehaviour
     public bool isPlayerTurn = true;
     public bool isPlayerDead = false;
 
+    public AudioClip puzzlePopSound;
+    public AudioClip puzzleSwapSound;
+    public AudioClip puzzleDownSound;
 
 
     private void Awake()
@@ -40,11 +43,11 @@ public class PuzzleBoard : MonoBehaviour
         player = FindObjectOfType<Player>();
         if (player == null)
         {
-            Debug.LogError("¾À¿¡ Player°¡ ¾ø½À´Ï´Ù!");
+            Debug.LogError("ì”¬ì— Playerê°€ ì—†ìŠµë‹ˆë‹¤!");
         }
         if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
         {
-            //ÀÌ¾îÇÏ±â¸é °Çµå¸®Áö ¸¶¶ó
+            //ì´ì–´í•˜ê¸°ë©´ ê±´ë“œë¦¬ì§€ ë§ˆë¼
             return;
         }
 
@@ -97,7 +100,7 @@ public class PuzzleBoard : MonoBehaviour
     {
         if (!CanControl())
         {
-            // ¿øÀ§Ä¡ º¹±Í
+            // ì›ìœ„ì¹˜ ë³µê·€
             a.transform.localPosition = GetPosition(a.x, a.y);
             b.transform.localPosition = GetPosition(b.x, b.y);
             return;
@@ -106,20 +109,20 @@ public class PuzzleBoard : MonoBehaviour
         int dx = Mathf.Abs(a.x - b.x);
         int dy = Mathf.Abs(a.y - b.y);
 
-        // ÀÚ±â ÀÚ½Å Å¬¸¯ ¡æ ¹«½Ã
+        // ìê¸° ìì‹  í´ë¦­ â†’ ë¬´ì‹œ
         if (dx == 0 && dy == 0)
             return;
 
-        // »ó / ÇÏ / ÁÂ / ¿ì / ´ë°¢¼± ±îÁö 1Ä­¸¸ Çã¿ë
+        // ìƒ / í•˜ / ì¢Œ / ìš° / ëŒ€ê°ì„  ê¹Œì§€ 1ì¹¸ë§Œ í—ˆìš©
         if (dx > 1 || dy > 1)
         {
-            // ¿ø·¡ ÀÚ¸®·Î µÇµ¹¸®±â
+            // ì›ë˜ ìë¦¬ë¡œ ë˜ëŒë¦¬ê¸°
             a.transform.localPosition = GetPosition(a.x, a.y);
             b.transform.localPosition = GetPosition(b.x, b.y);
             return;
         }
 
-        //½º¿Ò
+        //ìŠ¤ì™‘
         blocks[a.x, a.y] = b;
         blocks[b.x, b.y] = a;
 
@@ -135,6 +138,7 @@ public class PuzzleBoard : MonoBehaviour
         a.transform.localPosition = GetPosition(a.x, a.y);
         b.transform.localPosition = GetPosition(b.x, b.y);
 
+        GameManager.Instance.SoundMgr.SoundPlay("sfx","í¼ì¦ìŠ¤ì™‘ ì‚¬ìš´ë“œ",puzzleSwapSound);
         DisableMatchedBlocks();
     }
     void OnRectTransformDimensionsChange()
@@ -173,12 +177,12 @@ public class PuzzleBoard : MonoBehaviour
     //            PuzzleBlock center = blocks[x, y];
     //            if (center == null) continue;
 
-    //            // °¡·Î
+    //            // ê°€ë¡œ
     //            List<PuzzleBlock> h = GetLineBlocks(center, 1, 0);
     //            if (h.Count >= 3)
     //                matched.UnionWith(h);
 
-    //            // ¼¼·Î
+    //            // ì„¸ë¡œ
     //            List<PuzzleBlock> v = GetLineBlocks(center, 0, 1);
     //            if (v.Count >= 3)
     //                matched.UnionWith(v);
@@ -193,24 +197,24 @@ public class PuzzleBoard : MonoBehaviour
 
     //        tempATKMultiplier = GetComboMultiplier(ComboCount);
 
-    //        // PlayerATK¸¦ Á÷Á¢ ÇöÀç °ª ±âÁØÀ¸·Î °öÇÔ
+    //        // PlayerATKë¥¼ ì§ì ‘ í˜„ì¬ ê°’ ê¸°ì¤€ìœ¼ë¡œ ê³±í•¨
     //        player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.PlayerATK * tempATKMultiplier));
-    //        //ÄŞº¸ ½ÃÀÛ ½Ã ¿ø·¡ °ø°İ·Â ÀúÀå
+    //        //ì½¤ë³´ ì‹œì‘ ì‹œ ì›ë˜ ê³µê²©ë ¥ ì €ì¥
 
-    //        // ÅÏ ½ÃÀÛ ½Ã ±âº» °ø°İ·Â ÀúÀå
+    //        // í„´ ì‹œì‘ ì‹œ ê¸°ë³¸ ê³µê²©ë ¥ ì €ì¥
 
-    //        Debug.Log($"ÄŞº¸ {ComboCount} ¡æ PlayerATK {player.PlayerATK}");
+    //        Debug.Log($"ì½¤ë³´ {ComboCount} â†’ PlayerATK {player.PlayerATK}");
 
     //        StartCoroutine(offComboTEXT());
     //    }
 
-    //    // °°Àº ÆÛÁñ 3°³ ÀÌ»ó Æ÷ÇÔµÈ ºí·°µé¸¸ false
+    //    // ê°™ì€ í¼ì¦ 3ê°œ ì´ìƒ í¬í•¨ëœ ë¸”ëŸ­ë“¤ë§Œ false
     //    foreach (PuzzleBlock block in matched)
     //    {
     //        if (block.isDisabled) continue;
     //        //blocks[block.x, block.y] = null;
     //        //block.gameObject.SetActive(false);
-    //        Image img = block.GetComponent<Image>();//¸ÅÄªµÈ ºí·Ï Èå¸²Ã³¸®
+    //        Image img = block.GetComponent<Image>();//ë§¤ì¹­ëœ ë¸”ë¡ íë¦¼ì²˜ë¦¬
     //        Color c = img.color;
     //        img.color = new Color(c.r, c.g, c.b, 0.4f);
     //        block.isDisabled = true;
@@ -229,12 +233,12 @@ public class PuzzleBoard : MonoBehaviour
                 PuzzleBlock center = blocks[x, y];
                 if (center == null) continue;
 
-                // °¡·Î
+                // ê°€ë¡œ
                 List<PuzzleBlock> h = GetLineBlocks(center, 1, 0);
                 if (h.Count >= 3)
                     matched.UnionWith(h);
 
-                // ¼¼·Î
+                // ì„¸ë¡œ
                 List<PuzzleBlock> v = GetLineBlocks(center, 0, 1);
                 if (v.Count >= 3)
                     matched.UnionWith(v);
@@ -249,10 +253,10 @@ public class PuzzleBoard : MonoBehaviour
 
         //    tempATKMultiplier = GetComboMultiplier(ComboCount);
 
-        //    // baseATK ±âÁØÀ¸·Î °öÇÏ±â ¡æ ´©Àû ¾È µÊ
+        //    // baseATK ê¸°ì¤€ìœ¼ë¡œ ê³±í•˜ê¸° â†’ ëˆ„ì  ì•ˆ ë¨
         //    player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(player.baseATK * tempATKMultiplier));
 
-        //    Debug.Log($"ÄŞº¸ {ComboCount} ¡æ PlayerATK {player.PlayerATK}");
+        //    Debug.Log($"ì½¤ë³´ {ComboCount} â†’ PlayerATK {player.PlayerATK}");
 
         //    StartCoroutine(offComboTEXT());
         //}
@@ -268,16 +272,16 @@ public class PuzzleBoard : MonoBehaviour
 
             if (originalATK == 0)
                 originalATK = player.PlayerATK;
-            //Ç×»ó ÅÏ ½ÃÀÛ ½Ã °ø°İ·Â ±âÁØÀ¸·Î °è»ê (´©Àû ¹æÁö)
+            //í•­ìƒ í„´ ì‹œì‘ ì‹œ ê³µê²©ë ¥ ê¸°ì¤€ìœ¼ë¡œ ê³„ì‚° (ëˆ„ì  ë°©ì§€)
             player.PlayerATK = Mathf.Max(1, Mathf.RoundToInt(originalATK * tempATKMultiplier));
 
-            Debug.Log($"ÄŞº¸ {ComboCount} ¡æ PlayerATK {player.PlayerATK}");
+            Debug.Log($"ì½¤ë³´ {ComboCount} â†’ PlayerATK {player.PlayerATK}");
 
             StartCoroutine(offComboTEXT());
         }
 
 
-        // °°Àº ÆÛÁñ 3°³ ÀÌ»ó Æ÷ÇÔµÈ ºí·°µé¸¸ false
+        // ê°™ì€ í¼ì¦ 3ê°œ ì´ìƒ í¬í•¨ëœ ë¸”ëŸ­ë“¤ë§Œ false
         foreach (PuzzleBlock block in matched)
         {
             if (block.isDisabled) continue;
@@ -331,7 +335,7 @@ public class PuzzleBoard : MonoBehaviour
         PuzzleBlock target = blocks[x, y];
         if (target == null)
             return false;
-        //ÀÌ¹Ì disable µÈ ºí·ÏÀº ¸ÅÄª ºÒ°¡
+        //ì´ë¯¸ disable ëœ ë¸”ë¡ì€ ë§¤ì¹­ ë¶ˆê°€
         if (target.isDisabled || center.isDisabled)
             return false;
         return target.puzzleId == center.puzzleId;
@@ -360,7 +364,7 @@ public class PuzzleBoard : MonoBehaviour
     {
         if (disabledBlocks.Count == 0)
         {
-            Debug.Log("BoomPuzzle: ÅÍÁú ºí·Ï ¾øÀ½");
+            Debug.Log("BoomPuzzle: í„°ì§ˆ ë¸”ë¡ ì—†ìŒ");
             return;
         }
 
@@ -371,18 +375,18 @@ public class PuzzleBoard : MonoBehaviour
         //    int x = block.x;
         //    int y = block.y;
 
-        //    // º¸µå µ¥ÀÌÅÍ¿¡¼­ Á¦°Å
+        //    // ë³´ë“œ ë°ì´í„°ì—ì„œ ì œê±°
         //    if (x >= 0 && x < width && y >= 0 && y < height)
         //        blocks[x, y] = null;
 
-        //    //ÁøÂ¥ »èÁ¦
+        //    //ì§„ì§œ ì‚­ì œ
         //    Destroy(block.gameObject);
         //}
 
         //disabledBlocks.Clear();
         StartCoroutine(BoomRoutine());
     }
-    //Load ÀÌÈÄ¿¡ disabledBlocks¸¦ ´Ù½Ã Ã¤¿ì±â À§ÇÔ
+    //Load ì´í›„ì— disabledBlocksë¥¼ ë‹¤ì‹œ ì±„ìš°ê¸° ìœ„í•¨
     public void RebuildDisabledList()
     {
         disabledBlocks.Clear();
@@ -399,7 +403,7 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
 
-        Debug.Log($"RebuildDisabledList: {disabledBlocks.Count}°³ º¹±¸µÊ");
+        Debug.Log($"RebuildDisabledList: {disabledBlocks.Count}ê°œ ë³µêµ¬ë¨");
     }
     public PuzzleSaveData GetSaveData()
     {
@@ -445,12 +449,13 @@ public class PuzzleBoard : MonoBehaviour
             }
         }
     }
-    //ÆÛÁñºí·Ï À§¿¡¼­ ¾Æ·¡·Î ¶³¾îÆ®¸®±â
+    //í¼ì¦ë¸”ë¡ ìœ„ì—ì„œ ì•„ë˜ë¡œ ë–¨ì–´íŠ¸ë¦¬ê¸°
     public IEnumerator ApplyGravity_BlockByBlock(float delay = 0.05f)
     {
         while (true)
         {
             bool movedOne = false;
+            GameManager.Instance.SoundMgr.SoundPlay("sfx","í¼ì¦ë‹¤ìš´ ì‚¬ìš´ë“œ",puzzleDownSound);
 
             for (int y = 1; y < height; y++)
             {
@@ -466,6 +471,7 @@ public class PuzzleBoard : MonoBehaviour
                         block.y = y - 1;
 
                         yield return StartCoroutine(
+                            
                             MoveBlockOneStep(block, GetPosition(x, y - 1))
                         );
 
@@ -503,6 +509,7 @@ public class PuzzleBoard : MonoBehaviour
             if (block == null) continue;
 
             blocks[block.x, block.y] = null;
+            GameManager.Instance.SoundMgr.SoundPlay("sfx","í¼ì¦íŒ ì‚¬ìš´ë“œ",puzzlePopSound);
             Destroy(block.gameObject);
         }
 
@@ -510,10 +517,10 @@ public class PuzzleBoard : MonoBehaviour
         ComboCount = 0;
         yield return new WaitForSeconds(0.1f);
 
-        // ºí·Ï ÇÏ³ª¾¿ Áß·Â
+        // ë¸”ë¡ í•˜ë‚˜ì”© ì¤‘ë ¥
         yield return StartCoroutine(ApplyGravity_BlockByBlock(0.03f));
 
-        // »õ ºí·Ï Ã¤¿ì±â
+        // ìƒˆ ë¸”ë¡ ì±„ìš°ê¸°
         PuzzleSpawner spawner = FindObjectOfType<PuzzleSpawner>();
         yield return new WaitForSeconds(0.05f);
         spawner.FillEmptyBlocks();
@@ -540,9 +547,9 @@ public class PuzzleBoard : MonoBehaviour
     //    tempATKMultiplier = 1f;
 
     //    if (player != null)
-    //        player.PlayerATK = player.baseATK; // ±âº» °ø°İ·ÂÀ¸·Î ÃÊ±âÈ­
+    //        player.PlayerATK = player.baseATK; // ê¸°ë³¸ ê³µê²©ë ¥ìœ¼ë¡œ ì´ˆê¸°í™”
 
-    //    Debug.Log($"ÅÏ ½ÃÀÛ ¡æ PlayerATK ÃÊ±âÈ­: {player.PlayerATK}");
+    //    Debug.Log($"í„´ ì‹œì‘ â†’ PlayerATK ì´ˆê¸°í™”: {player.PlayerATK}");
     //}
     public void OnTurnStart()
     {
@@ -551,20 +558,20 @@ public class PuzzleBoard : MonoBehaviour
 
         if (player != null)
         {
-            originalATK = player.PlayerATK; // ÇöÀç °ø°İ·Â ÀúÀå (Ä«µå/·¹º§ ¹İ¿µµÈ °ª)
+            originalATK = player.PlayerATK; // í˜„ì¬ ê³µê²©ë ¥ ì €ì¥ (ì¹´ë“œ/ë ˆë²¨ ë°˜ì˜ëœ ê°’)
         }
 
-        Debug.Log($"ÅÏ ½ÃÀÛ ¡æ originalATK ÀúÀå: {originalATK}");
+        Debug.Log($"í„´ ì‹œì‘ â†’ originalATK ì €ì¥: {originalATK}");
     }
 
-    //// ÅÏ Á¾·á ½Ã
+    //// í„´ ì¢…ë£Œ ì‹œ
     //public void OnTurnEnd()
     //{
     //    ComboCount = 0;
     //    tempATKMultiplier = 1f;
 
     //    if (player != null)
-    //        player.PlayerATK = player.baseATK; // ÅÏ Á¾·á ÈÄ °ø°İ·Â ¿øº¹
+    //        player.PlayerATK = player.baseATK; // í„´ ì¢…ë£Œ í›„ ê³µê²©ë ¥ ì›ë³µ
     //}
     public void OnTurnEnd()
     {
@@ -573,7 +580,7 @@ public class PuzzleBoard : MonoBehaviour
 
         if (player != null)
         {
-            player.PlayerATK = originalATK; // ÅÏ ½ÃÀÛ ½Ã °ø°İ·ÂÀ¸·Î º¹¿ø
+            player.PlayerATK = originalATK; // í„´ ì‹œì‘ ì‹œ ê³µê²©ë ¥ìœ¼ë¡œ ë³µì›
             originalATK = 0;
         }
     }

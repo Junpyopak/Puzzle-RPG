@@ -1314,7 +1314,7 @@ MonoBehaviour:
   bgmVolume: 1
   sfxVloume: 1
   s_master: 1
-  s_bgm: 1
+  s_bgm: 0.2
   s_sfx: 1
 --- !u!1 &510370377
 GameObject:

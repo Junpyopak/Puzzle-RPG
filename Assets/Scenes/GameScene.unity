@@ -666,6 +666,7 @@ MonoBehaviour:
   - 10
   - 15
   - 20
+  bossAppears: {fileID: 8300000, guid: ef7e6341ffa7da3448fbc0879cc73688, type: 3}
 --- !u!1 &91560585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,6 +2504,9 @@ MonoBehaviour:
   comboAtk: 0
   isPlayerTurn: 1
   isPlayerDead: 0
+  puzzlePopSound: {fileID: 8300000, guid: ddf05b94a673806459c7e4ddaa4b6007, type: 3}
+  puzzleSwapSound: {fileID: 8300000, guid: e100d4bd5662ad54f81d5543fb4d3ceb, type: 3}
+  puzzleDownSound: {fileID: 8300000, guid: aaadc07244d142a46b855b710b071b96, type: 3}
 --- !u!1 &360244963
 GameObject:
   m_ObjectHideFlags: 0
@@ -3009,8 +3013,10 @@ MonoBehaviour:
   playerfireLevel: 0
   hasSward: 0
   swardCooldown: 2
-  dieSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
+  dieSound: {fileID: 8300000, guid: 6ede7ce2552fa4b42873c5eee5b79e6d, type: 3}
   levelUpSound: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
+  healSound: {fileID: 8300000, guid: c5244f7d35bc4fa4caa9609d4b5e580b, type: 3}
+  StrikeSword: {fileID: 8300000, guid: 8e7a0a70df0f0a844a82f611dbc25f55, type: 3}
   boomerangSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
   angerSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
   spikeSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
@@ -11558,6 +11564,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074626375}
   m_CullTransparentMesh: 1
+--- !u!1 &2091227059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091227061}
+  - component: {fileID: 2091227060}
+  m_Layer: 0
+  m_Name: TitleBgm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2091227060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091227059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eac1a5ad6e7b53d49b014cee24ab704f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgm: {fileID: 8300000, guid: afd43eb71246b6c45ae8da6bcee1df86, type: 3}
+  bgmName: "\uB358\uC804\uBE0C\uAE08"
+--- !u!4 &2091227061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091227059}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 586.02655, y: 559.1206, z: -5.4132414}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2107277662
 GameObject:
   m_ObjectHideFlags: 0
@@ -11720,3 +11772,4 @@ SceneRoots:
   - {fileID: 651237748}
   - {fileID: 1230390981}
   - {fileID: 1260113692}
+  - {fileID: 2091227061}

@@ -7,18 +7,18 @@ public class SoundManager : MonoBehaviour
 {
     //public static SoundManager Instance;
 
-    [Header("À¯Àú ½½¶óÀÌ´õ ¼³Á¤°ª (0~1)")]
+    [Header("ìœ ì € ìŠ¬ë¼ì´ë” ì„¤ì •ê°’ (0~1)")]
     public float masterVolume;
     public float bgmVolume;
     public float sfxVloume;
 
-    [Header("ÃÖÁ¾ °è»êµÈ °á°ú°ª (½ºÅä¸®Áö º¼·ı)")]
-    // ½ÇÁ¦ ½ºÇÇÄ¿·Î ³ª°¥ ÀúÀåµÈ º¼·ı
+    [Header("ìµœì¢… ê³„ì‚°ëœ ê²°ê³¼ê°’ (ìŠ¤í† ë¦¬ì§€ ë³¼ë¥¨)")]
+    // ì‹¤ì œ ìŠ¤í”¼ì»¤ë¡œ ë‚˜ê°ˆ ì €ì¥ëœ ë³¼ë¥¨
     public float s_master;
     public float s_bgm;
     public float s_sfx;
 
-    //#region ½Ì±ÛÅæ
+    //#region ì‹±ê¸€í†¤
     //private void Awake()
     //{
     //    if (Instance == null)
@@ -35,28 +35,28 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        // ÀÏ½ÃÁ¤Áö ¸Ş´º°¡ ¿­·ÁÀÖÀ» ¶§ ½Ç½Ã°£À¸·Î °ªÀ» °¡Á®¿À°í °è»êÇÏ±â
+        // ì¼ì‹œì •ì§€ ë©”ë‰´ê°€ ì—´ë ¤ìˆì„ ë•Œ ì‹¤ì‹œê°„ìœ¼ë¡œ ê°’ì„ ê°€ì ¸ì˜¤ê³  ê³„ì‚°í•˜ê¸°
         if (GameManager.Instance.UIMgr.isOpenPauseMenu == true)
         {
-            // UI ½½¶óÀÌ´õ¿¡¼­ ÇöÀç À§Ä¡°ªÀ» °¡Á®¿È
+            // UI ìŠ¬ë¼ì´ë”ì—ì„œ í˜„ì¬ ìœ„ì¹˜ê°’ì„ ê°€ì ¸ì˜´
             masterVolume = GameManager.Instance.UIMgr.masterSlider.value;
             bgmVolume = GameManager.Instance.UIMgr.bgmSlider.value;
             sfxVloume = GameManager.Instance.UIMgr.sfxSlider.value;
 
-            // ¸¶½ºÅÍ º¼·ıÀ» ±âÁØÀ¸·Î ¹éºĞÀ² °è»ê ÈÄ 's'¿¡ ÀúÀå
+            // ë§ˆìŠ¤í„° ë³¼ë¥¨ì„ ê¸°ì¤€ìœ¼ë¡œ ë°±ë¶„ìœ¨ ê³„ì‚° í›„ 's'ì— ì €ì¥
             CalculateS_Storage();
         }
     }
 
     private void CalculateS_Storage()
     {
-        // ¸¶½ºÅÍ´ÂÃµÀå ¿ªÇÒ
+        // ë§ˆìŠ¤í„°ëŠ”ì²œì¥ ì—­í• 
         s_master = masterVolume;
 
-        // ÃÖÁ¾ BGM = ¸¶½ºÅÍ(ÀüÃ¼ ³ôÀÌ) * BGM ¼³Á¤ºñÀ²
+        // ìµœì¢… BGM = ë§ˆìŠ¤í„°(ì „ì²´ ë†’ì´) * BGM ì„¤ì •ë¹„ìœ¨
         s_bgm = masterVolume * bgmVolume;
 
-        // ÃÖÁ¾ SFX = ¸¶½ºÅÍ(ÀüÃ¼ ³ôÀÌ) * SFX ¼³Á¤ºñÀ²
+        // ìµœì¢… SFX = ë§ˆìŠ¤í„°(ì „ì²´ ë†’ì´) * SFX ì„¤ì •ë¹„ìœ¨
         s_sfx = masterVolume * sfxVloume;
     }
 
@@ -67,7 +67,7 @@ public class SoundManager : MonoBehaviour
         AudioSource audioSource = go.AddComponent<AudioSource>();
         audioSource.clip = clip;
 
-        // Å¸ÀÔ¿¡ µû¸¥ º¼·ı ÇÒ´ç
+        // íƒ€ì…ì— ë”°ë¥¸ ë³¼ë¥¨ í• ë‹¹
         switch (type.ToLower())
         {
             case "bgm":
@@ -77,16 +77,16 @@ public class SoundManager : MonoBehaviour
                 audioSource.volume = s_sfx;
                 break;
             default:
-                Debug.Log("ÇöÀç ¿Àµğ¿ÀÀÇ Å¸ÀÔÀÌ Á¤ÇØÁöÁö ¾Ê¾Ò½À´Ï´Ù.");
+                Debug.Log("í˜„ì¬ ì˜¤ë””ì˜¤ì˜ íƒ€ì…ì´ ì •í•´ì§€ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                 Destroy(go);
                 break;
         }
 
-        Debug.Log("ÇöÀç Àç»ıµÈ ¿Àµğ¿ÀÀÇ º¼·ı : " + audioSource.volume);
+        Debug.Log("í˜„ì¬ ì¬ìƒëœ ì˜¤ë””ì˜¤ì˜ ë³¼ë¥¨ : " + audioSource.volume);
         Debug.Log($"[Type] {type} , [Name] {soundName}");
 
-        long memorySize = Profiler.GetRuntimeMemorySizeLong(go); //¹ÙÀÌÆ® ´ÜÀ§·Î Ãâ·ÂµÊ ¸Ş¸ğ¸®¸¦ ¾Ë±â À§ÇÔ.
-        Debug.Log($"[Memory] {go.name} ¿ÀºêÁ§Æ® ¸Ş¸ğ¸®: {memorySize / 1024f:F2} KB"); //ÇöÀç »ç¿ëÁßÀÎ ¸Ş¸ğ¸®·®.
+        long memorySize = Profiler.GetRuntimeMemorySizeLong(go); //ë°”ì´íŠ¸ ë‹¨ìœ„ë¡œ ì¶œë ¥ë¨ ë©”ëª¨ë¦¬ë¥¼ ì•Œê¸° ìœ„í•¨.
+        Debug.Log($"[Memory] {go.name} ì˜¤ë¸Œì íŠ¸ ë©”ëª¨ë¦¬: {memorySize / 1024f:F2} KB"); //í˜„ì¬ ì‚¬ìš©ì¤‘ì¸ ë©”ëª¨ë¦¬ëŸ‰.
 
         audioSource.Play();
         Destroy(go,clip.length);

@@ -14,17 +14,17 @@ public class Player : MonoBehaviour
     public float padding = 0.5f;
     private SpriteRenderer sr;
 
-    [Header("µ¥¹ÌÁö °ü·Ã")]
-    public float flashAlpha = 0.3f;      // ±ôºıÀÏ ¶§ ¾ËÆÄ
+    [Header("ë°ë¯¸ì§€ ê´€ë ¨")]
+    public float flashAlpha = 0.3f;      // ê¹œë¹¡ì¼ ë•Œ ì•ŒíŒŒ
     public float fadeSpeed = 1f;
-    public float flashDuration = 0.25f;   // ¹İÂ¦ÀÓ À¯Áö ½Ã°£
-    public Color flashColor = Color.red; // ±ôºıÀÏ »ö
+    public float flashDuration = 0.25f;   // ë°˜ì§ì„ ìœ ì§€ ì‹œê°„
+    public Color flashColor = Color.red; // ê¹œë¹¡ì¼ ìƒ‰
     private float originalAlpha;
     private Color originalColor;
     private PlayerCardManager cardManager;
-    [Header("Å¸°Ù °ü·Ã")]
-    public string enemyTag = "Enemy";   // Àû ÅÂ±×
-    public float detectionDis = 10f;    // Å½Áö °Å¸®
+    [Header("íƒ€ê²Ÿ ê´€ë ¨")]
+    public string enemyTag = "Enemy";   // ì  íƒœê·¸
+    public float detectionDis = 10f;    // íƒì§€ ê±°ë¦¬
     public GameObject NearTarget;
     public GameObject MissilePrefab;
     public Transform AttackBox;
@@ -35,104 +35,107 @@ public class Player : MonoBehaviour
     public int Exp = 0;
     public int PlayerLevel = 1;
     public int PlayerATK = 1;
-    public int baseATK;        // ±âº» °ø°İ·Â ÀúÀå
+    public int baseATK;        // ê¸°ë³¸ ê³µê²©ë ¥ ì €ì¥
     public int Defence = 0;
 
-    [Header("ÇÃ·¹ÀÌ¾î »ç¸Á")]
+    [Header("í”Œë ˆì´ì–´ ì‚¬ë§")]
     public bool isDie = false;
     private PuzzleBoard board;
     public GameObject defeatUI;
 
-    [Header("·¹º§ ½Ã½ºÅÛ")]
+    [Header("ë ˆë²¨ ì‹œìŠ¤í…œ")]
     public int NeedExp = 5;
 
-    [Header("·¹º§¾÷ Áõ°¡·®")]
+    [Header("ë ˆë²¨ì—… ì¦ê°€ëŸ‰")]
     public int HpPerLevel = 5;
     public int AtkPerLevel = 1;
     public int DefPerLevel = 0;
 
-    [Header("È¸º¹ °ü·Ã")]
-    public float HealAlpha = 0.3f;      // ±ôºıÀÏ ¶§ ¾ËÆÄ
+    [Header("íšŒë³µ ê´€ë ¨")]
+    public float HealAlpha = 0.3f;      // ê¹œë¹¡ì¼ ë•Œ ì•ŒíŒŒ
     public float HealfadeSpeed = 1f;
-    public float HealflashDuration = 0.25f;   // ¹İÂ¦ÀÓ À¯Áö ½Ã°£
-    public Color HealflashColor = Color.green; // ±ôºıÀÏ »ö
+    public float HealflashDuration = 0.25f;   // ë°˜ì§ì„ ìœ ì§€ ì‹œê°„
+    public Color HealflashColor = Color.green; // ê¹œë¹¡ì¼ ìƒ‰
 
-    [Header("ÀÌ¾îÇÏ±â À§Ä¡ Á¶Àå")]
+    [Header("ì´ì–´í•˜ê¸° ìœ„ì¹˜ ì¡°ì¥")]
     private bool isClamp = false;
 
-    [Header("ºÎ¸Ş¶û ¼³Á¤")]
+    [Header("ë¶€ë©”ë‘ ì„¤ì •")]
     public GameObject boomerangPrefab;
     public int boomerangLevel = 0;
 
-    [Header("Àº±Ù½½Â½ È¸º¹ ¼³Á¤")]
+    [Header("ì€ê·¼ìŠ¬ì© íšŒë³µ ì„¤ì •")]
     public bool Recovery = false;
     public int recoveryAmount = 0;
     public int recoveryTurnInterval = 2;
     public int recoveryTurnCounter = 0;
 
-    [Header("ÆĞ½Ãºê Ä«¿îÅÍ ¼³Á¤")]
+    [Header("íŒ¨ì‹œë¸Œ ì¹´ìš´í„° ì„¤ì •")]
     public bool PassiveCounter = false;
 
-    [Header("½ºÆÄÀÌÅ©º¼ ¼³Á¤")]
+    [Header("ìŠ¤íŒŒì´í¬ë³¼ ì„¤ì •")]
     public GameObject spikeballPrefab;
     public bool hasSpikeball = false;
 
-    [Header("ÀÀ±Ş ¼³Á¤")]
+    [Header("ì‘ê¸‰ ì„¤ì •")]
     public bool emergency = false;
-    public float emergencyThresholdPercent = 0.05f; // 5% ÀÌÇÏÀÏ ¶§ ¹ßµ¿
+    public float emergencyThresholdPercent = 0.05f; // 5% ì´í•˜ì¼ ë•Œ ë°œë™
     public bool emergencyUsed = false;
 
-    [Header("ºÎÈ° ¼³Á¤")]
+    [Header("ë¶€í™œ ì„¤ì •")]
     public bool Revival = false;
     public bool revivalUsed = false;
     public bool isInvincible = false;
     public float reviveFlashAlpha = 0.3f;
 
-    [Header("·°Å° ¼³Á¤")]
+    [Header("ëŸ­í‚¤ ì„¤ì •")]
     public float LuckyChance = 0f;
 
-    [Header("ºĞ³ë ¼³Á¤")]
+    [Header("ë¶„ë…¸ ì„¤ì •")]
     public bool Anger = false;
     public int AngeAmount = 0;
     public int AngerTurnInterval = 3;
     public int AngerTurnCounter = 0;
     
-    [Header("º¹¼ö ¼³Á¤")]
+    [Header("ë³µìˆ˜ ì„¤ì •")]
     public bool revenge = false;
     public float revengeAmount = 0;
     public int revengeTurnInterval = 3;
     public int revengeTurnCounter = 0;
-    private int revengeHitThisTurn = 0; // ÅÏ µ¿¾È ¸ÂÀº È½¼ö
+    private int revengeHitThisTurn = 0; // í„´ ë™ì•ˆ ë§ì€ íšŸìˆ˜
     public bool revengeActiveThisTurn = false;
     
-    [Header("¾ÆÀÌÅÛ ÀÚ¼® ¼³Á¤")]
+    [Header("ì•„ì´í…œ ìì„ ì„¤ì •")]
     public float pickupDistanceBonus = 0f; 
 
-    [Header("°æÇèÄ¡ º¸³Ê½º¼³Á¤")]
+    [Header("ê²½í—˜ì¹˜ ë³´ë„ˆìŠ¤ì„¤ì •")]
     public int bonusExpIncrease = 0;
 
-    [Header("³¯Ä«·Î¿î °Ë ÃâÇ÷ ¼³Á¤")]
+    [Header("ë‚ ì¹´ë¡œìš´ ê²€ ì¶œí˜ˆ ì„¤ì •")]
     public bool hasBloodDamage = false;
-    public float bloodDamageChance = 0f;  // ¹ßµ¿ È®·ü %
-    public int bloodDamagePerTick = 1;     // Æ½´ç µ¥¹ÌÁö
-    public int bloodDamageTurns = 3;       // Áö¼Ó ÅÏ ¼ö
+    public float bloodDamageChance = 0f;  // ë°œë™ í™•ë¥  %
+    public int bloodDamagePerTick = 1;     // í‹±ë‹¹ ë°ë¯¸ì§€
+    public int bloodDamageTurns = 3;       // ì§€ì† í„´ ìˆ˜
 
-    [Header("1ÀÚ ½ºÆ®¶óÀÌÅ© ¼³Á¤")]
+    [Header("1ì ìŠ¤íŠ¸ë¼ì´í¬ ì„¤ì •")]
 
     public GameObject swardPrefab;
     public int playerfireLevel = 0;
     public bool hasSward = false;
-    public float swardCooldown = 2f; // 1ÃÊ¸¶´Ù ¹ß»ç private float lastSwardTime = -999f;
+    public float swardCooldown = 2f; // 1ì´ˆë§ˆë‹¤ ë°œì‚¬ private float lastSwardTime = -999f;
     private float lastSwardTime = -999f;
 
-    [Header("ÇÃ·¹ÀÌ¾î »ç¿îµå")]
-    public AudioClip dieSound; //»ç¸Á »ç¿îµå
-    public AudioClip levelUpSound; //·¹º§¾÷ »ç¿îµå
+    [Header("í”Œë ˆì´ì–´ ì‚¬ìš´ë“œ")]
+    public AudioClip dieSound; //ì‚¬ë§ ì‚¬ìš´ë“œ
+    public AudioClip levelUpSound; //ë ˆë²¨ì—… ì‚¬ìš´ë“œ
+    public AudioClip healSound; //í”Œë ˆì´ì–´ í ì‚¬ìš´ë“œ
 
-    public AudioClip boomerangSound; //ºÎ¸Ş¶û »ç¿îµå
-    public AudioClip angerSound; // ºĞ³ë »ç¿îµå
-    public AudioClip spikeSound; // ½ºÆÄÀÌÅ© »ç¿îµå
-    public AudioClip revivalSound; //ºÎÈ° »ç¿îµå
+    public AudioClip StrikeSword; //ì¼ì ìŠ¤íŠ¸ë¼ì´í¬ ì‚¬ìš´ë“œ
+    
+    public AudioClip boomerangSound; //ë¶€ë©”ë‘ ì‚¬ìš´ë“œ
+    public AudioClip angerSound; // ë¶„ë…¸ ì‚¬ìš´ë“œ
+    public AudioClip spikeSound; // ìŠ¤íŒŒì´í¬ ì‚¬ìš´ë“œ
+    public AudioClip revivalSound; //ë¶€í™œ ì‚¬ìš´ë“œ
 
 
     // Start is called before the first frame update
@@ -144,11 +147,11 @@ public class Player : MonoBehaviour
     }
     public void SetTemporaryATK(int value)
     {
-        PlayerATK = value; // ÃÖ¼Ò º¸Àå ¾øÀÌ ¹Ù·Î Àû¿ë
+        PlayerATK = value; // ìµœì†Œ ë³´ì¥ ì—†ì´ ë°”ë¡œ ì ìš©
     }
     void Start()
     {
-        baseATK = PlayerATK; // ÃÊ±â ±âº» °ø°İ·Â ÀúÀå
+        baseATK = PlayerATK; // ì´ˆê¸° ê¸°ë³¸ ê³µê²©ë ¥ ì €ì¥
         recoveryTurnCounter = 0;
         Hp = MaxHp;
         anim = GetComponent<Animator>();
@@ -162,16 +165,16 @@ public class Player : MonoBehaviour
     void LateUpdate()
     {
         if (!isClamp) return;
-        //ÇÃ·¹ÀÌ¾î°¡ È­¸é ¹ÛÀ¸·Î ¸ø³ª°¡µµ·Ï
+        //í”Œë ˆì´ì–´ê°€ í™”ë©´ ë°–ìœ¼ë¡œ ëª»ë‚˜ê°€ë„ë¡
         float z = Mathf.Abs(cam.transform.position.z - transform.position.z);
 
         Rect vr = cam.rect;
 
-        //¿ŞÂÊ¡¤¾Æ·¡ °æ°è (Viewport ±âÁØ)
+        //ì™¼ìª½Â·ì•„ë˜ ê²½ê³„ (Viewport ê¸°ì¤€)
         Vector3 min = cam.ViewportToWorldPoint(
             new Vector3(vr.xMin, vr.yMin, z)
         );
-        //¿À¸¥ÂÊ¡¤À§ °æ°è (ÀüÃ¼ ½Ã¾ß ±âÁØ)
+        //ì˜¤ë¥¸ìª½Â·ìœ„ ê²½ê³„ (ì „ì²´ ì‹œì•¼ ê¸°ì¤€)
         Vector3 max = cam.ViewportToWorldPoint(
             new Vector3(1f, vr.yMax, z)
         );
@@ -188,7 +191,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //Attack();
-        // 1. ¹ß»ç Àü¿¡ ÇöÀç Ä«µå ÀÎº¥Åä¸® »óÈ²À» ³» º¯¼ö¿¡ µ¿±âÈ­
+        // 1. ë°œì‚¬ ì „ì— í˜„ì¬ ì¹´ë“œ ì¸ë²¤í† ë¦¬ ìƒí™©ì„ ë‚´ ë³€ìˆ˜ì— ë™ê¸°í™”
         UpdateBoomerangLevel();
         //ShootSward();
         //if (Input.GetMouseButtonDown(0) && !GameManager.Instance.CardMgr.isOpen)
@@ -198,13 +201,13 @@ public class Player : MonoBehaviour
     }
     public void Attack()
     {
-        //v ´©¸£¸é °ø°İ ³ª°¡±â
+        //v ëˆ„ë¥´ë©´ ê³µê²© ë‚˜ê°€ê¸°
         //if (Input.GetKeyDown(KeyCode.V))
         //{        
         //    AutoTarget();
         //    anim.SetTrigger("Attack");
         //}
-        //ÅÏÁ¾·á ¹öÆ° ´©¸£¸é ³ª°¡±â
+        //í„´ì¢…ë£Œ ë²„íŠ¼ ëˆ„ë¥´ë©´ ë‚˜ê°€ê¸°
         AutoTarget();
         anim.SetTrigger("Attack");
     }
@@ -216,17 +219,17 @@ public class Player : MonoBehaviour
         //if (NearTarget == null || !NearTarget.activeInHierarchy)
         //{
         //    Vector3 targetPos = NearTarget.transform.position;
-        //    // ¹Ì»çÀÏ »ı¼º
+        //    // ë¯¸ì‚¬ì¼ ìƒì„±
         //    GameObject missile = Instantiate(MissilePrefab, AttackBox.position, Quaternion.identity);
 
         //    Vector3 direction = (targetPos - AttackBox.position).normalized;
         //    Vector2 dir = (targetPos - AttackBox.position).normalized;
-        //    // Sprite°¡ À§¸¦ ¹Ù¶óº¸´Â °æ¿ì È¸Àü Á¶Á¤
-        //    // À§ÂÊ Sprite ±âÁØ ¡æ ZÃà °¢µµ = atan2(y, x) - 90
+        //    // Spriteê°€ ìœ„ë¥¼ ë°”ë¼ë³´ëŠ” ê²½ìš° íšŒì „ ì¡°ì •
+        //    // ìœ„ìª½ Sprite ê¸°ì¤€ â†’ Zì¶• ê°ë„ = atan2(y, x) - 90
         //    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         //    missile.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        //    // ¹Ì»çÀÏ ÀÌµ¿ ½ºÅ©¸³Æ®¿¡ ¹æÇâ Àü´Ş
+        //    // ë¯¸ì‚¬ì¼ ì´ë™ ìŠ¤í¬ë¦½íŠ¸ì— ë°©í–¥ ì „ë‹¬
         //    MissileMove mm = missile.GetComponent<MissileMove>();
         //    if (mm != null)
         //        mm.SetDirection(dir, MissileSpeed);
@@ -235,18 +238,18 @@ public class Player : MonoBehaviour
         GameObject target = FindNearestEnemy();
         if (target == null || !target.activeInHierarchy) return;
 
-        // ¹Ì»çÀÏ »ı¼º
+        // ë¯¸ì‚¬ì¼ ìƒì„±
         GameObject missile = Instantiate(MissilePrefab, AttackBox.position, Quaternion.identity);
 
-        // Å¸°Ù ¹æÇâ °è»ê
+        // íƒ€ê²Ÿ ë°©í–¥ ê³„ì‚°
         Vector2 dir = (target.transform.position - AttackBox.position).normalized;
 
-        // Sprite°¡ À§¸¦ ¹Ù¶óº¸´Â °æ¿ì È¸Àü Á¶Á¤
-        // À§ÂÊ Sprite ±âÁØ ¡æ ZÃà °¢µµ = atan2(y, x) - 90
+        // Spriteê°€ ìœ„ë¥¼ ë°”ë¼ë³´ëŠ” ê²½ìš° íšŒì „ ì¡°ì •
+        // ìœ„ìª½ Sprite ê¸°ì¤€ â†’ Zì¶• ê°ë„ = atan2(y, x) - 90
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         missile.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // ¹Ì»çÀÏ ÀÌµ¿ ½ºÅ©¸³Æ®¿¡ ¹æÇâ Àü´Ş
+        // ë¯¸ì‚¬ì¼ ì´ë™ ìŠ¤í¬ë¦½íŠ¸ì— ë°©í–¥ ì „ë‹¬
         MissileMove mm = missile.GetComponent<MissileMove>();
         if (mm != null)
         mm.SetDirection(dir, MissileSpeed);
@@ -298,7 +301,7 @@ public class Player : MonoBehaviour
 
         PlayerATK = stats.attack;
         Defence = stats.defense;
-        //Recovery ÀÌ¾îÇÏ±â ½Ã¿¡ º¹±¸
+        //Recovery ì´ì–´í•˜ê¸° ì‹œì— ë³µêµ¬
         Recovery = stats.recovery;
         recoveryAmount = stats.recoveryAmount;
         recoveryTurnInterval = stats.recoveryTurnInterval;
@@ -314,7 +317,7 @@ public class Player : MonoBehaviour
         isClamp = true;
         yield return null;
         transform.position = data.playerPosition;
-        // gridPos º¹±¸
+        // gridPos ë³µêµ¬
         PlayerMove1 move = GetComponent<PlayerMove1>();
         if (move != null)
         {
@@ -369,7 +372,7 @@ public class Player : MonoBehaviour
             currentTurn = turn.TurnCount;
         }
         data.TurnCount = currentTurn;
-        // Save Á÷Àü¿¡ ·Î±×
+        // Save ì§ì „ì— ë¡œê·¸
         Debug.Log($"[Save] NeedExp: {NeedExp}, Exp: {Exp}, Level: {PlayerLevel}");
         SaveManager.Save(slot, data);
     }
@@ -392,6 +395,7 @@ public class Player : MonoBehaviour
     public void HealHp(int amount)
     {
         Hp += amount;
+        GameManager.Instance.SoundMgr.SoundPlay("sfx","í ì‚¬ìš´ë“œ",healSound);
         
         if (Hp > MaxHp)
         {
@@ -401,7 +405,7 @@ public class Player : MonoBehaviour
 
 
     }
-    //Àº±Ù½½Â½ È¸º¹
+    //ì€ê·¼ìŠ¬ì© íšŒë³µ
     public void OnTurnEndRecovery()
     {
         if (!Recovery) return;
@@ -413,11 +417,11 @@ public class Player : MonoBehaviour
             HealHp(recoveryAmount);
             recoveryTurnCounter = 0;
 
-            Debug.Log($"Àº±Ù½½Â½ È¸º¹ ¹ßµ¿ +{recoveryAmount}");
+            Debug.Log($"ì€ê·¼ìŠ¬ì© íšŒë³µ ë°œë™ +{recoveryAmount}");
         }
     }
 
-    // ºĞ³ë È¿°ú - ÅÏ Á¾·á ½Ã ¹ßµ¿ ¹× ¿øº¹
+    // ë¶„ë…¸ íš¨ê³¼ - í„´ ì¢…ë£Œ ì‹œ ë°œë™ ë° ì›ë³µ
     public void OnTurnEndAnger()
     {
         if (!Anger) return;
@@ -428,18 +432,18 @@ public class Player : MonoBehaviour
         {
             AngerTurnCounter = 0;
 
-            // ºĞ³ë È¿°ú Àû¿ë (ÅÏ µ¿¾È¸¸)
+            // ë¶„ë…¸ íš¨ê³¼ ì ìš© (í„´ ë™ì•ˆë§Œ)
             PlayerATK = Mathf.RoundToInt(baseATK * (1f + AngeAmount));
-            Debug.Log($"ºĞ³ëÈ¿°ú ¹ßµ¿ +{AngeAmount * 100}%");
+            Debug.Log($"ë¶„ë…¸íš¨ê³¼ ë°œë™ +{AngeAmount * 100}%");
 
-            // ¹Ù·Î ¿øº¹ Ã³¸® - ´ÙÀ½ ÅÏÀ¸·Î ³Ñ¾î°¡¸é °ø°İ·Â ¿ø·¡´ë·Î
-            // (È¤Àº ¿øÇÏ¸é Update³ª ÅÏ Á¾·á ÀÌº¥Æ®¿¡¼­ ´Ù½Ã ¿øº¹)
+            // ë°”ë¡œ ì›ë³µ ì²˜ë¦¬ - ë‹¤ìŒ í„´ìœ¼ë¡œ ë„˜ì–´ê°€ë©´ ê³µê²©ë ¥ ì›ë˜ëŒ€ë¡œ
+            // (í˜¹ì€ ì›í•˜ë©´ Updateë‚˜ í„´ ì¢…ë£Œ ì´ë²¤íŠ¸ì—ì„œ ë‹¤ì‹œ ì›ë³µ)
             PlayerATK = baseATK;
-            Debug.Log("ºĞ³ëÈ¿°ú Á¾·á, °ø°İ·Â ¿øº¹");
+            Debug.Log("ë¶„ë…¸íš¨ê³¼ ì¢…ë£Œ, ê³µê²©ë ¥ ì›ë³µ");
         }
     }
 
-    // º¹¼ö È¿°ú - ÅÏ Á¾·á ½Ã ¹ßµ¿ ¹× ¿øº¹
+    // ë³µìˆ˜ íš¨ê³¼ - í„´ ì¢…ë£Œ ì‹œ ë°œë™ ë° ì›ë³µ
     public void OnTurnEndRevenge()
     {
         if (!revenge) return;
@@ -450,19 +454,19 @@ public class Player : MonoBehaviour
         {
             revengeTurnCounter = 0;
 
-            // ºĞ³ë È¿°ú Àû¿ë (ÅÏ µ¿¾È¸¸)
+            // ë¶„ë…¸ íš¨ê³¼ ì ìš© (í„´ ë™ì•ˆë§Œ)
             PlayerATK = Mathf.RoundToInt(baseATK * (1f + revengeAmount));
-            Debug.Log($"º¹¼ö È¿°ú ¹ßµ¿ +{revengeAmount * 100}%");
+            Debug.Log($"ë³µìˆ˜ íš¨ê³¼ ë°œë™ +{revengeAmount * 100}%");
 
-            // ¹Ù·Î ¿øº¹ Ã³¸® - ´ÙÀ½ ÅÏÀ¸·Î ³Ñ¾î°¡¸é °ø°İ·Â ¿ø·¡´ë·Î
-            // (È¤Àº ¿øÇÏ¸é Update³ª ÅÏ Á¾·á ÀÌº¥Æ®¿¡¼­ ´Ù½Ã ¿øº¹)
+            // ë°”ë¡œ ì›ë³µ ì²˜ë¦¬ - ë‹¤ìŒ í„´ìœ¼ë¡œ ë„˜ì–´ê°€ë©´ ê³µê²©ë ¥ ì›ë˜ëŒ€ë¡œ
+            // (í˜¹ì€ ì›í•˜ë©´ Updateë‚˜ í„´ ì¢…ë£Œ ì´ë²¤íŠ¸ì—ì„œ ë‹¤ì‹œ ì›ë³µ)
             PlayerATK = baseATK;
-            Debug.Log("º¹¼ö È¿°ú Á¾·á, °ø°İ·Â ¿øº¹");
+            Debug.Log("ë³µìˆ˜ íš¨ê³¼ ì¢…ë£Œ, ê³µê²©ë ¥ ì›ë³µ");
         }
     }
-    void LevelUp() //ÇÃ·¹ÀÌ¾î ·¹º§¾÷
+    void LevelUp() //í”Œë ˆì´ì–´ ë ˆë²¨ì—…
     {
-        PlayerLevel++; //ÇöÀç ÇÃ·¹ÀÌ¾î ·¹º§ Áõ°¡
+        PlayerLevel++; //í˜„ì¬ í”Œë ˆì´ì–´ ë ˆë²¨ ì¦ê°€
 
         Hp += HpPerLevel;
         MaxHp = Hp;
@@ -470,7 +474,7 @@ public class Player : MonoBehaviour
 
         if (PlayerLevel < 3)
         {
-            // ´ÙÀ½ ·¹º§ ÇÊ¿ä °æÇèÄ¡ Áõ°¡
+            // ë‹¤ìŒ ë ˆë²¨ í•„ìš” ê²½í—˜ì¹˜ ì¦ê°€
             NeedExp *= 2;
         }
         else
@@ -478,10 +482,10 @@ public class Player : MonoBehaviour
             NeedExp += 25;
         }
         GameManager.Instance.CardMgr.CardRarityOpen();
-        Debug.Log($"·¹º§¾÷! Lv.{PlayerLevel} / HP:{Hp} ATK:{PlayerATK} DEF:{Defence}");
-        // ¾Æ·¡´Ù°¡ ·¹º§¾÷½Ã ³ª¿À´Â Ä«µå ÇÔ¼ö
+        Debug.Log($"ë ˆë²¨ì—…! Lv.{PlayerLevel} / HP:{Hp} ATK:{PlayerATK} DEF:{Defence}");
+        // ì•„ë˜ë‹¤ê°€ ë ˆë²¨ì—…ì‹œ ë‚˜ì˜¤ëŠ” ì¹´ë“œ í•¨ìˆ˜
 
-        // ·¹º§¾÷ ÈÄ ¹Ù·Î ÀúÀå
+        // ë ˆë²¨ì—… í›„ ë°”ë¡œ ì €ì¥
         SaveGame();
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -491,43 +495,43 @@ public class Player : MonoBehaviour
             Monster monster = other.GetComponent<Monster>();
             if (monster != null)
             {
-                Debug.Log("ÇÃ·¹ÀÌ¾î °¡ µ¥¹ÌÁö ¹ŞÀ½");
+                Debug.Log("í”Œë ˆì´ì–´ ê°€ ë°ë¯¸ì§€ ë°›ìŒ");
                 StartCoroutine(FlashCoroutine(1f));
                 int damage = monster.GetAttack();
                 TakeDamage(damage, monster);
             }
         }
     }
-    //·°Å°
+    //ëŸ­í‚¤
     public void AddTemporaryDodge(float chance)
     {
         LuckyChance += chance;
-        LuckyChance = Mathf.Clamp01(LuckyChance); // ÃÖ´ë 100%
+        LuckyChance = Mathf.Clamp01(LuckyChance); // ìµœëŒ€ 100%
     }
     public void TakeDamage(int damage, Monster attacker)
     {
         if (isDie) return;
         if (isInvincible)
         {
-            Debug.Log("¹«Àû »óÅÂ, µ¥¹ÌÁö ¹«½Ã");
-            return; // ¹«ÀûÀÌ¸é µ¥¹ÌÁö ¹«½Ã
+            Debug.Log("ë¬´ì  ìƒíƒœ, ë°ë¯¸ì§€ ë¬´ì‹œ");
+            return; // ë¬´ì ì´ë©´ ë°ë¯¸ì§€ ë¬´ì‹œ
         }
 
-        // Lucky È¸ÇÇ È®·ü Ã¼Å©
+        // Lucky íšŒí”¼ í™•ë¥  ì²´í¬
         if (LuckyChance > 0f && Random.value < LuckyChance)
         {
-            Debug.Log("·°Å° È¸ÇÇ ¼º°ø! µ¥¹ÌÁö ¹«½Ã");
-            return; // µ¥¹ÌÁö ¹«½Ã
+            Debug.Log("ëŸ­í‚¤ íšŒí”¼ ì„±ê³µ! ë°ë¯¸ì§€ ë¬´ì‹œ");
+            return; // ë°ë¯¸ì§€ ë¬´ì‹œ
         }
         //Hp -= damage;
         int finalDamage = damage - Defence;
-        if (finalDamage <= 0) finalDamage = 0; // ¹æ¾î·ÂÀ¸·Î µ¥¹ÌÁö 0 ÀÌÇÏÀÌ¸é 0
+        if (finalDamage <= 0) finalDamage = 0; // ë°©ì–´ë ¥ìœ¼ë¡œ ë°ë¯¸ì§€ 0 ì´í•˜ì´ë©´ 0
         Hp -= finalDamage;
-        Debug.Log($"ÇÃ·¹ÀÌ¾î µ¥¹ÌÁö {finalDamage} / ÇöÀç HP : {Hp}");
+        Debug.Log($"í”Œë ˆì´ì–´ ë°ë¯¸ì§€ {finalDamage} / í˜„ì¬ HP : {Hp}");
 
 
 
-        // º¹¼ö È¿°ú ¹ßµ¿
+        // ë³µìˆ˜ íš¨ê³¼ ë°œë™
         if (revenge && !revengeActiveThisTurn)
         {
             revengeHitThisTurn++;
@@ -536,7 +540,7 @@ public class Player : MonoBehaviour
             {
                 PlayerATK = Mathf.RoundToInt(baseATK * (1f + revengeAmount));
                 revengeActiveThisTurn = true;
-                Debug.Log($"º¹¼ö È¿°ú ¹ßµ¿! ¸ÂÀº È½¼ö {revengeHitThisTurn} ¡æ °ø°İ·Â +{revengeAmount * 100}%");
+                Debug.Log($"ë³µìˆ˜ íš¨ê³¼ ë°œë™! ë§ì€ íšŸìˆ˜ {revengeHitThisTurn} â†’ ê³µê²©ë ¥ +{revengeAmount * 100}%");
             }
         }
 
@@ -544,9 +548,9 @@ public class Player : MonoBehaviour
         {
             attacker.TakeDamageFromBubble(PlayerATK);
 
-            Debug.Log($"Ä«¿îÅÍ ¹ßµ¿ ¡æ {PlayerATK} µ¥¹ÌÁö ¹İ»ç");
+            Debug.Log($"ì¹´ìš´í„° ë°œë™ â†’ {PlayerATK} ë°ë¯¸ì§€ ë°˜ì‚¬");
         }
-        // ÀÀ±Ş È¸º¹ (ÇÑ ¹ø¸¸ ¹ßµ¿)
+        // ì‘ê¸‰ íšŒë³µ (í•œ ë²ˆë§Œ ë°œë™)
         if (emergency && !emergencyUsed)
         {
             int thresholdHp = Mathf.CeilToInt(MaxHp * emergencyThresholdPercent);
@@ -555,7 +559,7 @@ public class Player : MonoBehaviour
             {
                 Hp = MaxHp;
                 emergencyUsed = true;
-                Debug.Log("ÀÀ±Ş È¸º¹ ¹ßµ¿ ¡æ HP ÀüÃ¼ È¸º¹");
+                Debug.Log("ì‘ê¸‰ íšŒë³µ ë°œë™ â†’ HP ì „ì²´ íšŒë³µ");
                 return;
             }
         }
@@ -568,23 +572,23 @@ public class Player : MonoBehaviour
                 revivalUsed = true;
                 isDie = false;
 
-                // Á×À½ °ü·Ã »óÅÂ ÃÊ±âÈ­
+                // ì£½ìŒ ê´€ë ¨ ìƒíƒœ ì´ˆê¸°í™”
                 GetComponent<PlayerMove1>().enabled = true;
                 Collider2D col = GetComponent<Collider2D>();
                 if (col != null) col.enabled = true;
                 anim.SetBool("PlayerDie", false);
 
-                // ºÎÈ° »ç¿îµå Àç»ı
+                // ë¶€í™œ ì‚¬ìš´ë“œ ì¬ìƒ
 
 
-                // ¹«Àû + ±ô¹ÚÀÓ ¿¬Ãâ
+                // ë¬´ì  + ê¹œë°•ì„ ì—°ì¶œ
                 StartCoroutine(ReviveInvincibleBlinkCoroutine(2f, 0.2f));
-                Debug.Log("ºÎÈ° ¹ßµ¿ ¡æ ÃÖ´ë Ã¼·ÂÀ¸·Î ºÎÈ°");
+                Debug.Log("ë¶€í™œ ë°œë™ â†’ ìµœëŒ€ ì²´ë ¥ìœ¼ë¡œ ë¶€í™œ");
 
-                return; //Á×Áö ¾Ê°Ô ¿©±â¼­ Á¾·á
+                return; //ì£½ì§€ ì•Šê²Œ ì—¬ê¸°ì„œ ì¢…ë£Œ
             }
             Hp = 0;
-            Debug.Log("ÇÃ·¹ÀÌ¾î »ç¸Á");
+            Debug.Log("í”Œë ˆì´ì–´ ì‚¬ë§");
             Die();
         }
     }
@@ -598,18 +602,18 @@ public class Player : MonoBehaviour
         //    board.isPlayerDead = true;
         //    board.isPlayerTurn = false;
         //}
-        //// ÀÌµ¿ ¸·±â
+        //// ì´ë™ ë§‰ê¸°
         //GetComponent<PlayerMove1>().enabled = false;
-        //// Äİ¶óÀÌ´õ ¸·±â (¼±ÅÃ)
+        //// ì½œë¼ì´ë” ë§‰ê¸° (ì„ íƒ)
         //Collider2D col = GetComponent<Collider2D>();
         //if (col != null)
         //    col.enabled = false;
-        //// ÇÊ¿äÇÏ¸é Rigidbody Á¤Áö
+        //// í•„ìš”í•˜ë©´ Rigidbody ì •ì§€
         //Rigidbody2D rb = GetComponent<Rigidbody2D>();
         //if (rb != null)
         //    rb.velocity = Vector2.zero;
-        //Debug.Log("ÇÃ·¹ÀÌ¾î ¿ÏÀüÈ÷ »ç¸Á");
-        if (isDie) return; // Áßº¹ ¹æÁö
+        //Debug.Log("í”Œë ˆì´ì–´ ì™„ì „íˆ ì‚¬ë§");
+        if (isDie) return; // ì¤‘ë³µ ë°©ì§€
         isDie = true;
 
         anim.SetBool("PlayerDie", true);
@@ -629,19 +633,19 @@ public class Player : MonoBehaviour
             board.isPlayerTurn = false;
         }
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î ¿ÏÀüÈ÷ »ç¸Á");
+        Debug.Log("í”Œë ˆì´ì–´ ì™„ì „íˆ ì‚¬ë§");
     }
 
-    //ºÎÈ°ÈÄ ¹«Àû ¿¬Ãâ
+    //ë¶€í™œí›„ ë¬´ì  ì—°ì¶œ
     private IEnumerator ReviveInvincibleBlinkCoroutine(float blinkTime, float blinkInterval)
     {
-        isInvincible = true; // ¹«Àû ½ÃÀÛ
+        isInvincible = true; // ë¬´ì  ì‹œì‘
 
         float elapsed = 0f;
 
-        // Ç×»ó ÇÃ·¹ÀÌ¾î Á¤»ó »ö ±âÁØ
+        // í•­ìƒ í”Œë ˆì´ì–´ ì •ìƒ ìƒ‰ ê¸°ì¤€
         Color original = originalColor;
-        Color blinkColor = new Color(original.r, original.g, original.b, reviveFlashAlpha); // ¹İÅõ¸í
+        Color blinkColor = new Color(original.r, original.g, original.b, reviveFlashAlpha); // ë°˜íˆ¬ëª…
 
         while (elapsed < blinkTime)
         {
@@ -654,13 +658,14 @@ public class Player : MonoBehaviour
             elapsed += blinkInterval * 2f;
         }
 
-        sr.color = original; // ¸¶Áö¸·¿¡ ¹İµå½Ã ¿ø·¡»öÀ¸·Î º¹¿ø
-        isInvincible = false; // ¹«Àû Á¾·á
+        sr.color = original; // ë§ˆì§€ë§‰ì— ë°˜ë“œì‹œ ì›ë˜ìƒ‰ìœ¼ë¡œ ë³µì›
+        isInvincible = false; // ë¬´ì  ì¢…ë£Œ
     }
 
     public void ShowDefeatUI()
     {
         defeatUI.SetActive(true);
+        GameManager.Instance.SoundMgr.SoundPlay("sfx","ì‚¬ë§ íš¨ê³¼ìŒ",dieSound);
     }
 
     private IEnumerator FlashCoroutine(float totalTime)
@@ -669,19 +674,19 @@ public class Player : MonoBehaviour
 
         while (timer < totalTime)
         {
-            // »¡°­À¸·Î º¯°æ
+            // ë¹¨ê°•ìœ¼ë¡œ ë³€ê²½
             sr.color = flashColor;
             yield return new WaitForSeconds(flashDuration);
 
-            // ¿ø·¡ »öÀ¸·Î º¹¿ø
+            // ì›ë˜ ìƒ‰ìœ¼ë¡œ ë³µì›
             sr.color = originalColor;
             yield return new WaitForSeconds(flashDuration);
 
-            // °æ°ú ½Ã°£ Áõ°¡
-            timer += flashDuration * 2f; // »¡°­+¿ø·¡»ö
+            // ê²½ê³¼ ì‹œê°„ ì¦ê°€
+            timer += flashDuration * 2f; // ë¹¨ê°•+ì›ë˜ìƒ‰
         }
 
-        // ¸¶Áö¸·¿¡ ¿ø·¡ »ö È®½ÇÈ÷ º¹¿ø
+        // ë§ˆì§€ë§‰ì— ì›ë˜ ìƒ‰ í™•ì‹¤íˆ ë³µì›
         sr.color = originalColor;
     }
 
@@ -694,25 +699,25 @@ public class Player : MonoBehaviour
             sr.color = HealflashColor;
             yield return new WaitForSeconds(HealflashDuration);
 
-            // ¿ø·¡ »öÀ¸·Î º¹¿ø
+            // ì›ë˜ ìƒ‰ìœ¼ë¡œ ë³µì›
             sr.color = originalColor;
             yield return new WaitForSeconds(HealflashDuration);
 
-            // °æ°ú ½Ã°£ Áõ°¡
-            timer += HealflashDuration * 2f; // »¡°­+¿ø·¡»ö
+            // ê²½ê³¼ ì‹œê°„ ì¦ê°€
+            timer += HealflashDuration * 2f; // ë¹¨ê°•+ì›ë˜ìƒ‰
         }
 
-        // ¸¶Áö¸·¿¡ ¿ø·¡ »ö È®½ÇÈ÷ º¹¿ø
+        // ë§ˆì§€ë§‰ì— ì›ë˜ ìƒ‰ í™•ì‹¤íˆ ë³µì›
         sr.color = originalColor;
     }
 
     private Vector2[] shotDirections = new Vector2[]
     {
-        Vector2.up,                          // 1: »ó
-        Vector2.left,                        // 2: ÁÂ
-        Vector2.right,                       // 3: ¿ì
-        new Vector2(-1, -1).normalized,      // 4: ÁÂÇÏ
-        new Vector2(1, -1).normalized        // 5: ¿ìÇÏ
+        Vector2.up,                          // 1: ìƒ
+        Vector2.left,                        // 2: ì¢Œ
+        Vector2.right,                       // 3: ìš°
+        new Vector2(-1, -1).normalized,      // 4: ì¢Œí•˜
+        new Vector2(1, -1).normalized        // 5: ìš°í•˜
     };
 
 
@@ -721,16 +726,16 @@ public class Player : MonoBehaviour
     {
         //if (GameManager.Instance.CardMgr == null) return;
 
-        //// CardManagerÀÇ ¸®½ºÆ®¿¡¼­ ³» ºÎ¸Ş¶û Ä«µå °³¼ö¸¦ ¼¼¼­ º¯¼ö¿¡ ÀúÀå
-        //// ÀÌ·¸°Ô ÇÏ¸é ÀÎ½ºÆåÅÍ¿¡¼­µµ ¼ıÀÚ°¡ ¿Ã¶ó°¡´Â °Ô º¸ÀÔ´Ï´Ù.
-        //boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "ºÎ¸Ş¶û");
+        //// CardManagerì˜ ë¦¬ìŠ¤íŠ¸ì—ì„œ ë‚´ ë¶€ë©”ë‘ ì¹´ë“œ ê°œìˆ˜ë¥¼ ì„¸ì„œ ë³€ìˆ˜ì— ì €ì¥
+        //// ì´ë ‡ê²Œ í•˜ë©´ ì¸ìŠ¤í™í„°ì—ì„œë„ ìˆ«ìê°€ ì˜¬ë¼ê°€ëŠ” ê²Œ ë³´ì…ë‹ˆë‹¤.
+        //boomerangLevel = GameManager.Instance.CardMgr.selectCardNames.Count(name => name == "ë¶€ë©”ë‘");
         var pcm = PlayerCardManager.Instance;
         if (pcm == null || pcm.ownedCards == null || pcm.ownedCards.Count == 0)
             return;
 
-        int boomerangID = 8; // CSV¿¡¼­ ºÎ¸Ş¶û Ä«µå ID
+        int boomerangID = 8; // CSVì—ì„œ ë¶€ë©”ë‘ ì¹´ë“œ ID
 
-        // ºÎ¸Ş¶û Ä«µå ÃÑ ·¹º§ ÇÕ
+        // ë¶€ë©”ë‘ ì¹´ë“œ ì´ ë ˆë²¨ í•©
         int totalLevel = 0;
         foreach (var card in pcm.ownedCards)
         {
@@ -742,14 +747,14 @@ public class Player : MonoBehaviour
 
         this.boomerangLevel = totalLevel;
 
-        Debug.Log("ºÎ¸Ş¶û ·¹º§ ¾÷µ¥ÀÌÆ®: " + this.boomerangLevel);
+        Debug.Log("ë¶€ë©”ë‘ ë ˆë²¨ ì—…ë°ì´íŠ¸: " + this.boomerangLevel);
     }
 
     public void ShootBoomerangs()
     {
         if (boomerangPrefab == null) return;
 
-        // 2. ÀÌÁ¦ Çò°¥¸± °Í ¾øÀÌ ¹«Á¶°Ç ³» º¯¼ö(boomerangLevel)¸¸ º¾´Ï´Ù.
+        // 2. ì´ì œ í—·ê°ˆë¦´ ê²ƒ ì—†ì´ ë¬´ì¡°ê±´ ë‚´ ë³€ìˆ˜(boomerangLevel)ë§Œ ë´…ë‹ˆë‹¤.
         if (boomerangLevel <= 0) return;
 
         int count = Mathf.Min(boomerangLevel, shotDirections.Length);
@@ -786,44 +791,45 @@ public class Player : MonoBehaviour
     {
         if (!hasSward || swardPrefab == null) return;
         if (Time.time - lastSwardTime < swardCooldown)
-            return; // ¾ÆÁ÷ Äğ´Ù¿î ¾È µÊ
+            return; // ì•„ì§ ì¿¨ë‹¤ìš´ ì•ˆ ë¨
 
+        GameManager.Instance.SoundMgr.SoundPlay("sfx","ì¼ììŠ¤íŠ¸ë¼ì´í¬ ì‚¬ìš´ë“œ",StrikeSword);
         lastSwardTime = Time.time;
 
-        // ÇÃ·¹ÀÌ¾î°¡ ¿ŞÂÊÀ» º¸°í ÀÖ´ÂÁö
+        // í”Œë ˆì´ì–´ê°€ ì™¼ìª½ì„ ë³´ê³  ìˆëŠ”ì§€
         bool isFlipped = GetComponent<SpriteRenderer>().flipX;
 
-        // ¹æÇâ °áÁ¤¿ë ÇÔ¼ö
+        // ë°©í–¥ ê²°ì •ìš© í•¨ìˆ˜
         Vector2 AdjustDir(Vector2 dir)
         {
-            if (isFlipped) dir.x *= -1; // ¿ŞÂÊÀÌ¸é x ¹İÀü
+            if (isFlipped) dir.x *= -1; // ì™¼ìª½ì´ë©´ x ë°˜ì „
             return dir;
         }
 
         switch (playerfireLevel)
         {
             case 1:
-                SpawnSward(AdjustDir(Vector2.right), -50f); // ¾Õ
+                SpawnSward(AdjustDir(Vector2.right), -50f); // ì•
                 break;
             case 2:
-                SpawnSward(AdjustDir(Vector2.right), -50f); // ¾Õ
-                SpawnSward(AdjustDir(Vector2.left), - 50f);         // µÚ
+                SpawnSward(AdjustDir(Vector2.right), -50f); // ì•
+                SpawnSward(AdjustDir(Vector2.left), - 50f);         // ë’¤
                 break;
             case 3:
-                SpawnSward(AdjustDir(Vector2.right), -50f); // ¾Õ
-                SpawnSward(AdjustDir(Vector2.left), - 50f);         // µÚ
-                SpawnSward(AdjustDir(Vector2.up), - 50f);           // ¿ŞÂÊ
+                SpawnSward(AdjustDir(Vector2.right), -50f); // ì•
+                SpawnSward(AdjustDir(Vector2.left), - 50f);         // ë’¤
+                SpawnSward(AdjustDir(Vector2.up), - 50f);           // ì™¼ìª½
                 break;
             case 4:
             default:
-                SpawnSward(AdjustDir(Vector2.right), -50f); // ¾Õ
-                SpawnSward(AdjustDir(Vector2.left), -50f);         // µÚ
-                SpawnSward(AdjustDir(Vector2.up), -50f);           // ¿ŞÂÊ
-                SpawnSward(AdjustDir(Vector2.down), -50f);         // ¿À¸¥ÂÊ
+                SpawnSward(AdjustDir(Vector2.right), -50f); // ì•
+                SpawnSward(AdjustDir(Vector2.left), -50f);         // ë’¤
+                SpawnSward(AdjustDir(Vector2.up), -50f);           // ì™¼ìª½
+                SpawnSward(AdjustDir(Vector2.down), -50f);         // ì˜¤ë¥¸ìª½
                 break;
         }
 
-        Debug.Log($"Sward ¹ß»ç ¿Ï·á! ·¹º§: {playerfireLevel}");
+        Debug.Log($"Sward ë°œì‚¬ ì™„ë£Œ! ë ˆë²¨: {playerfireLevel}");
     }
     //private void SpawnSward(Vector2 dir, float angleOffset = 0f)
     //{
@@ -831,10 +837,10 @@ public class Player : MonoBehaviour
     //    oneSward sScript = swardGO.GetComponent<oneSward>();
     //    if (sScript != null)
     //    {
-    //        // ÀÌµ¿ ¹æÇâÀº dir ±×´ë·Î
+    //        // ì´ë™ ë°©í–¥ì€ dir ê·¸ëŒ€ë¡œ
     //        sScript.SetDirection(dir);
 
-    //        // ½Ã°¢Àû È¸Àü¸¸ -45µµ Àû¿ë
+    //        // ì‹œê°ì  íšŒì „ë§Œ -45ë„ ì ìš©
     //        float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
     //        swardGO.transform.rotation = Quaternion.Euler(0, 0, baseAngle + angleOffset);
     //    }
@@ -845,10 +851,10 @@ public class Player : MonoBehaviour
         oneSward sScript = swardGO.GetComponent<oneSward>();
         if (sScript != null)
         {
-            // ÀÌµ¿ ¹æÇâ ±×´ë·Î Àû¿ë
+            // ì´ë™ ë°©í–¥ ê·¸ëŒ€ë¡œ ì ìš©
             sScript.SetDirection(dir);
             sScript.SetDamage(PlayerATK);
-            // ½Ã°¢Àû È¸Àü
+            // ì‹œê°ì  íšŒì „
             float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             swardGO.transform.rotation = Quaternion.Euler(0, 0, baseAngle + angleOffset);
         }

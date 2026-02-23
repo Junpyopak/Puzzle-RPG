@@ -5,19 +5,23 @@ using UnityEngine;
 public class SpawnMgr : MonoBehaviour
 {
     public static SpawnMgr Instance;
-    public PoolMgr poolMgr;            // PoolMgr ¿¬°á
-    public Transform[] spawnPoints;    // ½ºÆù Æ÷ÀÎÆ® ¹è¿­
-    //public float spawnInterval = 3f;   // ½ºÆù °£°İ
-    public int spawnCount = 1;         // ÇÑ ¹ø¿¡ ½ºÆùÇÒ ¼ö
-    public int maxMonsterCount = 10;   // ¾À¿¡ ÃÖ´ë ¸ó½ºÅÍ ¼ö
+    public PoolMgr poolMgr;            // PoolMgr ì—°ê²°
+    public Transform[] spawnPoints;    // ìŠ¤í° í¬ì¸íŠ¸ ë°°ì—´
+    //public float spawnInterval = 3f;   // ìŠ¤í° ê°„ê²©
+    public int spawnCount = 1;         // í•œ ë²ˆì— ìŠ¤í°í•  ìˆ˜
+    public int maxMonsterCount = 10;   // ì”¬ì— ìµœëŒ€ ëª¬ìŠ¤í„° ìˆ˜
 
-    private int nextSpawnIndex = 0;    // ´ÙÀ½ ½ºÆù Æ÷ÀÎÆ® ½ÃÀÛ ÀÎµ¦½º
+    private int nextSpawnIndex = 0;    // ë‹¤ìŒ ìŠ¤í° í¬ì¸íŠ¸ ì‹œì‘ ì¸ë±ìŠ¤
     private BossPanel bossPanel;
 
 
-    [SerializeField] private float[] timeThresholds;    // ½Ã°£ °æ°úº° È°¼º Æ÷ÀÎÆ® ±âÁØ (ÃÊ)
-    private int activeSpawnPointCount = 1;              // ÇöÀç È°¼º Æ÷ÀÎÆ® ¼ö
-    private float gameTimer = 0f;                       // ÀüÃ¼ °ÔÀÓ Å¸ÀÌ¸Ó
+    [SerializeField] private float[] timeThresholds;    // ì‹œê°„ ê²½ê³¼ë³„ í™œì„± í¬ì¸íŠ¸ ê¸°ì¤€ (ì´ˆ)
+    private int activeSpawnPointCount = 1;              // í˜„ì¬ í™œì„± í¬ì¸íŠ¸ ìˆ˜
+    private float gameTimer = 0f;                       // ì „ì²´ ê²Œì„ íƒ€ì´ë¨¸
+
+    
+    [Header("ì‚¬ìš´ë“œ")]
+    public AudioClip bossAppears; //ë³´ìŠ¤ ë“±ì¥ìŒ
 
     private void Awake()
     {
@@ -28,7 +32,7 @@ public class SpawnMgr : MonoBehaviour
     {
         bossPanel = FindObjectOfType<BossPanel>();
         if (timeThresholds.Length > 4)
-            Debug.LogWarning("timeThresholds´Â ÃÖ´ë 4°³±îÁö¸¸ »ç¿ëÇÏ¼¼¿ä.");
+            Debug.LogWarning("timeThresholdsëŠ” ìµœëŒ€ 4ê°œê¹Œì§€ë§Œ ì‚¬ìš©í•˜ì„¸ìš”.");
         if (SaveContext.Instance != null && SaveContext.Instance.isLoading)
         {
             RestoreMonstersFromSave();
@@ -43,14 +47,14 @@ public class SpawnMgr : MonoBehaviour
     }
     private IEnumerator SpawnFirstRoundDelay()
     {
-        yield return null; // ÇÑ ÇÁ·¹ÀÓ ´ë±â
+        yield return null; // í•œ í”„ë ˆì„ ëŒ€ê¸°
         SpawnNewGameMonsters();
     }
     private void Update()
     {
         gameTimer += Time.deltaTime;
 
-        // °ÔÀÓ ½Ã°£ÀÌ Áö³²¿¡ µû¶ó È°¼º Æ÷ÀÎÆ® ¼ö ¾÷µ¥ÀÌÆ®
+        // ê²Œì„ ì‹œê°„ì´ ì§€ë‚¨ì— ë”°ë¼ í™œì„± í¬ì¸íŠ¸ ìˆ˜ ì—…ë°ì´íŠ¸
         for (int i = activeSpawnPointCount; i < timeThresholds.Length; i++)
         {
             if (gameTimer >= timeThresholds[i])
@@ -59,7 +63,7 @@ public class SpawnMgr : MonoBehaviour
             }
             else
             {
-                break; // ¾ÆÁ÷ ´ÙÀ½ ½Ã°£ ¾ÈµÊ
+                break; // ì•„ì§ ë‹¤ìŒ ì‹œê°„ ì•ˆë¨
             }
         }
     }
@@ -83,13 +87,13 @@ public class SpawnMgr : MonoBehaviour
             monster.LoadFromSaveData(m);
         }
 
-        Debug.Log($"[ÀÌ¾îÇÏ±â] ¸ó½ºÅÍ {save.monsters.Count}¸¶¸® º¹¿ø ¿Ï·á");
+        Debug.Log($"[ì´ì–´í•˜ê¸°] ëª¬ìŠ¤í„° {save.monsters.Count}ë§ˆë¦¬ ë³µì› ì™„ë£Œ");
     }
 
-    // ================= »õ°ÔÀÓ =================
+    // ================= ìƒˆê²Œì„ =================
     void SpawnNewGameMonsters()
     {
-        Debug.Log("[»õ°ÔÀÓ] ¶ó¿îµå ±âº» ½ºÆù");
+        Debug.Log("[ìƒˆê²Œì„] ë¼ìš´ë“œ ê¸°ë³¸ ìŠ¤í°");
         SpawnOnRoundStart();
     }
 
@@ -103,7 +107,7 @@ public class SpawnMgr : MonoBehaviour
     {
         int activeMonsterCount = GetActiveMonsterCount();
         if (activeMonsterCount >= maxMonsterCount)
-            return; // ÀÌ¹Ì ÃæºĞÇÏ¸é ½ºÆùÇÏÁö ¾ÊÀ½
+            return; // ì´ë¯¸ ì¶©ë¶„í•˜ë©´ ìŠ¤í°í•˜ì§€ ì•ŠìŒ
 
         for (int i = 0; i < count; i++)
         {
@@ -116,7 +120,7 @@ public class SpawnMgr : MonoBehaviour
 
             if (enemy != null)
             {
-                // ¹İ½Ã°è ¹æÇâ ¼øÈ¯ + È°¼º Æ÷ÀÎÆ® ¹üÀ§ ³»
+                // ë°˜ì‹œê³„ ë°©í–¥ ìˆœí™˜ + í™œì„± í¬ì¸íŠ¸ ë²”ìœ„ ë‚´
                 Transform point = spawnPoints[nextSpawnIndex % activeSpawnPointCount];
                 enemy.transform.position = point.position;
                 enemy.transform.rotation = point.rotation;
@@ -145,43 +149,43 @@ public class SpawnMgr : MonoBehaviour
         int round = Turn_Timer.Instance.TurnCount -1;
         //float rand =  Random.value;
 
-        //// 1 ~ 4¶ó¿îµå : ½ºÄÌ·¹Åæ¸¸
+        //// 1 ~ 4ë¼ìš´ë“œ : ìŠ¤ì¼ˆë ˆí†¤ë§Œ
         //if (round <= 4)
         //{
-        //    return 1; // ½ºÄÌ·¹Åæ
+        //    return 1; // ìŠ¤ì¼ˆë ˆí†¤
         //}
-        //// 5¶ó¿îµå : ¸®ÀÚµå¸¸
+        //// 5ë¼ìš´ë“œ : ë¦¬ìë“œë§Œ
         //else if (round == 5)
         //{
-        //    return 0; // ¸®ÀÚµå
+        //    return 0; // ë¦¬ìë“œ
         //}
-        //// 8¶ó¿îµå :  ¼Ò¾Ç¸¶
+        //// 8ë¼ìš´ë“œ :  ì†Œì•…ë§ˆ
         //else if (round == 8)
         //{
-        //    return 2; //¼Ò¾Ç¸¶
+        //    return 2; //ì†Œì•…ë§ˆ
         //}
-        //// 6 ~ 9 ¶ó¿îµå : ¼¯¾î¼­ (¼±ÅÃ)
+        //// 6 ~ 9 ë¼ìš´ë“œ : ì„ì–´ì„œ (ì„ íƒ)
         //else if (round < 10)
         //{
-        //    // È®·ü·Î ½ºÄÌ·¹Åæ / ¸®ÀÚµå ½ºÆù È®·ü ³ª´©±â
+        //    // í™•ë¥ ë¡œ ìŠ¤ì¼ˆë ˆí†¤ / ë¦¬ìë“œ ìŠ¤í° í™•ë¥  ë‚˜ëˆ„ê¸°
         //    if (rand < 0.7f)
         //    {
-        //        return 2; //¼Ò¾Ç¸¶
+        //        return 2; //ì†Œì•…ë§ˆ
         //    }
         //    else if (rand < 0.9f)
         //    {
-        //        return 0; // ¸®ÀÚµå (20%)
+        //        return 0; // ë¦¬ìë“œ (20%)
         //    }
         //    else
         //    {
-        //        return 1; //½ºÄÌ·¹Åæ (10%)
+        //        return 1; //ìŠ¤ì¼ˆë ˆí†¤ (10%)
         //    }
         //}
 
-        //// 10 ¶ó¿îµå ÀÌ»ó : ¸®ÀÚµå¸¸
+        //// 10 ë¼ìš´ë“œ ì´ìƒ : ë¦¬ìë“œë§Œ
         //else
         //{
-        //    return 0; // ¸®ÀÚµå
+        //    return 0; // ë¦¬ìë“œ
         //}
         int[] weights = GetWeightsByRound(round);
 
@@ -189,7 +193,7 @@ public class SpawnMgr : MonoBehaviour
     }
     private int[] GetWeightsByRound(int round)
     {
-        // [½½¶óÀÓ,½ºÄÌ,¸®ÀÚµå,¼Ò¾Ç¸¶,¿ÀÅ©,¿ÀÅ©º¸½º]
+        // [ìŠ¬ë¼ì„,ìŠ¤ì¼ˆ,ë¦¬ìë“œ,ì†Œì•…ë§ˆ,ì˜¤í¬,ì˜¤í¬ë³´ìŠ¤]
         if (round <= 4)
             return new int[] { 100, 0, 0, 0, 0, 0 };
 
@@ -214,15 +218,16 @@ public class SpawnMgr : MonoBehaviour
         if(round ==24)
             return new int[] { 0, 0, 0, 0, 100,0 };
 
-        // 50¹è¼ö 50,100,150,200 µî º¸½º ¶ó¿îµå
+        // 50ë°°ìˆ˜ 50,100,150,200 ë“± ë³´ìŠ¤ ë¼ìš´ë“œ
         if (round % 50 == 0)
         {
             bossPanel.ShowPopup();
+            GameManager.Instance.SoundMgr.SoundPlay("sfx","ë³´ìŠ¤  ë“±ì¥ìŒ",bossAppears);
             return new int[] { 0, 0, 0, 0, 0, 100 };
         }
            
 
-        // Áß ~ ÈÄ¹İºÎ
+        // ì¤‘ ~ í›„ë°˜ë¶€
         return new int[] { 10, 10, 30, 20, 30 , 0 };
     }
     private int GetWeightedRandomIndex(int[] weights)

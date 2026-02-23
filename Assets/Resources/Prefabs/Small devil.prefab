@@ -170,6 +170,8 @@ MonoBehaviour:
   expSuperPrefab: {fileID: 152458316263635634, guid: 7c0f51eb1a688b848bb56b8181156b70, type: 3}
   foodPrefab: {fileID: 3708479083320968510, guid: 403d3f44bc2322749a52b7db2ccb6066, type: 3}
   itemBoxPrefab: {fileID: 4850549674582904607, guid: 666703489f01d4e4ca670ed55c2d3d2e, type: 3}
+  HurtSound: {fileID: 8300000, guid: d8122d60a238e634d8b83db97ac459e1, type: 3}
+  hitSound: {fileID: 8300000, guid: 283758d62e601864da87f26ed19e34ed, type: 3}
   bleed:
     damagePerTurn: 0
     remainingTurns: 0
