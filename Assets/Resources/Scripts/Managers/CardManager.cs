@@ -30,6 +30,10 @@ public class CardManager : MonoBehaviour
     [SerializeField] public bool twoPick = false;
     [SerializeField] public float twoPickValue = 0f;
 
+
+    [Header("카드 사운드 관련")]
+    public AudioClip cardCloseSound;
+
     public void CardRarityOpen()
     {
         if (isOpen) return;
@@ -126,6 +130,8 @@ public class CardManager : MonoBehaviour
             if (card == null) continue;
             Animator ani = card.GetComponent<Animator>();
             if (ani != null && card != clickedCard) ani.SetTrigger("CardClose");
+            // 닫히는 사운드 (원하면 추가)
+            GameManager.Instance.SoundMgr.SoundPlay("sfx", "카드 닫힘", cardCloseSound);
         }
         StartCoroutine(WaitForAnimationsAndResetRoutine());
     }

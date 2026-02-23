@@ -7029,6 +7029,7 @@ MonoBehaviour:
   selectCardNames: []
   twoPick: 0
   twoPickValue: 0
+  cardCloseSound: {fileID: 8300000, guid: f31205ed581ca9244a92fad09d69cc6c, type: 3}
 --- !u!114 &5402026173743296810
 MonoBehaviour:
   m_ObjectHideFlags: 0
