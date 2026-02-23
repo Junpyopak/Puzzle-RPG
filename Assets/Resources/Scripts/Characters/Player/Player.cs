@@ -466,6 +466,7 @@ public class Player : MonoBehaviour
     }
     void LevelUp() //플레이어 레벨업
     {
+        GameManager.Instance.SoundMgr.SoundPlay("sfx", "레벨업 효과음", levelUpSound);
         PlayerLevel++; //현재 플레이어 레벨 증가
 
         Hp += HpPerLevel;

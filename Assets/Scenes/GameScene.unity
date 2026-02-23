@@ -3014,7 +3014,7 @@ MonoBehaviour:
   hasSward: 0
   swardCooldown: 2
   dieSound: {fileID: 8300000, guid: 6ede7ce2552fa4b42873c5eee5b79e6d, type: 3}
-  levelUpSound: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
+  levelUpSound: {fileID: 8300000, guid: 29fd707488d096c4f99d451a948a5c94, type: 3}
   healSound: {fileID: 8300000, guid: c5244f7d35bc4fa4caa9609d4b5e580b, type: 3}
   StrikeSword: {fileID: 8300000, guid: 8e7a0a70df0f0a844a82f611dbc25f55, type: 3}
   boomerangSound: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
@@ -4840,6 +4840,7 @@ MonoBehaviour:
   RollButton: {fileID: 1655115361}
   RolletPanel: {fileID: 1880129094}
   cardGainData: {fileID: 0}
+  PickCardSound: {fileID: 8300000, guid: 165d23f8ec2c8cf4fbc792a2bb683420, type: 3}
 --- !u!1 &839818612
 GameObject:
   m_ObjectHideFlags: 0

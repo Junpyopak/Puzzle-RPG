@@ -5,6 +5,7 @@ public class ClickableCard : MonoBehaviour
 {
 
     public AudioClip cardSelectSound; // 카드 선택시 나오는 사운드
+    public AudioClip cardClosetSound;
 
     void Update()
     {
@@ -60,7 +61,7 @@ public class ClickableCard : MonoBehaviour
                     var cardMgr = GameManager.Instance.CardMgr;
 
                     Debug.Log($"현재 클릭한 카드 : {clickedObject.name}");
-                    GameManager.Instance.SoundMgr.SoundPlay("sfx", "카드 선택",cardSelectSound);
+                    //GameManager.Instance.SoundMgr.SoundPlay("sfx", "카드 선택",cardSelectSound);
 
                     // TwoPick 카드일 경우 CSV value 기반 확률 체크
                     if (cardMgr.twoPickValue > 0f)
@@ -83,6 +84,7 @@ public class ClickableCard : MonoBehaviour
 
                     //마지막에 클릭된 카드 제외하고 나머지 카드 닫기
                     cardMgr.CloseOtherCards(clickedObject);
+                    GameManager.Instance.SoundMgr.SoundPlay("sfx", "카드 선택", cardClosetSound);
                 }
                 else if (hit.collider.CompareTag("Card"))
                 {

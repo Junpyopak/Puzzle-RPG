@@ -30,6 +30,9 @@ public class CardRoulette : MonoBehaviour
     private List<CardBaseData> currentRouletteCards = new List<CardBaseData>();
     public CardGainData cardGainData;
 
+    [Header("사운드")]
+    public AudioClip PickCardSound; //룰렛 당첨 사운드
+
     void Awake()
     {
         //자식 자동 수집
@@ -307,6 +310,7 @@ public class CardRoulette : MonoBehaviour
         if (cardIndex >= 0 && cardIndex < currentRouletteCards.Count)
         {
             CardBaseData pickedCard = currentRouletteCards[cardIndex];
+            GameManager.Instance.SoundMgr.SoundPlay("sfx", "사운드", PickCardSound);
             CardSprite visual = CardSpriteManager.instance.GetVisual(pickedCard.CardID);
 
             Debug.Log($"가운데 카드 선택됨!\n" +
