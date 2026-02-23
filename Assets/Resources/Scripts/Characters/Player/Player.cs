@@ -392,11 +392,14 @@ public class Player : MonoBehaviour
     public void HealHp(int amount)
     {
         Hp += amount;
-        StartCoroutine(HealFlashCoroutine(1f));
+        
         if (Hp > MaxHp)
         {
             Hp = MaxHp;
         }
+        StartCoroutine(HealFlashCoroutine(1f));
+
+
     }
     //은근슬쩍 회복
     public void OnTurnEndRecovery()
