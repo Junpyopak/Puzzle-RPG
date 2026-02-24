@@ -80,8 +80,9 @@ public class Monster : MonoBehaviour
         if (!loadedFromSave)
         {
             Hp = data.Hp;
+            StartCoroutine(InitAfterGridReady());
         }
-        StartCoroutine(InitAfterGridReady());
+        
     }
 
 
@@ -438,8 +439,9 @@ public class Monster : MonoBehaviour
     }
     public void ResetEnemy()
     {
-        sr.color = originalColor; // 원래 색으로 복구
-
+        //sr.color = originalColor; // 원래 색으로 복구
+        if (sr != null)
+            sr.color = originalColor; // 원래 색으로 복구
         // 필요하면 추가 초기화
         //hp = maxHp;
         // 상태이상 제거 등
