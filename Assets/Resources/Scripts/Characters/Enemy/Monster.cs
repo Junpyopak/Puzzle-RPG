@@ -436,6 +436,12 @@ public class Monster : MonoBehaviour
         {
             Instantiate(food, transform.position, Quaternion.identity);
         }
+
+        GameObject box = GetRandomBox();
+        if (box != null)
+        {
+            Instantiate(box, transform.position, Quaternion.identity);
+        }
     }
     public void ResetEnemy()
     {
@@ -497,7 +503,7 @@ public class Monster : MonoBehaviour
         return null;
     }
 
-    // 몬스터 음식 드랍 결정
+    // 몬스터 아이템 박스 드랍 결정
     public GameObject GetRandomBox()
     {
 

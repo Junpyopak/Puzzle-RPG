@@ -24,7 +24,7 @@ public class PanelClose : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             // 현재 상태 반전
             panel.SetActive(!panel.activeSelf);

@@ -64,6 +64,7 @@ public class MonsterDataTable : MonoBehaviour
                     ExpAlpha = float.Parse(v[8]),
                     ExpSuper = float.Parse(v[9]),
                     FoodDrop = float.Parse(v[10]),
+                    BoxDrop = float.Parse(v[11])
                 };
 
                 monsterDic.Add(data.ID, data);

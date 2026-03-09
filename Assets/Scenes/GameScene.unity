@@ -2960,8 +2960,8 @@ MonoBehaviour:
   MissilePrefab: {fileID: 800065900800941315, guid: 4c0d4b2e319507a4588cc168eb1a504c, type: 3}
   AttackBox: {fileID: 2053662510}
   MissileSpeed: 5
-  Hp: 20
-  MaxHp: 20
+  Hp: 1
+  MaxHp: 1
   Exp: 0
   PlayerLevel: 1
   PlayerATK: 1
@@ -2969,7 +2969,7 @@ MonoBehaviour:
   Defence: 0
   isDie: 0
   defeatUI: {fileID: 144911067}
-  NeedExp: 5
+  NeedExp: 1
   HpPerLevel: 5
   AtkPerLevel: 1
   DefPerLevel: 0

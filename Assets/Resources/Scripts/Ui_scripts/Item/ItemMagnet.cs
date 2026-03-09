@@ -76,7 +76,8 @@ public class ItemMagnet : MonoBehaviour
         Debug.Log("æ∆¿Ã≈€ ¿⁄µø »πµÊ");
         FieldItemManager.Instance.Unregister(itemID);
         Destroy(gameObject);
-        OpenItem.SetActive(true);
+        //OpenItem.SetActive(true);
+        FindObjectOfType<PanelClose>().OpenItem();
         Turn_Timer.Instance.isPaused = true;
         UI_GameTimer.Instance.isPaused = true;
     }
